@@ -16,14 +16,18 @@ CREATE TABLE "user" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "email" EMAIL UNIQUE,
   "password" TEXT NOT NULL,
-  "username" TEXT NOT NULL
+  "username" TEXT NOT NULL,
+  "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 );
 
 CREATE TABLE "deck" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "name" TEXT NOT NULL UNIQUE,
   "description" TEXT,
-  "user_id" INT NOT NULL REFERENCES "user"("id")
+  "user_id" INT NOT NULL REFERENCES "user"("id"),
+  "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 );
 
 CREATE TABLE "card" (
@@ -31,7 +35,9 @@ CREATE TABLE "card" (
     "front" TEXT NOT NULL,
     "back" TEXT NOT NULL,
     "difficulty" DIFFICULTY_CHECK,
-    "deck_id" INT NOT NULL REFERENCES "deck"("id")
+    "deck_id" INT NOT NULL REFERENCES "deck"("id"),
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 );
 
 
