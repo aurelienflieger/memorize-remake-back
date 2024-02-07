@@ -1,3 +1,4 @@
 %syntax-version=1.0.0
 %project=memorize
 
+tables_creation 2024-02-06T13:02:36Z Topi <aurelien.flieger@pm.me> # Create all tables (card, user, deck)
