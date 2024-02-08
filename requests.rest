@@ -1,0 +1,22 @@
+### Create new user
+POST http://localhost:5000/api/signup
+Content-Type: application/json
+
+{
+  "name": "aurelien",
+  "email": "aurelien@email.com",
+  "password": "aurelien"
+}
+
+### Get All decks
+GET http://localhost:5000/api/decks/1
+
+### Create a new deck
+POST http://localhost:5000/api/decks/2
+Content-Type: application/json
+
+{
+  "name": "mon deckds",
+  "description": "un set de traduction FR vers ENG",
+  "user_id": 5
+}

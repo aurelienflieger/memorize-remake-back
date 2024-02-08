@@ -2,3 +2,4 @@
 %project=memorize
 
 tables_creation 2024-02-06T13:02:36Z Topi <aurelien.flieger@pm.me> # Create all tables (card, user, deck)
+util_functions 2024-02-08T12:35:56Z Nicolas Sokolowski <nicolas.sokolowski@oclock.school> # Useful sql functions create and update post
