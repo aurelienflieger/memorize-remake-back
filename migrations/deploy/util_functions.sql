@@ -12,21 +12,29 @@ CREATE FUNCTION create_deck(json) RETURNS deck AS $$
   ) VALUES (
     $1->>'name',
     $1->>'description',
-    ($1->>'user_id')::int
+    ($1->>'user_id')::INT
   ) RETURNING *
 
-$$ LANGUAGE sql STRICT;
+$$ LANGUAGE SQL STRICT;
 
 CREATE FUNCTION update_deck(json) RETURNS deck AS $$
 
-  UPDATE "deck" SET
-    "name" = $1->>'name',
-    "description" = $1->>'description',
-    "user_id" = ($1->>'user_id')::int,
-    "updated_at" = now()
-  WHERE "id" = ($1->>'id')::int
+  UPDATE "deck" SET (
+    "name",
+    "description",
+    "user_id",
+    "updated_at"
+    ) = (
+      COALESCE(($1->>'name')::TEXT, "name"),
+      COALESCE(($1->>'description')::TEXT, "description"),
+      COALESCE(($1->>'user_id')::INT, "user_id"),
+      NOW()
+    )
+  WHERE "id" = ($1->>'id')::INT
   RETURNING *
 
-$$ LANGUAGE sql STRICT;
+$$ LANGUAGE SQL;
+
+
 
 COMMIT;
