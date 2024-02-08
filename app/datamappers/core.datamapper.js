@@ -29,7 +29,7 @@ export default class CoreDatamapper {
 
   static async delete(id) {
     const result = await client.query(
-      `DELETE FROM "${this.writeTableName}" WHERE "id" = $1`, [id]
+      `SELECT * FROM delete_"${this.writeTableName}" WHERE "id" = $1`, [id]
     );
     return !!result.rowCount;
   }
