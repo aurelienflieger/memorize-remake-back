@@ -35,6 +35,11 @@ CREATE FUNCTION update_deck(json) RETURNS deck AS $$
 
 $$ LANGUAGE SQL;
 
+CREATE FUNCTION delete_deck(INT) RETURNS deck AS $$
 
+	DELETE FROM "deck" WHERE "id" = $1
+	RETURNING *
+	
+$$ LANGUAGE SQL STRICT;
 
 COMMIT;
