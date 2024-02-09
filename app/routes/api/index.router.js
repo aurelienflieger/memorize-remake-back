@@ -1,10 +1,10 @@
-import express from 'express';
-import decksRouter from './deck.router.js';
-import signupRouter from "./signup.router.js"
+import express from "express";
+import signupRouter from "./signup.route.js";
+import loginRouter from "./login.route.js";
 
 const apiRouter = express.Router();
 
-apiRouter.use("/decks", decksRouter);
-apiRouter.use("/signup", signupRouter)
+apiRouter.use("/account", signupRouter);
+apiRouter.use("/auth", loginRouter);
 
 export default apiRouter;
