@@ -2,11 +2,6 @@
 
 BEGIN;
 
-CREATE DOMAIN EMAIL AS TEXT NOT NULL
-CHECK (
-  VALUE ~ '^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'
-);
-
 CREATE DOMAIN DIFFICULTY_CHECK AS INT NOT NULL DEFAULT 0 
 CHECK (
   VALUE >= 0 AND VALUE <= 32
@@ -14,11 +9,11 @@ CHECK (
 
 CREATE TABLE "user" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "email" EMAIL UNIQUE,
+  "email" TEXT UNIQUE,
   "password" TEXT NOT NULL,
   "username" TEXT NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  "updated_at" TIMESTAMPTZ
 );
 
 CREATE TABLE "deck" (
@@ -27,7 +22,7 @@ CREATE TABLE "deck" (
   "description" TEXT,
   "user_id" INT NOT NULL REFERENCES "user"("id"),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  "updated_at" TIMESTAMPTZ
 );
 
 CREATE TABLE "card" (
@@ -37,7 +32,7 @@ CREATE TABLE "card" (
     "difficulty" DIFFICULTY_CHECK,
     "deck_id" INT NOT NULL REFERENCES "deck"("id"),
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
 );
 
 

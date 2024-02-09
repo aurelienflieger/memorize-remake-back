@@ -1,0 +1,27 @@
+### CREATE A NEW ACCOUNT
+POST http://127.0.0.1:3000/api/account/ 
+Content-Type: application/json
+
+{
+    "email": "bob@gmail.com",
+    "password": "BobPassword",
+    "username": "BobUsername" 
+}
+
+### LOG INTO AN EXISTING ACCOUNT
+POST http://127.0.0.1:3000/api/auth/ 
+Content-Type: application/json
+
+{
+    "email": "bob@gmail.com",
+    "password": "BobPassword"
+}
+
+### TRY LOGGING INTO A NON EXISTING ACCOUNT
+POST http://127.0.0.1:3000/api/auth/ 
+Content-Type: application/json
+
+{
+    "email": "fakebob@gmail.com",
+    "password": "FakeBobPassword"
+}
