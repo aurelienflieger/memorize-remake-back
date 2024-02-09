@@ -5,7 +5,7 @@ import generateJWT from "../utils/generateJWT.util.js";
 async function login(req, res) {
   const { email, password } = req.body;
 
-  const user = await UserDataMapper.findByPk(email);
+  const user = await UserDataMapper.getUserByEmail(email);
 
   if (!user) {
     return res.status(401).json({ error: "Email is incorrect" });
