@@ -1,14 +1,137 @@
-### CREATE A NEW ACCOUNT
+# USER ROUTE
+
+## POST
+
+### Create a new account
 POST http://127.0.0.1:3000/api/account/ 
 Content-Type: application/json
 
 {
-    "email": "boba@gmail.com",
+    "email": "bob@gmail.com",
     "password": "BobPassword",
     "username": "BobUsername" 
 }
 
-### LOG INTO AN EXISTING ACCOUNT
+## GET
+
+### Get a single user
+
+GET http://127.0.0.1:3000/api/account/1 
+
+### Update a single user
+
+PATCH http://127.0.0.1:3000/api/account/1 
+Content-Type: application/json
+
+{
+    "email": "updatedBob@gmail.com",
+    "username": "UpdatedBobUsername" 
+}
+
+### Delete a single user
+
+DELETE http://127.0.0.1:3000/api/account/1 
+
+######
+
+# DECK ROUTE
+
+## GET
+
+### Get all decks from a user
+
+GET http://127.0.0.1:3000/api/account/1/decks
+
+### Get a single deck
+
+GET http://127.0.0.1:3000/api/account/1/decks/1
+
+## POST
+
+### Create a new deck
+
+POST http://127.0.0.1:3000/api/account/1/decks/
+Content-Type: application/json
+
+{
+    "name": "A new deck",
+    "description": "Some description for the new deck",
+    "user_id": "5" 
+}
+
+## PATCH
+
+### Update a single deck
+
+PATCH http://127.0.0.1:3000/api/account/1/decks/1
+Content-Type: application/json
+
+{
+    "description": "Some updated description",
+    "name": "Some updated name" 
+}
+
+## DELETE
+
+### Delete a single deck
+
+DELETE http://127.0.0.1:3000/api/account/1/decks/1
+
+######
+
+# CARD ROUTE
+
+## GET
+
+### Get all cards from a deck
+
+GET http://127.0.0.1:3000/api/account/1/decks/1/cards
+
+### Get a single card from a deck
+
+GET http://127.0.0.1:3000/api/account/1/decks/1/cards/1
+
+## POST
+
+### Create a new card
+
+POST http://127.0.0.1:3000/api/account/1/decks/1/cards
+Content-Type: application/json
+
+{
+    "front": "What's a reply for this card's question?",
+    "back": "Some reply",
+    "deck_id": "5",
+    "difficulty": "1"
+}
+
+## PATCH
+
+### Update a single card
+
+PATCH http://127.0.0.1:3000/api/account/1/decks/1/cards/1
+Content-Type: application/json
+
+{
+    "front": "What's a reply for this card's question?",
+    "back": "Some reply",
+    "deck_id": "1",
+    "difficulty": "1"
+}
+
+## DELETE
+
+### Delete a single card
+
+DELETE http://127.0.0.1:3000/api/account/1/decks/1/cards/1
+
+######
+
+# AUTH ROUTE
+
+## POST
+
+### Log into an existing account
 POST http://127.0.0.1:3000/api/auth/ 
 Content-Type: application/json
 
@@ -17,7 +140,7 @@ Content-Type: application/json
     "password": "BobPassword"
 }
 
-### TRY LOGGING INTO A NON EXISTING ACCOUNT
+### Try to log into a fake account
 POST http://127.0.0.1:3000/api/auth/ 
 Content-Type: application/json
 
@@ -25,3 +148,4 @@ Content-Type: application/json
     "email": "fakebob@gmail.com",
     "password": "FakeBobPassword"
 }
+
