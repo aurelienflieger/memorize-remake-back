@@ -7,7 +7,7 @@ const decksRouter = express.Router({ mergeParams: true });
 decksRouter
   .route("/")
   .get(deckController.getAllDecksByUserID)
-  .post(deckController.create);
+  .post(deckController.createNewDeck);
 
 decksRouter
   .route("/:id")

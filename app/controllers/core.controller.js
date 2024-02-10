@@ -5,6 +5,7 @@ export default class CoreController {
   }
 
   async create(creationDetails) {
+    console.log(creationDetails);
     const row = await this.datamapper.insert(creationDetails);
 
     return row;
@@ -31,7 +32,6 @@ export default class CoreController {
   }
 
   async getByPk({ params }, res) {
-    console.log(params);
     const { id } = params;
 
     const row = await this.datamapper.findByPk(id);
