@@ -1,5 +1,5 @@
 import express from "express";
-import cardController from "../controllers/index.controller.js";
+import { cardController } from "../../controllers/index.controller.js";
 import controllerWrapper from "../../utils/controller-wrapper.util.js";
 
 const cardsRouter = express.Router({ mergeParams: true });

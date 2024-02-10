@@ -1,8 +1,9 @@
-import deckDatamapper from "../datamappers/index.datamapper.js";
-import CoreController from "./core.controller.js";
+import CoreDataMapper from "./core.datamapper.js";
 
-export default class DeckDataMapper extends CoreController {
-  datamapper = deckDatamapper;
+export default class DeckDataMapper extends CoreDataMapper {
+  readTableName = "deck";
+
+  writeTableName = "deck";
 
   static async findAllDecksByUserID({ params }, res) {
     const { id } = params;

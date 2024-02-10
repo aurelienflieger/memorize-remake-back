@@ -1,4 +1,4 @@
-import pool from "../pg.client.js";
+import pool from "../database/pg.client.js";
 // The CoreDataMapper can be used to flexibly query a database postgres table.
 export default class CoreDatamapper {
   readTableName;

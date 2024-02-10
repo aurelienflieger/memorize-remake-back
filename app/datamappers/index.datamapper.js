@@ -1,9 +1,5 @@
-import CardDataMapper from "./card.datamapper";
-import DeckDataMapper from "./deck.datamapper";
-import UserDataMapper from "./user.datamapper";
+import CardDataMapper from "./card.datamapper.js";
+import DeckDataMapper from "./deck.datamapper.js";
+import UserDataMapper from "./user.datamapper.js";
 
-const cardDataMapper = new CardDataMapper();
-const deckDataMapper = new DeckDataMapper();
-const userDataMapper = new UserDataMapper();
-
-export default { cardDataMapper, deckDataMapper, userDataMapper };
+export { CardDataMapper, DeckDataMapper, UserDataMapper };

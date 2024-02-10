@@ -1,4 +1,4 @@
-import pool from "../pg.client.js";
+import pool from "../database/pg.client.js";
 import CoreDatamapper from "./core.datamapper.js";
 
 /* The methods from the CoreDataMapper are available in addition to those specific to the User. */
