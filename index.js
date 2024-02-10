@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import errorHandler from "./app/middleware/errorHandler.middleware.js";
 import router from "./app/routes/index.router.js";
+import userRouter from "./userRouter.js";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
@@ -20,6 +21,8 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/", express.static(join(__dirname, "public")));
+
+app.use("/users", userRouter);
 app.use(router);
 
 /* The error handler is placed after all routes to make sure all errors are handled. */
