@@ -1,0 +1,44 @@
+-- Deploy memorize:crud_functions_user to pg
+
+BEGIN;
+
+CREATE FUNCTION create_user(json) RETURNS user AS $$ 
+
+    INSERT INTO "user"
+    (
+        "username",
+        "email",
+        "password"
+    ) VALUES (
+        $1->>'username',
+        $1->>'email',
+        $1->>'password'
+    ) RETURNING *
+
+$$ LANGUAGE SQL STRICT;
+
+CREATE FUNCTION update_user(json) RETURNS user AS $$ 
+
+    UPDATE "user" SET
+    (
+        "username",
+        "email",
+        "password"
+    ) = (
+       COALESCE(($1->>'username')::TEXT, "username"),
+       COALESCE(($1->>'email')::TEXT, "email"),
+       COALESCE(($1->>'password')::TEXT, "password")
+    ) 
+    WHERE "id" = ($1->>'id')::INT
+    RETURNING *
+
+$$ LANGUAGE SQL STRICT;
+
+CREATE FUNCTION delete_user(INT) RETURNS user AS $$
+
+	DELETE FROM "user" WHERE "id" = $1
+	RETURNING *
+	
+$$ LANGUAGE SQL STRICT;
+
+COMMIT;

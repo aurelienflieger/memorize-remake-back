@@ -1,5 +1,5 @@
 // The error handler automatically handles all Express errors and sends the appropriate status.
-export default function errorHandler(err, _, res, __) {
+export default function errorHandler(err, _, res, next) {
   console.error(err.stack);
 
   res.status(err.status || 500);
@@ -8,4 +8,6 @@ export default function errorHandler(err, _, res, __) {
     message: err.message,
     stack: process.env.NODE_ENV === "production" ? {} : err.stack,
   });
+
+  next();
 }

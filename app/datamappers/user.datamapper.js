@@ -3,11 +3,11 @@ import CoreDatamapper from "./core.datamapper.js";
 
 /* The methods from the CoreDataMapper are available in addition to those specific to the User. */
 export default class UserDataMapper extends CoreDatamapper {
-  static readTableName = "user";
+  readTableName = "user";
 
-  static writeTableName = "user";
+  writeTableName = "user";
 
-  static async getUserByEmail(email) {
+  async getUserByEmail(email) {
     // eslint-disable-next-line quotes
     const users = await pool.query('SELECT * FROM "user" WHERE email = $1', [
       email,
