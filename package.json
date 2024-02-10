@@ -8,12 +8,13 @@
     "dev": "nodemon",
     "db_remove": "sqitch revert",
     "db_reset": "sqitch revert && sqitch deploy",
-    "db_seed": "node ./app/database/seeding.js"
+    "db_seed": "node './app/database/seedFakeData.js'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "eslint": "^8.56.0"
@@ -24,7 +25,6 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
-    "faker": "^6.6.6",
     "joi": "^17.12.1",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.11.3"

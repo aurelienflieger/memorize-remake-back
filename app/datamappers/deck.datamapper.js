@@ -1,13 +1,18 @@
-import deckDatamapper from "../datamappers/index.datamapper.js";
-import CoreController from "./core.controller.js";
+import CoreDataMapper from "./core.datamapper.js";
+import pool from "../database/pg.client.js";
 
-export default class DeckDataMapper extends CoreController {
-  datamapper = deckDatamapper;
+export default class DeckDataMapper extends CoreDataMapper {
+  tableName = "deck";
 
-  static async findAllDecksByUserID({ params }, res) {
-    const { id } = params;
-    const rows = await this.datamapper.findAllDecksByUserID(id);
+  constructor() {
+    super();
+  }
 
-    res.status(200).json(rows);
+  async findAllDecksByUserID(id) {
+    const result = await pool.query(
+      `SELECT * FROM "${this.tableName}" WHERE "user_id" = $1`,
+      [id]
+    );
+    return result.rows[0];
   }
 }
