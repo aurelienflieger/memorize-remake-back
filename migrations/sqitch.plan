@@ -2,3 +2,4 @@
 %project=memorize
 
 tables_creation 2024-02-06T13:02:36Z Topi <aurelien.flieger@pm.me> # Create all tables (card, user, deck)
+crud_functions_user 2024-02-09T14:02:39Z Topi <aurelien.flieger@pm.me> # Add crud functions directly as SQL
