@@ -1,14 +1,14 @@
 import CoreDataMapper from "./core.datamapper.js";
+import pool from "../database/pg.client.js";
 
 export default class DeckDataMapper extends CoreDataMapper {
-  readTableName = "deck";
+  tableName = "deck";
 
-  writeTableName = "deck";
-
-  static async findAllDecksByUserID({ params }, res) {
-    const { id } = params;
-    const rows = await this.datamapper.findAllDecksByUserID(id);
-
-    res.status(200).json(rows);
+  async findAllDecksByUserID(id) {
+    const result = await pool.query(
+      `SELECT * FROM "${this.tableName}" WHERE "user_id" = $1`,
+      [id]
+    );
+    return result.rows[0];
   }
 }

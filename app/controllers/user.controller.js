@@ -10,6 +10,8 @@ class UserController extends CoreController {
     this.login = this.login.bind(this);
     this.signup = this.signup.bind(this);
     this.getByPk = this.getByPk.bind(this);
+    this.delete = this.delete.bind(this);
+    this.update = this.update.bind(this);
   }
 
   async login(req, res) {
