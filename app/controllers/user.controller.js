@@ -1,12 +1,12 @@
 import bcrypt from "bcrypt";
-import UserDataMapper from "../datamappers/user.datamapper.js";
-import generateJWT from "../utils/generateJWT.util.js";
 import CoreController from "./core.controller.js";
+import generateJWT from "../utils/generateJWT.util.js";
+import userDataMapper from "../datamappers/index.datamapper.js";
 
 class UserController extends CoreController {
-  datamapper = UserDataMapper;
+  datamapper = userDataMapper;
 
-  static async login(req, res) {
+  async login(req, res) {
     const { email, password } = req.body;
 
     const user = await this.datamapper.getUserByEmail(email);
@@ -27,7 +27,7 @@ class UserController extends CoreController {
     res.json(tokens);
   }
 
-  static async signup(req, res) {
+  async signup(req, res) {
     const { username, email, password } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
