@@ -1,5 +1,5 @@
 import pool from "./pg.client.js";
-import faker from "faker";
+import { fakerFR as faker } from "@faker-js/faker";
 
 async function seedFakeData() {
   for (let i = 0; i < 10; i++) {

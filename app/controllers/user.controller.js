@@ -1,10 +1,10 @@
 import bcrypt from "bcrypt";
 import CoreController from "./core.controller.js";
 import generateJWT from "../utils/generateJWT.util.js";
-import userDataMapper from "../datamappers/index.datamapper.js";
+import { UserDataMapper } from "../datamappers/index.datamapper.js";
 
 class UserController extends CoreController {
-  datamapper = userDataMapper;
+  datamapper = new UserDataMapper();
 
   async login(req, res) {
     const { email, password } = req.body;

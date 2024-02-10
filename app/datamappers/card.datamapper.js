@@ -1,5 +1,5 @@
-import pool from "../pg.client";
-import CoreDatamapper from "./core.datamapper";
+import pool from "../database/pg.client.js";
+import CoreDatamapper from "./core.datamapper.js";
 
 export default class CardDataMapper extends CoreDatamapper {
   readTableName = "card";

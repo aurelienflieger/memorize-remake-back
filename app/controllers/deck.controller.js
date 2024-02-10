@@ -1,8 +1,8 @@
 import CoreController from "./core.controller.js";
-import deckDataMapper from "../datamappers/index.datamapper.js";
+import { DeckDataMapper } from "../datamappers/index.datamapper.js";
 
 export default class DeckController extends CoreController {
-  datamapper = deckDataMapper;
+  datamapper = new DeckDataMapper();
 
   async getAllDecksByUserID({ params }, res) {
     const { id } = params;

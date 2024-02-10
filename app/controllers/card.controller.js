@@ -1,8 +1,8 @@
 import CoreController from "./core.controller.js";
-import cardDataMapper from "../datamappers/index.datamapper.js";
+import { CardDataMapper } from "../datamappers/index.datamapper.js";
 
 export default class CardController extends CoreController {
-  datamapper = cardDataMapper;
+  datamapper = new CardDataMapper();
 
   async getAllCardsByDeckID({ params }, res) {
     const { id } = params;
