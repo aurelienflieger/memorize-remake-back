@@ -7,7 +7,7 @@ const cardsRouter = express.Router({ mergeParams: true });
 cardsRouter
   .route("/")
   .get(controllerWrapper(cardController.getAllCardsByDeckID))
-  .post(controllerWrapper(cardController.create));
+  .post(controllerWrapper(cardController.createNewCard));
 
 cardsRouter
   .route("/:id")
