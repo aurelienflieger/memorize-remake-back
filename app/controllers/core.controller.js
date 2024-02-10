@@ -31,6 +31,7 @@ export default class CoreController {
   }
 
   async getByPk({ params }, res) {
+    console.log(params);
     const { id } = params;
 
     const row = await this.datamapper.findByPk(id);
