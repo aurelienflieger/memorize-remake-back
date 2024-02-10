@@ -2,10 +2,10 @@
 export default class CoreController {
   datamapper;
 
-  async create({ body }, res) {
-    const row = await this.datamapper.insert(body);
+  async create(creationDetails) {
+    const row = await this.datamapper.insert(creationDetails);
 
-    res.status(200).json(row);
+    return row;
   }
 
   async update({ params, body }, res) {

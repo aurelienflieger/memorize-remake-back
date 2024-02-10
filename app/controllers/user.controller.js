@@ -4,7 +4,13 @@ import generateJWT from "../utils/generateJWT.util.js";
 import { UserDataMapper } from "../datamappers/index.datamapper.js";
 
 class UserController extends CoreController {
-  datamapper = new UserDataMapper();
+  constructor() {
+    super();
+
+    this.datamapper = new UserDataMapper();
+    this.login = this.login.bind(this);
+    this.signup = this.signup.bind(this);
+  }
 
   async login(req, res) {
     const { email, password } = req.body;
@@ -24,17 +30,20 @@ class UserController extends CoreController {
     const tokens = generateJWT(user);
 
     // Both the access token & the refresh token are returned in JSON format for front-end authentification
-    res.json(tokens);
+    res.status(200).json(tokens);
   }
 
   async signup(req, res) {
-    const { username, email, password } = req.body;
+    const { password } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = await this.create(username, email, hashedPassword);
+    const newUser = await this.create({
+      ...req.body,
+      password: hashedPassword,
+    });
 
-    res.json({ newUser });
+    res.status(200).json({ newUser });
   }
 }
 
