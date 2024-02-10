@@ -82,10 +82,10 @@ DELETE http://127.0.0.1:3000/api/account/1/decks/1
 
 ## GET
 
-### Get all cards from a deck X
+### Get all cards from a deck 
 GET http://127.0.0.1:3000/api/account/1/decks/1/cards
 
-### Get a single card from a deck X
+### Get a single card from a deck 
 
 GET http://127.0.0.1:3000/api/account/1/decks/1/cards/1
 
@@ -105,7 +105,7 @@ Content-Type: application/json
 
 ## PATCH
 
-### Update a single card X
+### Update a single card 
 
 PATCH http://127.0.0.1:3000/api/account/1/decks/1/cards/1
 Content-Type: application/json
