@@ -6,7 +6,7 @@ CREATE FUNCTION create_card(json) RETURNS TABLE (
     id INT,
     front TEXT,
     back TEXT,
-    difficulty TEXT,
+    difficulty DIFFICULTY_CHECK,
     deck_id INT
 ) AS $$ 
 
@@ -19,9 +19,10 @@ CREATE FUNCTION create_card(json) RETURNS TABLE (
     ) VALUES (
         $1->>'front',
         $1->>'back',
-        $1->>'difficulty',
+        ($1->>'difficulty')::DIFFICULTY_CHECK,
         ($1->>'deck_id')::INT
-    ) RETURNING *
+    ) 
+    RETURNING id, front, back, difficulty, deck_id
 
 $$ LANGUAGE SQL STRICT;
 
@@ -29,7 +30,7 @@ CREATE FUNCTION update_card(json) RETURNS TABLE (
     id INT,
     front TEXT,
     back TEXT,
-    difficulty TEXT,
+    difficulty DIFFICULTY_CHECK,
     deck_id INT
 ) AS $$ 
 
@@ -42,11 +43,11 @@ CREATE FUNCTION update_card(json) RETURNS TABLE (
     ) = (
        COALESCE(($1->>'front')::TEXT, "front"),
        COALESCE(($1->>'back')::TEXT, "back"),
-       COALESCE(($1->>'difficulty')::TEXT, "difficulty"),
+       COALESCE(($1->>'difficulty')::DIFFICULTY_CHECK, "difficulty"),
        COALESCE(($1->>'deck_id')::INT, "deck_id")
     ) 
     WHERE "id" = ($1->>'id')::INT
-    RETURNING *
+    RETURNING id, front, back, difficulty, deck_id
 
 $$ LANGUAGE SQL STRICT;
 
@@ -54,12 +55,12 @@ CREATE FUNCTION delete_card(INT) RETURNS TABLE (
     id INT,
     front TEXT,
     back TEXT,
-    difficulty TEXT,
+    difficulty DIFFICULTY_CHECK,
     deck_id INT
 ) AS $$
 
 	DELETE FROM "card" WHERE "id" = $1
-	RETURNING *
+	RETURNING id, front, back, difficulty, deck_id
 	
 $$ LANGUAGE SQL STRICT;
 

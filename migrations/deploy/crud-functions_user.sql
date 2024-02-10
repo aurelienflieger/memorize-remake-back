@@ -18,7 +18,7 @@ CREATE FUNCTION create_user(json) RETURNS TABLE (
         $1->>'username',
         $1->>'email',
         $1->>'password'
-    ) RETURNING *
+    ) RETURNING id, username, email, password
 
 $$ LANGUAGE SQL STRICT;
 
@@ -40,7 +40,7 @@ CREATE FUNCTION update_user(json) RETURNS TABLE (
        COALESCE(($1->>'password')::TEXT, "password")
     ) 
     WHERE "id" = ($1->>'id')::INT
-    RETURNING *
+    RETURNING id, username, email, password
 
 $$ LANGUAGE SQL STRICT;
 
@@ -52,7 +52,7 @@ CREATE FUNCTION delete_user(INT) RETURNS TABLE (
 ) AS $$
 
 	DELETE FROM "user" WHERE "id" = $1
-	RETURNING *
+	RETURNING id, username, email, password
 	
 $$ LANGUAGE SQL STRICT;
 
