@@ -6,10 +6,10 @@ export default class CardDataMapper extends CoreDatamapper {
 
   writeTableName = "card";
 
-  async findAllCardsByDeckID(deckId) {
+  async findAllCardsByDeckID(id) {
     const result = await pool.query(
       `SELECT * FROM "${this.readTableName}" WHERE "deck_id" = $1`,
-      [deckId]
+      [id]
     );
     return result.rows;
   }

@@ -3,51 +3,35 @@ export default class CoreController {
   datamapper;
 
   async create({ body }, res) {
-    const row = await CoreController.datamapper.insert(body);
+    const row = await this.datamapper.insert(body);
 
     res.status(200).json(row);
   }
 
-  async update({ params, body }, res, next) {
+  async update({ params, body }, res) {
     const { id } = params;
 
-    const dbData = await CoreController.datamapper.findByPk(id);
-
-    if (!dbData) {
-      return next();
-    }
+    const dbData = await this.datamapper.findByPk(id);
 
     const data = { ...dbData, ...body };
 
-    const row = await CoreController.datamapper.update(data);
-
-    if (!row) {
-      return next();
-    }
+    const row = await this.datamapper.update(data);
 
     return res.status(200).json(row);
   }
 
-  async delete({ params }, res, next) {
+  async delete({ params }, res) {
     const { id } = params;
 
-    const deleted = await CoreController.datamapper.delete(id);
-
-    if (!deleted) {
-      return next();
-    }
+    await this.datamapper.delete(id);
 
     return res.status(204).json();
   }
 
-  async getByPk({ params }, res, next) {
+  async getByPk({ params }, res) {
     const { id } = params;
 
-    const row = await CoreController.datamapper.findByPk(id);
-
-    if (!row) {
-      return next();
-    }
+    const row = await this.datamapper.findByPk(id);
 
     return res.status(200).json(row);
   }

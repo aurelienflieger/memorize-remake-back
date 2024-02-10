@@ -1,9 +1,9 @@
-import controllerWrapper from "../utils/controller-wrapper.util.js";
+import CardController from "./card.controller.js";
+import DeckController from "./deck.controller.js";
 import UserController from "./user.controller.js";
 
 const userController = new UserController();
+const deckController = new DeckController();
+const cardController = new CardController();
 
-export default {
-  login: controllerWrapper(userController.login),
-  signUp: controllerWrapper(userController.signup),
-};
+export { cardController, deckController, userController };
