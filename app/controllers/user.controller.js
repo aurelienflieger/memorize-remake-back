@@ -1,15 +1,15 @@
 import bcrypt from "bcrypt";
 import CoreController from "./core.controller.js";
 import generateJWT from "../utils/generateJWT.util.js";
-import { UserDataMapper } from "../datamappers/index.datamapper.js";
 
 class UserController extends CoreController {
-  constructor() {
-    super();
+  constructor(Datamapper) {
+    super(Datamapper);
 
-    this.datamapper = new UserDataMapper();
+    this.datamapper = new Datamapper();
     this.login = this.login.bind(this);
     this.signup = this.signup.bind(this);
+    this.getByPk = this.getByPk.bind(this);
   }
 
   async login(req, res) {

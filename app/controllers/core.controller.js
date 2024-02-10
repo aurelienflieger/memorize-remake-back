@@ -1,6 +1,8 @@
 // The CoreController can be used to flexibly perform CRUD operations a database postgres table.
 export default class CoreController {
-  datamapper;
+  constructor(Datamapper) {
+    this.datamapper = new Datamapper();
+  }
 
   async create(creationDetails) {
     const row = await this.datamapper.insert(creationDetails);
