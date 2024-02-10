@@ -91,7 +91,7 @@ GET http://127.0.0.1:3000/api/account/1/decks/1/cards/1
 
 ## POST
 
-### Create a new card X
+### Create a new card 
 
 POST http://127.0.0.1:3000/api/account/1/decks/1/cards
 Content-Type: application/json
@@ -99,7 +99,6 @@ Content-Type: application/json
 {
     "front": "What's a reply for this card's question?",
     "back": "Some reply",
-    "deck_id": "5",
     "difficulty": "1"
 }
 
