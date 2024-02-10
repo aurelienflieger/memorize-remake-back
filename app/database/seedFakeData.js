@@ -34,7 +34,7 @@ async function seedFakeData() {
         const card = {
           front: faker.lorem.sentence(),
           back: faker.lorem.sentence(),
-          difficulty: faker.random.arrayElement(["easy", "medium", "hard"]),
+          difficulty: faker.helpers.arrayElement([0, 1, 2]),
           deck_id: deckId,
         };
 
@@ -48,6 +48,10 @@ async function seedFakeData() {
   }
 }
 
-seedFakeData().catch((error) => {
-  console.log("There was an issue seeding the database:", error);
-});
+seedFakeData()
+  .then(() => {
+    console.log("The database was successfully seeded!");
+  })
+  .catch((error) => {
+    console.log("There was an issue seeding the database:", error);
+  });
