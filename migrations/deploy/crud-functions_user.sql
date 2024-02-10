@@ -26,21 +26,25 @@ CREATE FUNCTION update_user(json) RETURNS TABLE (
     id INT,
     username TEXT,
     email TEXT,
-    password TEXT
+    password TEXT,
+    updated_at TIMESTAMP
 ) AS $$ 
 
     UPDATE "user" SET
     (
         "username",
         "email",
-        "password"
+        "password",
+        "updated_at"
     ) = (
        COALESCE(($1->>'username')::TEXT, "username"),
        COALESCE(($1->>'email')::TEXT, "email"),
-       COALESCE(($1->>'password')::TEXT, "password")
+       COALESCE(($1->>'password')::TEXT, "password"),
+       NOW()
     ) 
     WHERE "id" = ($1->>'id')::INT
-    RETURNING id, username, email, password
+    RETURNING id, username, email, password, "updated_at"
+
 
 $$ LANGUAGE SQL STRICT;
 
