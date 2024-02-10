@@ -1,3 +1,4 @@
+import "dotenv/config";
 import pg from "pg";
 
 // Syncing the postgres database with our project
@@ -13,4 +14,5 @@ const poolConfig = {
 };
 
 const pool = new Pool(poolConfig);
+
 export default pool;
