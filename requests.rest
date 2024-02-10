@@ -28,7 +28,7 @@ Content-Type: application/json
     "username": "UpdatedBobUsername" 
 }
 
-### Delete a single user
+### Delete a single user X
 
 DELETE http://127.0.0.1:3000/api/account/1 
 
@@ -48,15 +48,14 @@ GET http://127.0.0.1:3000/api/account/1/decks/3
 
 ## POST
 
-### Create a new deck
+### Create a new deck X
 
 POST http://127.0.0.1:3000/api/account/1/decks/
 Content-Type: application/json
 
 {
     "name": "A new deck",
-    "description": "Some description for the new deck",
-    "user_id": "5" 
+    "description": "Some description for the new deck"
 }
 
 ## PATCH
@@ -73,7 +72,7 @@ Content-Type: application/json
 
 ## DELETE
 
-### Delete a single deck
+### Delete a single deck X
 
 DELETE http://127.0.0.1:3000/api/account/1/decks/1
 
@@ -83,17 +82,16 @@ DELETE http://127.0.0.1:3000/api/account/1/decks/1
 
 ## GET
 
-### Get all cards from a deck
-
+### Get all cards from a deck X
 GET http://127.0.0.1:3000/api/account/1/decks/1/cards
 
-### Get a single card from a deck
+### Get a single card from a deck X
 
 GET http://127.0.0.1:3000/api/account/1/decks/1/cards/1
 
 ## POST
 
-### Create a new card
+### Create a new card X
 
 POST http://127.0.0.1:3000/api/account/1/decks/1/cards
 Content-Type: application/json
@@ -107,7 +105,7 @@ Content-Type: application/json
 
 ## PATCH
 
-### Update a single card
+### Update a single card X
 
 PATCH http://127.0.0.1:3000/api/account/1/decks/1/cards/1
 Content-Type: application/json
@@ -121,7 +119,7 @@ Content-Type: application/json
 
 ## DELETE
 
-### Delete a single card
+### Delete a single card X
 
 DELETE http://127.0.0.1:3000/api/account/1/decks/1/cards/1
 
@@ -131,7 +129,7 @@ DELETE http://127.0.0.1:3000/api/account/1/decks/1/cards/1
 
 ## POST
 
-### Log into an existing account
+### Log into an existing account X
 POST http://127.0.0.1:3000/api/auth/ 
 Content-Type: application/json
 
@@ -140,7 +138,7 @@ Content-Type: application/json
     "password": "BobPassword"
 }
 
-### Try to log into a fake account
+### Try to log into a fake account X
 POST http://127.0.0.1:3000/api/auth/ 
 Content-Type: application/json
 
