@@ -1,14 +1,14 @@
 // The CoreController can be used to flexibly perform CRUD operations a database postgres table.
 export default class CoreController {
-  static datamapper;
+  datamapper;
 
-  static async create({ body }, res) {
+  async create({ body }, res) {
     const row = await CoreController.datamapper.insert(body);
 
     res.status(200).json(row);
   }
 
-  static async update({ params, body }, res, next) {
+  async update({ params, body }, res, next) {
     const { id } = params;
 
     const dbData = await CoreController.datamapper.findByPk(id);
@@ -28,7 +28,7 @@ export default class CoreController {
     return res.status(200).json(row);
   }
 
-  static async delete({ params }, res, next) {
+  async delete({ params }, res, next) {
     const { id } = params;
 
     const deleted = await CoreController.datamapper.delete(id);
@@ -40,7 +40,7 @@ export default class CoreController {
     return res.status(204).json();
   }
 
-  static async getByPk({ params }, res, next) {
+  async getByPk({ params }, res, next) {
     const { id } = params;
 
     const row = await CoreController.datamapper.findByPk(id);

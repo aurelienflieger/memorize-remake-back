@@ -1,17 +1,16 @@
 import pool from "../pg.client.js";
-
 // The CoreDataMapper can be used to flexibly query a database postgres table.
 export default class CoreDatamapper {
-  static readTableName;
+  readTableName;
 
-  static writeTableName;
+  writeTableName;
 
-  static async findAll() {
+  async findAll() {
     const result = await pool.query(`SELECT * FROM "${this.readTableName}"`);
     return result.rows;
   }
 
-  static async findByPk(id) {
+  async findByPk(id) {
     const result = await pool.query(
       `SELECT * FROM "${this.readTableName}" WHERE "id" = $1`,
       [id]
@@ -19,7 +18,7 @@ export default class CoreDatamapper {
     return result.rows[0];
   }
 
-  static async insert(data) {
+  async insert(data) {
     const result = await pool.query(
       `SELECT * FROM create_${this.writeTableName}($1)`,
       [data]
@@ -27,7 +26,7 @@ export default class CoreDatamapper {
     return result.rows[0];
   }
 
-  static async update(data) {
+  async update(data) {
     const result = await pool.query(
       `SELECT * FROM update_${this.writeTableName}($1)`,
       [data]
@@ -35,7 +34,7 @@ export default class CoreDatamapper {
     return result.rows[0];
   }
 
-  static async delete(id) {
+  async delete(id) {
     const result = await pool.query(
       `SELECT * FROM delete_"${this.writeTableName}" WHERE "id" = $1`,
       [id]
