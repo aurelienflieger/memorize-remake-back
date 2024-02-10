@@ -1,8 +1,8 @@
 import express from "express";
 import { userController } from "../../controllers/index.controller.js";
 
-const accountRouter = express.Router({ mergeParams: true });
+const authRouter = express.Router({ mergeParams: true });
 
-accountRouter.route("/auth").post(userController.login);
+authRouter.route("/").post(userController.login);
 
-export default accountRouter;
+export default authRouter;
