@@ -2,7 +2,12 @@
 
 BEGIN;
 
-CREATE FUNCTION create_user(json) RETURNS user AS $$ 
+CREATE FUNCTION create_user(json) RETURNS TABLE (
+    id INT,
+    username TEXT,
+    email TEXT,
+    password TEXT
+) AS $$ 
 
     INSERT INTO "user"
     (
@@ -17,7 +22,12 @@ CREATE FUNCTION create_user(json) RETURNS user AS $$
 
 $$ LANGUAGE SQL STRICT;
 
-CREATE FUNCTION update_user(json) RETURNS user AS $$ 
+CREATE FUNCTION update_user(json) RETURNS TABLE (
+    id INT,
+    username TEXT,
+    email TEXT,
+    password TEXT
+) AS $$ 
 
     UPDATE "user" SET
     (
@@ -34,7 +44,12 @@ CREATE FUNCTION update_user(json) RETURNS user AS $$
 
 $$ LANGUAGE SQL STRICT;
 
-CREATE FUNCTION delete_user(INT) RETURNS user AS $$
+CREATE FUNCTION delete_user(INT) RETURNS TABLE (
+    id INT,
+    username TEXT,
+    email TEXT,
+    password TEXT
+) AS $$
 
 	DELETE FROM "user" WHERE "id" = $1
 	RETURNING *

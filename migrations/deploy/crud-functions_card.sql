@@ -2,7 +2,13 @@
 
 BEGIN;
 
-CREATE FUNCTION create_card(json) RETURNS card AS $$ 
+CREATE FUNCTION create_card(json) RETURNS TABLE (
+    id INT,
+    front TEXT,
+    back TEXT,
+    difficulty TEXT,
+    deck_id INT
+) AS $$ 
 
     INSERT INTO "card"
     (
@@ -14,33 +20,45 @@ CREATE FUNCTION create_card(json) RETURNS card AS $$
         $1->>'front',
         $1->>'back',
         $1->>'difficulty',
-        $1->>'deck_id'
+        ($1->>'deck_id')::INT
     ) RETURNING *
 
 $$ LANGUAGE SQL STRICT;
 
-CREATE FUNCTION update_user(json) RETURNS user AS $$ 
+CREATE FUNCTION update_card(json) RETURNS TABLE (
+    id INT,
+    front TEXT,
+    back TEXT,
+    difficulty TEXT,
+    deck_id INT
+) AS $$ 
 
-    UPDATE "user" SET
+    UPDATE "card" SET
     (
-        "username",
-        "email",
-        "password"
+        "front",
+        "back",
+        "difficulty",
+        "deck_id"
     ) = (
        COALESCE(($1->>'front')::TEXT, "front"),
-       COALESCE(($1->>'back')::TEXT, "baxk"),
+       COALESCE(($1->>'back')::TEXT, "back"),
        COALESCE(($1->>'difficulty')::TEXT, "difficulty"),
-       COALESCE(($1->>'deck_id')::TEXT, "deck_id"),
-
+       COALESCE(($1->>'deck_id')::INT, "deck_id")
     ) 
-    WHERE "deck_id" = ($1->>'deck_id')::INT
+    WHERE "id" = ($1->>'id')::INT
     RETURNING *
 
 $$ LANGUAGE SQL STRICT;
 
-CREATE FUNCTION delete_card(INT) RETURNS user AS $$
+CREATE FUNCTION delete_card(INT) RETURNS TABLE (
+    id INT,
+    front TEXT,
+    back TEXT,
+    difficulty TEXT,
+    deck_id INT
+) AS $$
 
-	DELETE FROM "card" WHERE "deck_id" = $1
+	DELETE FROM "card" WHERE "id" = $1
 	RETURNING *
 	
 $$ LANGUAGE SQL STRICT;

@@ -2,7 +2,12 @@
 
 BEGIN;
 
-CREATE FUNCTION create_deck(json) RETURNS deck AS $$
+CREATE FUNCTION create_deck(json) RETURNS TABLE (
+    id INT,
+    name TEXT,
+    description TEXT,
+    user_id INT
+) AS $$
 
   INSERT INTO "deck"
   (
@@ -17,7 +22,13 @@ CREATE FUNCTION create_deck(json) RETURNS deck AS $$
 
 $$ LANGUAGE SQL STRICT;
 
-CREATE FUNCTION update_deck(json) RETURNS deck AS $$
+CREATE FUNCTION update_deck(json) RETURNS TABLE (
+    id INT,
+    name TEXT,
+    description TEXT,
+    user_id INT,
+    updated_at TIMESTAMP
+) AS $$
 
   UPDATE "deck" SET (
     "name",
@@ -35,7 +46,12 @@ CREATE FUNCTION update_deck(json) RETURNS deck AS $$
 
 $$ LANGUAGE SQL;
 
-CREATE FUNCTION delete_deck(INT) RETURNS deck AS $$
+CREATE FUNCTION delete_deck(INT) RETURNS TABLE (
+    id INT,
+    name TEXT,
+    description TEXT,
+    user_id INT
+) AS $$
 
 	DELETE FROM "deck" WHERE "id" = $1
 	RETURNING *
