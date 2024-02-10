@@ -5,12 +5,12 @@ import controllerWrapper from "../../utils/controller-wrapper.util.js";
 const cardsRouter = express.Router({ mergeParams: true });
 
 cardsRouter
-  .route("/cards")
+  .route("/")
   .get(controllerWrapper(cardController.getAllCardsByDeckID))
   .post(controllerWrapper(cardController.create));
 
 cardsRouter
-  .route("/cards/:id")
+  .route("/:id")
   .get(controllerWrapper(cardController.getByPk))
   .patch(controllerWrapper(cardController.update))
   .delete(controllerWrapper(cardController.delete));
