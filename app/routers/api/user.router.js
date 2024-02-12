@@ -8,11 +8,11 @@ const userRouter = express.Router({ mergeParams: true });
 userRouter.route("/").post(controllerWrapper(userController.signup));
 
 userRouter
-  .route("/:accountid")
+  .route("/:id")
   .get(controllerWrapper(userController.getByPk))
   .patch(controllerWrapper(userController.update))
   .delete(controllerWrapper(userController.delete));
 
-userRouter.use("/:accountid/decks", decksRouter);
+userRouter.use("/:id/decks", decksRouter);
 
 export default userRouter;

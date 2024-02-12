@@ -2,7 +2,7 @@
 
 ## POST
 
-### Create a new account
+### Create a new account -- OK
 POST http://127.0.0.1:3000/api/account/ 
 Content-Type: application/json
 
@@ -14,13 +14,13 @@ Content-Type: application/json
 
 ## GET
 
-### Get a single user
+### Get a single user -- OK
 
-GET http://127.0.0.1:3000/api/account/1 
+GET http://127.0.0.1:3000/api/account/11 
 
-### Update a single user
+### Update a single user -- OK
 
-PATCH http://127.0.0.1:3000/api/account/1 
+PATCH http://127.0.0.1:3000/api/account/11 
 Content-Type: application/json
 
 {
@@ -28,9 +28,9 @@ Content-Type: application/json
     "username": "UpdatedBobUsername" 
 }
 
-### Delete a single user X
+### Delete a single user X - delete_user not detected
 
-DELETE http://127.0.0.1:3000/api/account/1 
+DELETE http://127.0.0.1:3000/api/account/11 
 
 ######
 
@@ -38,17 +38,17 @@ DELETE http://127.0.0.1:3000/api/account/1
 
 ## GET
 
-### Get all decks from a user
+### Get all decks from a user -- X - returns only one deck
 
 GET http://127.0.0.1:3000/api/account/1/decks
 
-### Get a single deck from a user
+### Get a single deck from a user -- OK
 
-GET http://127.0.0.1:3000/api/account/1/decks/3
+GET http://127.0.0.1:3000/api/account/1/decks/1
 
 ## POST
 
-### Create a new deck 
+### Create a new deck -- X - needs user_id being set correctly
 
 POST http://127.0.0.1:3000/api/account/1/decks/
 Content-Type: application/json
@@ -60,7 +60,7 @@ Content-Type: application/json
 
 ## PATCH
 
-### Update a single deck
+### Update a single deck -- OK
 
 PATCH http://127.0.0.1:3000/api/account/1/decks/1
 Content-Type: application/json
@@ -72,7 +72,7 @@ Content-Type: application/json
 
 ## DELETE
 
-### Delete a single deck X
+### Delete a single deck X -- SQL function delete_deck not detected
 
 DELETE http://127.0.0.1:3000/api/account/1/decks/1
 
@@ -91,7 +91,7 @@ GET http://127.0.0.1:3000/api/account/1/decks/1/cards/1
 
 ## POST
 
-### Create a new card 
+### Create a new card -- X - needs deck_id being set correctly
 
 POST http://127.0.0.1:3000/api/account/1/decks/1/cards
 Content-Type: application/json
@@ -104,7 +104,7 @@ Content-Type: application/json
 
 ## PATCH
 
-### Update a single card 
+### Update a single card -- OK
 
 PATCH http://127.0.0.1:3000/api/account/1/decks/1/cards/1
 Content-Type: application/json
@@ -118,7 +118,7 @@ Content-Type: application/json
 
 ## DELETE
 
-### Delete a single card X
+### Delete a single card -- X - SQL function delete_card not detected
 
 DELETE http://127.0.0.1:3000/api/account/1/decks/1/cards/1
 
