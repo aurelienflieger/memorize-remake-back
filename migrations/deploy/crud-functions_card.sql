@@ -54,16 +54,10 @@ CREATE FUNCTION update_card(json) RETURNS TABLE (
 
 $$ LANGUAGE SQL STRICT;
 
-CREATE FUNCTION delete_card(INT) RETURNS TABLE (
-    id INT,
-    front TEXT,
-    back TEXT,
-    difficulty DIFFICULTY_CHECK,
-    deck_id INT
-) AS $$
+CREATE FUNCTION delete_card(INT) RETURNS "card" AS $$
 
 	DELETE FROM "card" WHERE "id" = $1
-	RETURNING id, front, back, difficulty, deck_id
+	RETURNING *
 	
 $$ LANGUAGE SQL STRICT;
 
