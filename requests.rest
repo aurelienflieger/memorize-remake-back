@@ -28,9 +28,9 @@ Content-Type: application/json
     "username": "UpdatedBobUsername" 
 }
 
-### Delete a single user X - delete_user not detected
+### Delete a single user -- OK
 
-DELETE http://127.0.0.1:3000/api/account/1
+DELETE http://127.0.0.1:3000/api/account/5
 
 ######
 
@@ -72,7 +72,7 @@ Content-Type: application/json
 
 ## DELETE
 
-### Delete a single deck X -- SQL function delete_deck not detected
+### Delete a single deck -- OK
 
 DELETE http://127.0.0.1:3000/api/account/1/decks/1
 
@@ -118,7 +118,7 @@ Content-Type: application/json
 
 ## DELETE
 
-### Delete a single card -- X - SQL function delete_card not detected
+### Delete a single card -- OK
 
 DELETE http://127.0.0.1:3000/api/account/1/decks/1/cards/1
 
