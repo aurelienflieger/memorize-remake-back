@@ -31,8 +31,17 @@ class UserController extends CoreController {
 
     const tokens = generateJWT(user);
 
+    const { email: actualEmail, username: actualUsername, id } = user;
+
+    const tokensWithUser = {
+      ...tokens,
+      email: actualEmail,
+      username: actualUsername,
+      userID: id,
+    };
+
     // Both the access token & the refresh token are returned in JSON format for front-end authentification
-    res.status(200).json(tokens);
+    res.status(200).json(tokensWithUser);
   }
 
   async signup(req, res) {
