@@ -36,12 +36,13 @@ class UserController extends CoreController {
   }
 
   async signup(req, res) {
-    const { password } = req.body;
+    const { password, username, email } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await this.create({
-      ...req.body,
+      email,
+      username,
       password: hashedPassword,
     });
 
