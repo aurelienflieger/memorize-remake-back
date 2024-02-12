@@ -15,15 +15,15 @@ class UserController extends CoreController {
   }
 
   async login(req, res) {
-    const { email, password } = req.body;
+    const { email: inputEmail, password: inputPassword } = req.body;
 
-    const user = await this.datamapper.getUserByEmail(email);
+    const user = await this.datamapper.getUserByEmail(inputEmail);
 
     if (!user) {
       return res.status(401).json({ error: "Please verify the input email." });
     }
 
-    const validPassword = await bcrypt.compare(password, user.password);
+    const validPassword = await bcrypt.compare(inputPassword, user.password);
 
     if (!validPassword) {
       return res.status(401).json({ error: "Incorrect password" });
@@ -31,13 +31,13 @@ class UserController extends CoreController {
 
     const tokens = generateJWT(user);
 
-    const { email: actualEmail, username: actualUsername, id } = user;
+    const { email, username, id } = user;
 
     const tokensWithUser = {
       ...tokens,
-      email: actualEmail,
-      username: actualUsername,
-      userID: id,
+      email,
+      username,
+      id,
     };
 
     // Both the access token & the refresh token are returned in JSON format for front-end authentification
