@@ -46,7 +46,7 @@ class UserController extends CoreController {
       password: hashedPassword,
     });
 
-    res.status(200).json({ newUser });
+    res.status(201).json({ newUser });
   }
 }
 
