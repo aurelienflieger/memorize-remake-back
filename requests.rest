@@ -30,7 +30,7 @@ Content-Type: application/json
 
 ### Delete a single user X - delete_user not detected
 
-DELETE http://127.0.0.1:3000/api/account/11 
+DELETE http://127.0.0.1:3000/api/account/1
 
 ######
 

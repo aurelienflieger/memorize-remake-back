@@ -48,15 +48,10 @@ CREATE FUNCTION update_user(json) RETURNS TABLE (
 
 $$ LANGUAGE SQL STRICT;
 
-CREATE FUNCTION delete_user(INT) RETURNS TABLE (
-    id INT,
-    username TEXT,
-    email TEXT,
-    password TEXT
-) AS $$
+CREATE FUNCTION delete_user(INT) RETURNS "user"AS $$
 
 	DELETE FROM "user" WHERE "id" = $1
-	RETURNING id, username, email, password
+	RETURNING *
 	
 $$ LANGUAGE SQL STRICT;
 
