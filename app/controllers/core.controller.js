@@ -5,7 +5,6 @@ export default class CoreController {
   }
 
   async create(creationDetails) {
-    console.log(creationDetails);
     const row = await this.datamapper.insert(creationDetails);
 
     return row;
