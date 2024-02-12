@@ -38,7 +38,7 @@ DELETE http://127.0.0.1:3000/api/account/11
 
 ## GET
 
-### Get all decks from a user -- X - returns only one deck
+### Get all decks from a user -- OK
 
 GET http://127.0.0.1:3000/api/account/1/decks
 
@@ -82,10 +82,10 @@ DELETE http://127.0.0.1:3000/api/account/1/decks/1
 
 ## GET
 
-### Get all cards from a deck 
+### Get all cards from a deck -- OK
 GET http://127.0.0.1:3000/api/account/1/decks/1/cards
 
-### Get a single card from a deck 
+### Get a single card from a deck -- OK
 
 GET http://127.0.0.1:3000/api/account/1/decks/1/cards/1
 
@@ -128,7 +128,7 @@ DELETE http://127.0.0.1:3000/api/account/1/decks/1/cards/1
 
 ## POST
 
-### Log into an existing account
+### Log into an existing account -- OK
 POST http://127.0.0.1:3000/api/auth/ 
 Content-Type: application/json
 
@@ -137,7 +137,7 @@ Content-Type: application/json
     "password": "BobPassword"
 }
 
-### Try to log into a fake account
+### Try to log into a fake account -- OK
 POST http://127.0.0.1:3000/api/auth/ 
 Content-Type: application/json
 
