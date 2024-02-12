@@ -7,7 +7,7 @@ CREATE FUNCTION create_user(json) RETURNS TABLE (
     username TEXT,
     email TEXT
 ) AS $$ 
-BEGIN
+
     INSERT INTO "user"
     (
         "username",
@@ -18,9 +18,8 @@ BEGIN
         $1->>'email',
         $1->>'password'
     ) RETURNING id, username, email;
-END;
 
-$$ LANGUAGE plpgsql STRICT;
+$$ LANGUAGE SQL STRICT;
 
 CREATE FUNCTION update_user(json) RETURNS TABLE (
     id INT,
@@ -47,10 +46,10 @@ CREATE FUNCTION update_user(json) RETURNS TABLE (
 
 $$ LANGUAGE SQL STRICT;
 
-CREATE FUNCTION delete_user(INT) RETURNS "user"AS $$
+CREATE FUNCTION delete_user(INT) RETURNS "user" AS $$
 
 	DELETE FROM "user" WHERE "id" = $1
-	RETURNING *
+	RETURNING *;
 	
 $$ LANGUAGE SQL STRICT;
 

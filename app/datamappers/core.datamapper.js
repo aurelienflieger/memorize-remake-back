@@ -34,9 +34,9 @@ export default class CoreDatamapper {
 
   async delete(id) {
     const result = await pool.query(
-      `SELECT * FROM delete_${this.tableName} WHERE "id" = $1`,
+      `SELECT * FROM delete_${this.tableName}($1)`,
       [id]
     );
-    return !!result.rowCount;
+    return result.rowCount === 0;
   }
 }

@@ -25,9 +25,12 @@ export default class CoreController {
   async delete({ params }, res) {
     const { id } = params;
 
-    await this.datamapper.delete(id);
-
-    return res.status(204).json();
+    const deleted = await this.datamapper.delete(id);
+    return deleted
+      ? res.status(400).json({
+          message: "There is no user registered under the provided id",
+        })
+      : res.status(202).json({ message: "The user has been deleted" });
   }
 
   async getByPk({ params }, res) {
@@ -37,6 +40,6 @@ export default class CoreController {
 
     if (row === undefined) throw new Error();
 
-    return res.status(200).json(row);
+    return res.status(201).json(row);
   }
 }
