@@ -35,6 +35,8 @@ export default class CoreController {
 
     const row = await this.datamapper.findByPk(id);
 
+    if (row === undefined) throw new Error();
+
     return res.status(200).json(row);
   }
 }

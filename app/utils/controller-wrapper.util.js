@@ -4,6 +4,7 @@ export default function controllerWrapper(controller) {
     try {
       await controller(req, res);
     } catch (error) {
+      console.log("hi");
       next(error);
     }
   };

@@ -1,20 +1,21 @@
 import express from "express";
 import { deckController } from "../../controllers/index.controller.js";
 import cardsRouter from "./cards.router.js";
+import controllerWrapper from "../../utils/controller-wrapper.util.js";
 
 const decksRouter = express.Router({ mergeParams: true });
 
 decksRouter
   .route("/")
-  .get(deckController.getAllDecksByUserID)
-  .post(deckController.create);
+  .get(controllerWrapper(deckController.getAllDecksByUserID))
+  .post(controllerWrapper(deckController.create));
 
 decksRouter
-  .route("/:deckid")
-  .get(deckController.getByPk)
-  .patch(deckController.update)
-  .delete(deckController.delete);
+  .route("/:id")
+  .get(controllerWrapper(deckController.getByPk))
+  .patch(controllerWrapper(deckController.update))
+  .delete(controllerWrapper(deckController.delete));
 
-decksRouter.use("/:deckid/cards", cardsRouter);
+decksRouter.use("/:id/cards", cardsRouter);
 
 export default decksRouter;
