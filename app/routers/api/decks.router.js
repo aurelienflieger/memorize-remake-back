@@ -7,14 +7,14 @@ const decksRouter = express.Router({ mergeParams: true });
 decksRouter
   .route("/")
   .get(deckController.getAllDecksByUserID)
-  .post(deckController.createNewDeck);
+  .post(deckController.create);
 
 decksRouter
-  .route("/:id")
+  .route("/:deckid")
   .get(deckController.getByPk)
   .patch(deckController.update)
   .delete(deckController.delete);
 
-decksRouter.use("/:id/cards", cardsRouter);
+decksRouter.use("/:deckid/cards", cardsRouter);
 
 export default decksRouter;
