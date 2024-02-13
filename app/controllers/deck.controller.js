@@ -43,17 +43,23 @@ export default class DeckController extends CoreController {
 
   async updateDeck({ params, body }, res) {
     const { id } = params;
-    const { name, description } = body;
+    let { name, description } = body;
     const data = await this.datamapper.findByPk(id);
 
-    const isModified = data.name !== name || data.description !== description;
+    if (!data) {
+      throw new Error("This deck does not exist.")
+    }
 
-    if (!isModified) {
+    name ? name : name = data.name;
+    description ? description : description = data.description;
+
+    const isModified = data.name === name && data.description === description;
+
+    if (isModified) {
       throw new Error("You need to change at least one field");
     }
 
     const newDeckInfo = { ...data, name: name, description: description };
-    console.log(newDeckInfo);
 
     const row = await this.datamapper.update(newDeckInfo);
 
