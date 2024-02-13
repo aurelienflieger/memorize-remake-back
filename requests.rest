@@ -16,7 +16,7 @@ Content-Type: application/json
 
 ### Get a single user -- OK
 
-GET http://127.0.0.1:3000/api/account/3
+GET http://127.0.0.1:3000/api/account/1
 
 ### Update a single user -- OK
 
@@ -30,7 +30,7 @@ Content-Type: application/json
 
 ### Delete a single user -- OK
 
-DELETE http://127.0.0.1:3000/api/account/5
+DELETE http://127.0.0.1:3000/api/account/1
 
 ######
 
@@ -54,9 +54,9 @@ POST http://127.0.0.1:3000/api/account/3/decks/
 Content-Type: application/json
 
 {
-    "name": "A decko",
+    "name": "A deco",
     "description": "Some description for the new deck",
-    "user_id": 3
+    "user_id": 2
 }
 
 ## PATCH
@@ -74,7 +74,7 @@ Content-Type: application/json
 
 ### Delete a single deck -- OK
 
-DELETE http://127.0.0.1:3000/api/account/1/decks/6
+DELETE http://127.0.0.1:3000/api/account/1/decks/2
 
 ######
 
@@ -93,7 +93,7 @@ GET http://127.0.0.1:3000/api/account/1/decks/7/cards/12
 
 ### Create a new card -- X - needs deck_id being set correctly
 
-POST http://127.0.0.1:3000/api/account/1/decks/7/cards
+POST http://127.0.0.1:3000/api/account/3/decks/16/cards
 Content-Type: application/json
 
 {
@@ -118,7 +118,7 @@ Content-Type: application/json
 
 ### Delete a single card -- OK
 
-DELETE http://127.0.0.1:3000/api/account/1/decks/1/cards/13
+DELETE http://127.0.0.1:3000/api/account/1/decks/1/cards/6
 
 ######
 
