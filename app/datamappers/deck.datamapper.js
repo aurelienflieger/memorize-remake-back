@@ -9,7 +9,6 @@ export default class DeckDataMapper extends CoreDataMapper {
   }
 
   async findAllDecksByUserID(id) {
-    console.log(id);
     const result = await pool.query(
       `SELECT * FROM "${this.tableName}" WHERE "user_id" = $1`,
       [id]
