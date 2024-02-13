@@ -7,25 +7,25 @@ POST http://127.0.0.1:3000/api/account/
 Content-Type: application/json
 
 {
-    "email": "bob@gmail.com",
-    "password": "BobPassword",
-    "username": "BobUsername" 
+    "email": "dd@gmail.com",
+    "password": "ddPassword",
+    "username": "ddUsername" 
 }
 
 ## GET
 
 ### Get a single user -- OK
 
-GET http://127.0.0.1:3000/api/account/11 
+GET http://127.0.0.1:3000/api/account/3
 
 ### Update a single user -- OK
 
-PATCH http://127.0.0.1:3000/api/account/11 
+PATCH http://127.0.0.1:3000/api/account/6
 Content-Type: application/json
 
 {
-    "email": "updatedBob@gmail.com",
-    "username": "UpdatedBobUsername" 
+    "email": "ddiBo@gmail.com",
+    "username": "bobi"
 }
 
 ### Delete a single user -- OK
@@ -44,37 +44,38 @@ GET http://127.0.0.1:3000/api/account/1/decks
 
 ### Get a single deck from a user -- OK
 
-GET http://127.0.0.1:3000/api/account/1/decks/1
+GET http://127.0.0.1:3000/api/account/3/decks/7
 
 ## POST
 
 ### Create a new deck -- X - needs user_id being set correctly
 
-POST http://127.0.0.1:3000/api/account/1/decks/
+POST http://127.0.0.1:3000/api/account/3/decks/
 Content-Type: application/json
 
 {
-    "name": "A new deck",
-    "description": "Some description for the new deck"
+    "name": "A decko",
+    "description": "Some description for the new deck",
+    "user_id": 3
 }
 
 ## PATCH
 
 ### Update a single deck -- OK
 
-PATCH http://127.0.0.1:3000/api/account/1/decks/1
+PATCH http://127.0.0.1:3000/api/account/3/decks/14
 Content-Type: application/json
 
 {
     "description": "Some updated description",
-    "name": "Some updated name" 
+    "name": "Some updated naaaame" 
 }
 
 ## DELETE
 
 ### Delete a single deck -- OK
 
-DELETE http://127.0.0.1:3000/api/account/1/decks/1
+DELETE http://127.0.0.1:3000/api/account/1/decks/6
 
 ######
 
@@ -83,36 +84,36 @@ DELETE http://127.0.0.1:3000/api/account/1/decks/1
 ## GET
 
 ### Get all cards from a deck -- OK
-GET http://127.0.0.1:3000/api/account/1/decks/1/cards
+GET http://127.0.0.1:3000/api/account/1/decks/7/cards
 
 ### Get a single card from a deck -- OK
 
-GET http://127.0.0.1:3000/api/account/1/decks/1/cards/1
+GET http://127.0.0.1:3000/api/account/1/decks/7/cards/12
 
 ## POST
 
 ### Create a new card -- X - needs deck_id being set correctly
 
-POST http://127.0.0.1:3000/api/account/1/decks/1/cards
+POST http://127.0.0.1:3000/api/account/1/decks/7/cards
 Content-Type: application/json
 
 {
-    "front": "What's a reply for this card's question?",
-    "back": "Some reply",
-    "difficulty": "1"
+    "front": "frontt",
+    "back": "back!",
+    "difficulty": "2"
 }
 
 ## PATCH
 
 ### Update a single card -- OK
 
-PATCH http://127.0.0.1:3000/api/account/1/decks/1/cards/1
+PATCH http://127.0.0.1:3000/api/account/1/decks/2/cards/9
 Content-Type: application/json
 
 {
     "front": "What's a reply for this card's question?",
     "back": "Some reply",
-    "deck_id": "1",
+    "deck_id": "2",
     "difficulty": "1"
 }
 
@@ -120,7 +121,7 @@ Content-Type: application/json
 
 ### Delete a single card -- OK
 
-DELETE http://127.0.0.1:3000/api/account/1/decks/1/cards/1
+DELETE http://127.0.0.1:3000/api/account/1/decks/1/cards/13
 
 ######
 

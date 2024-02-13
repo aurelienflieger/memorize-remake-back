@@ -18,7 +18,7 @@ CREATE FUNCTION create_deck(json) RETURNS TABLE (
     $1->>'name',
     $1->>'description',
     ($1->>'user_id')::INT
-  ) RETURNING id, name, description, user_id
+  ) RETURNING id, name, description, user_id;
 
 $$ LANGUAGE SQL STRICT;
 

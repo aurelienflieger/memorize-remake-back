@@ -14,6 +14,7 @@ export default class CoreController {
     const { id } = params;
 
     const dbData = await this.datamapper.findByPk(id);
+    console.log(body);
 
     const data = { ...dbData, ...body };
 
@@ -28,9 +29,9 @@ export default class CoreController {
     const deleted = await this.datamapper.delete(id);
     return deleted
       ? res.status(400).json({
-          message: "There is no user registered under the provided id",
+          message: "Deletion failed",
         })
-      : res.status(202).json({ message: "The user has been deleted" });
+      : res.status(202).json({ message: "Deletion success" });
   }
 
   async getByPk({ params }, res) {
