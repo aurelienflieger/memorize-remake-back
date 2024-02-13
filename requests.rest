@@ -67,8 +67,7 @@ PATCH http://127.0.0.1:3000/api/account/3/decks/16
 Content-Type: application/json
 
 {
-    "description": "Some update description",
-    "name": "Some update naaaame" 
+    "description": "Some updated description"
 }
 
 ## DELETE
@@ -111,10 +110,8 @@ PATCH http://127.0.0.1:3000/api/account/1/decks/2/cards/9
 Content-Type: application/json
 
 {
-    "front": "What's a reply for this card's question?",
-    "back": "Some reply",
-    "deck_id": "2",
-    "difficulty": "1"
+    "front": "Front question",
+    "back": "Back reply"
 }
 
 ## DELETE

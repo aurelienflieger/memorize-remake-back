@@ -9,7 +9,7 @@ export default class CardController extends CoreController {
     this.createNewCard = this.createNewCard.bind(this);
     this.getByPk = this.getByPk.bind(this);
     this.delete = this.delete.bind(this);
-    this.update = this.update.bind(this);
+    this.updateCard = this.updateCard.bind(this);
   }
 
   async getAllCardsByDeckID({ params }, res) {
@@ -24,5 +24,24 @@ export default class CardController extends CoreController {
     const card = { ...body, deck_id: deckId };
     const row = await this.datamapper.insert(card);
     res.status(200).json(row);
+  }
+
+  async updateCard({ params, body }, res) {
+    const { id } = params;
+    const { front, back } = body;
+    const data = await this.datamapper.findByPk(id);
+
+    const isModified = data.front !== front || data.back !== back;
+
+    if (!isModified) {
+      throw new Error("You need to change at least one field");
+    }
+
+    const newCardInfo = { ...data, front: front, back: back };
+    console.log(newCardInfo);
+
+    const row = await this.datamapper.update(newCardInfo);
+
+    return res.status(200).json(row);
   }
 }
