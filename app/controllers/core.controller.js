@@ -25,7 +25,12 @@ export default class CoreController {
 
   async delete({ params }, res) {
     const { id } = params;
+    const checkId = await this.datamapper.findByPk(id);
 
+    if(!checkId) {
+      throw new Error("The id you're looking for does not exist.")
+    }
+    
     const deleted = await this.datamapper.delete(id);
     return deleted
       ? res.status(400).json({
