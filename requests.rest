@@ -63,12 +63,12 @@ Content-Type: application/json
 
 ### Update a single deck -- OK
 
-PATCH http://127.0.0.1:3000/api/account/3/decks/14
+PATCH http://127.0.0.1:3000/api/account/3/decks/16
 Content-Type: application/json
 
 {
-    "description": "Some updated description",
-    "name": "Some updated naaaame" 
+    "description": "Some update description",
+    "name": "Some update naaaame" 
 }
 
 ## DELETE
