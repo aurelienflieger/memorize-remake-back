@@ -60,31 +60,42 @@ class UserController extends CoreController {
 
   async updateAccount({ params, body }, res) {
     const { id } = params;
-    const { username, email } = body;
+    let { username, email, password, newPassword } = body;
     const data = await this.datamapper.findByPk(id);
 
-    /* const validPassword = await bcrypt.compare(password, data.password);
+    if (!data) {
+      throw new Error("This account does not exist.")
+    }
+
+    username ? username : username = data.username;
+    email ? email : email = data.email;
+
+    /*
+    password ? password : password = data.password;
+    newPassword ? password : newPassword = data.password;
+
+    const validPassword = await bcrypt.compare(password, data.password);
 
     if (!validPassword) {
       return res.status(401).json({ error: "Incorrect password" });
     }
 
     const newHashedPassword = await bcrypt.hash(newPassword, 10);
-    const test = await bcrypt.compare(newPassword, data.password);
-    console.log(test);
-
-    console.log(data.password);
     console.log(newHashedPassword);
+
+    const comparePasswords = await bcrypt.compare(newPassword, data.password);
+
+    if (comparePasswords) {
+      throw new Error("Your current password and the new one must be different.")
+    }
     */
+    const isModified = data.username === username && data.email === email;
 
-    const isModified = data.username !== username || data.email !== email;
-
-    if (!isModified) {
+    if (isModified) {
       throw new Error("You need to change at least one field");
     }
 
-    const newAccountInfo = { ...data, email: body.email, username: body.username };
-    console.log(newAccountInfo);
+    const newAccountInfo = { ...data, email: email, username: username};
 
     const row = await this.datamapper.update(newAccountInfo);
 

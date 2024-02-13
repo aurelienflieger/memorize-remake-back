@@ -28,17 +28,23 @@ export default class CardController extends CoreController {
 
   async updateCard({ params, body }, res) {
     const { id } = params;
-    const { front, back } = body;
+    let { front, back } = body;
     const data = await this.datamapper.findByPk(id);
 
-    const isModified = data.front !== front || data.back !== back;
+    if (!data) {
+      throw new Error("This card does not exist.")
+    }
 
-    if (!isModified) {
+    front ? front : front = data.front;
+    back ? back : back = data.back;
+
+    const isModified = data.front === front && data.back === back;
+
+    if (isModified) {
       throw new Error("You need to change at least one field");
     }
 
     const newCardInfo = { ...data, front: front, back: back };
-    console.log(newCardInfo);
 
     const row = await this.datamapper.update(newCardInfo);
 
