@@ -12,7 +12,7 @@ cardsRouter
 cardsRouter
   .route("/:id")
   .get(controllerWrapper(cardController.getByPk))
-  .patch(controllerWrapper(cardController.update))
+  .patch(controllerWrapper(cardController.updateCard))
   .delete(controllerWrapper(cardController.delete));
 
 export default cardsRouter;
