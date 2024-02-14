@@ -5,15 +5,11 @@ import CoreDatamapper from "./core.datamapper.js";
 export default class UserDataMapper extends CoreDatamapper {
   tableName = "user";
 
-  constructor() {
-    super();
-  }
-
-  async getUserByEmail(email) {
+  getUserByEmail = async (email) => {
     // eslint-disable-next-line quotes
     const users = await pool.query('SELECT * FROM "user" WHERE email = $1', [
       email,
     ]);
     return users.rows[0];
-  }
+  };
 }
