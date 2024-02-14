@@ -101,6 +101,16 @@ class UserController extends CoreController {
 
     return res.status(200).json(row);
   }
+
+  async getByPk({ params }, res) {
+    const { id } = params;
+
+    const row = await this.datamapper.findByPk(id);
+
+    if (row === undefined) throw new Error("This user does not exists.");
+
+    return res.status(201).json(row);
+  }
 }
 
 export default UserController;

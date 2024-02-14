@@ -16,7 +16,7 @@ Content-Type: application/json
 
 ### Get a single user -- OK
 
-GET http://127.0.0.1:3000/api/account/1
+GET http://127.0.0.1:3000/api/account/7
 
 ### Update a single user -- OK
 
