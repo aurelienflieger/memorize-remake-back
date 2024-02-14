@@ -4,20 +4,12 @@ export default class CoreController {
     this.datamapper = new Datamapper();
   }
 
-  async create(creationDetails) {
-    const row = await this.datamapper.insert(creationDetails);
-
-    return row;
-  }
-
   async update({ params, body }, res) {
     const { id } = params;
 
     const dbData = await this.datamapper.findByPk(id);
-    console.log(body);
 
     const data = { ...dbData, ...body };
-
     const row = await this.datamapper.update(data);
 
     return res.status(200).json(row);
@@ -44,7 +36,7 @@ export default class CoreController {
 
     const row = await this.datamapper.findByPk(id);
 
-    if (row === undefined) throw new Error();
+    if (row === undefined) throw new Error("This id does not exists");
 
     return res.status(201).json(row);
   }
