@@ -1,8 +1,13 @@
--- Deploy memorize:util_functions to pg
+-- Deploy memorize:crud-functions_deck to pg
 
 BEGIN;
 
-CREATE FUNCTION create_deck(json) RETURNS deck AS $$
+CREATE FUNCTION create_deck(json) RETURNS TABLE (
+    id INT,
+    name TEXT,
+    description TEXT,
+    user_id INT
+) AS $$
 
   INSERT INTO "deck"
   (
@@ -13,11 +18,17 @@ CREATE FUNCTION create_deck(json) RETURNS deck AS $$
     $1->>'name',
     $1->>'description',
     ($1->>'user_id')::INT
-  ) RETURNING *
+  ) RETURNING id, name, description, user_id;
 
 $$ LANGUAGE SQL STRICT;
 
-CREATE FUNCTION update_deck(json) RETURNS deck AS $$
+CREATE FUNCTION update_deck(json) RETURNS TABLE (
+    id INT,
+    name TEXT,
+    description TEXT,
+    user_id INT,
+    updated_at TIMESTAMP
+) AS $$
 
   UPDATE "deck" SET (
     "name",
@@ -31,11 +42,11 @@ CREATE FUNCTION update_deck(json) RETURNS deck AS $$
       NOW()
     )
   WHERE "id" = ($1->>'id')::INT
-  RETURNING *
+  RETURNING id, name, description, user_id, updated_at
 
 $$ LANGUAGE SQL;
 
-CREATE FUNCTION delete_deck(INT) RETURNS deck AS $$
+CREATE FUNCTION delete_deck(INT) RETURNS "deck" AS $$
 
 	DELETE FROM "deck" WHERE "id" = $1
 	RETURNING *
