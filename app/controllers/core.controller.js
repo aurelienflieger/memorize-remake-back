@@ -1,43 +1,51 @@
+// The CoreController can be used to flexibly perform CRUD operations a database postgres table.
 export default class CoreController {
-  static datamapper;
-
-  static async getByPk({ params }, res, next) {
-    const { id } = params;
-    const row = await this.datamapper.findByPk(id);
-    if (!row) {
-      return next();
-    }
-    return res.status(200).json(row);
+  constructor(Datamapper) {
+    this.datamapper = new Datamapper();
   }
 
-  static async create({ body }, res) {
-    const row = await this.datamapper.insert(body);
-    res.status(200).json(row);
+  async create(creationDetails) {
+    const row = await this.datamapper.insert(creationDetails);
+
+    return row;
   }
 
-  static async update({ params, body }, res, next) {
+  async update({ params, body }, res) {
     const { id } = params;
+
     const dbData = await this.datamapper.findByPk(id);
-
-    if (!dbData) {
-      return next();
-    }
+    console.log(body);
 
     const data = { ...dbData, ...body };
-  
+
     const row = await this.datamapper.update(data);
-    if (!row) {
-      return next();
-    }
+
     return res.status(200).json(row);
   }
 
-  static async delete({ params }, res, next) {
+  async delete({ params }, res) {
     const { id } = params;
-    const deleted = await this.datamapper.delete(id);
-    if (!deleted) {
-      return next();
+    const checkId = await this.datamapper.findByPk(id);
+
+    if(!checkId) {
+      throw new Error("The id you're looking for does not exist.")
     }
-    return res.status(204).json();
+    
+    const deleted = await this.datamapper.delete(id);
+    return deleted
+      ? res.status(400).json({
+          message: "Deletion failed",
+        })
+      : res.status(202).json({ message: "Deletion success" });
+  }
+
+  async getByPk({ params }, res) {
+    const { id } = params;
+
+    const row = await this.datamapper.findByPk(id);
+
+    if (row === undefined) throw new Error();
+
+    return res.status(201).json(row);
   }
 }
