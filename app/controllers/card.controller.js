@@ -7,9 +7,9 @@ export default class CardController extends CoreController {
     this.datamapper = new Datamapper();
     this.getAllCardsByDeckID = this.getAllCardsByDeckID.bind(this);
     this.createNewCard = this.createNewCard.bind(this);
+    this.updateCard = this.updateCard.bind(this);
     this.getByPk = this.getByPk.bind(this);
     this.delete = this.delete.bind(this);
-    this.updateCard = this.updateCard.bind(this);
   }
 
   async getAllCardsByDeckID({ params }, res) {
@@ -18,10 +18,9 @@ export default class CardController extends CoreController {
     res.status(200).json(rows);
   }
 
-  async createNewCard(req, res) {
-    const deckId = req.params.id;
-    const { body } = req;
-    const card = { ...body, deck_id: deckId };
+  async createNewCard({ params, body }, res) {
+    const { id } = params;
+    const card = { ...body, deck_id: id };
     const row = await this.datamapper.insert(card);
     res.status(200).json(row);
   }

@@ -49,7 +49,7 @@ class UserController extends CoreController {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = await this.create({
+    const newUser = await this.datamapper.insert({
       email,
       username,
       password: hashedPassword,
@@ -64,7 +64,7 @@ class UserController extends CoreController {
     const data = await this.datamapper.findByPk(id);
 
     if (!data) {
-      throw new Error("This account does not exist.")
+      throw new Error("This account does not exist.");
     }
 
     username ? username : username = data.username;

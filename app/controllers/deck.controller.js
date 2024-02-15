@@ -18,14 +18,11 @@ export default class DeckController extends CoreController {
     res.status(200).json(rows);
   }
 
-  async createNewDeck(req, res) {
-    const userId = req.params.id;
-    const { body } = req;
+  async createNewDeck({ params, body }, res) {
+    const { id } = params;
+    const deck = { ...body, user_id: id };
 
-    const deck = { ...body, user_id: userId };
     const row = await this.datamapper.insert(deck);
-    console.log(row);
-
     res.status(200).json(row);
   }
 
