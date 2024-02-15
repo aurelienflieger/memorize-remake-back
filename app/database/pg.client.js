@@ -8,7 +8,6 @@ const { Pool } = pg;
 const poolConfig = {
   connectionString: process.env.PG_URL,
   ssl: { rejectUnauthorized:false },
-
 };
 
 const pool = new Pool(poolConfig);
