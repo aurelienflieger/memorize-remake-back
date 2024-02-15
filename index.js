@@ -2,19 +2,18 @@ import "dotenv/config";
 import express, { json } from "express";
 import cors from "cors";
 import errorHandler from "./app/middleware/errorHandler.middleware.js";
-import { signUpRouter, loginRouter } from "./app/routes/index.js";
+import router from "./app/routers/index.router.js";
 
 const app = express();
-const corsOptions = { credentials: true, origin: process.env.URL || "*" };
 const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST || "127.0.0.1";
+const corsOptions = { credentials: true, origin: process.env.URL || "*" };
 
 app.use(cors(corsOptions));
 app.use(json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(signUpRouter);
-app.use(loginRouter);
+app.use(router);
 
 /* The error handler is placed after all routes to make sure all errors are handled. */
 app.use(errorHandler);

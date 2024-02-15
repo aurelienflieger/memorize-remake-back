@@ -1,45 +1,45 @@
-import pool from "../../database/index.js";
+import pool from "../database/pg.client.js";
 
 // The CoreDataMapper can be used to flexibly query a database postgres table.
 export default class CoreDatamapper {
-  static readTableName;
+  tableName;
 
-  static writeTableName;
-
-  static async findAll() {
-    const result = await pool.query(`SELECT * FROM "${this.readTableName}"`);
+  findAll = async () => {
+    const result = await pool.query(`SELECT * FROM "${this.tableName}"`);
     return result.rows;
-  }
+  };
 
-  static async findByPk(id) {
+  findByPk = async (id) => {
     const result = await pool.query(
-      `SELECT * FROM "${this.readTableName}" WHERE "id" = $1`,
+      `SELECT * FROM "${this.tableName}" WHERE "id" = $1`,
       [id]
     );
-    return result.rows[0];
-  }
 
-  static async insert(data) {
+    return result.rows[0];
+  };
+
+  insert = async (data) => {
     const result = await pool.query(
-      `SELECT * FROM create_${this.writeTableName}($1)`,
+      `SELECT * FROM create_${this.tableName}($1)`,
       [data]
     );
     return result.rows[0];
-  }
+  };
 
-  static async update(data) {
+  update = async (data) => {
     const result = await pool.query(
-      `SELECT * FROM update_${this.writeTableName}($1)`,
+      `SELECT * FROM update_${this.tableName}($1)`,
       [data]
     );
     return result.rows[0];
-  }
+  };
 
-  static async delete(id) {
+  delete = async (id) => {
     const result = await pool.query(
-      `DELETE FROM "${this.writeTableName}" WHERE "id" = $1`,
+      `SELECT * FROM delete_${this.tableName}($1)`,
       [id]
     );
-    return !!result.rowCount;
-  }
+    return result.rowCount === 0;
+  };
 }
+

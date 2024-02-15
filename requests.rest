@@ -1,27 +1,143 @@
-### CREATE A NEW ACCOUNT
-POST http://127.0.0.1:3000/api/sign-up/ 
+# USER ROUTE
+
+## POST
+
+### Create a new account -- OK
+POST http://127.0.0.1:3000/api/account/ 
 Content-Type: application/json
 
 {
-    "email": "bob@gmail.com",
-    "password": "BobPassword",
-    "username": "BobUsername" 
+    "email": "dd@gmail.com",
+    "password": "dd",
+    "username": "dd" 
 }
 
-### LOG INTO AN EXISTING ACCOUNT
-POST http://127.0.0.1:3000/api/login/ 
+## GET
+
+### Get a single user -- OK
+
+GET http://127.0.0.1:3000/api/account/7
+
+### Update a single user -- OK
+
+PATCH http://127.0.0.1:3000/api/account/3
 Content-Type: application/json
 
 {
-    "email": "bob@gmail.com",
-    "password": "BobPassword",
+    "username": "bobi"
 }
 
-### TRY LOGGING INTO A NON EXISTING ACCOUNT
-POST http://127.0.0.1:3000/api/login/ 
+### Delete a single user -- OK
+
+DELETE http://127.0.0.1:3000/api/account/1
+
+######
+
+# DECK ROUTE
+
+## GET
+
+### Get all decks from a user -- OK
+
+GET http://127.0.0.1:3000/api/account/3/decks
+
+### Get a single deck from a user -- OK
+
+GET http://127.0.0.1:3000/api/account/3/decks/16
+
+## POST
+
+### Create a new deck -- OK
+
+POST http://127.0.0.1:3000/api/account/3/decks/
 Content-Type: application/json
 
 {
-    "email": "fakebob@gmail.com",
-    "password": "FakeBobPassword",
+    "name": "A deced",
+    "description": "Some description for the new deck"
+}
+
+## PATCH
+
+### Update a single deck -- OK
+
+PATCH http://127.0.0.1:3000/api/account/3/decks/16
+Content-Type: application/json
+
+{
+    "name": "New namee"
+}
+
+## DELETE
+
+### Delete a single deck -- OK
+
+DELETE http://127.0.0.1:3000/api/account/1/decks/16
+
+######
+
+# CARD ROUTE
+
+## GET
+
+### Get all cards from a deck -- OK
+GET http://127.0.0.1:3000/api/account/1/decks/16/cards
+
+### Get a single card from a deck -- OK
+
+GET http://127.0.0.1:3000/api/account/1/decks/7/cards/16
+
+## POST
+
+### Create a new card -- X - needs deck_id being set correctly
+
+POST http://127.0.0.1:3000/api/account/3/decks/21/cards
+Content-Type: application/json
+
+{
+    "front": "frontt",
+    "back": "back!",
+    "difficulty": "2"
+}
+
+## PATCH
+
+### Update a single card -- OK
+
+PATCH http://127.0.0.1:3000/api/account/3/decks/21/cards/23
+Content-Type: application/json
+
+{
+    "back": "Back answer",
+    "front": "Los frontos"
+}
+
+## DELETE
+
+### Delete a single card -- OK
+
+DELETE http://127.0.0.1:3000/api/account/1/decks/21/cards/21
+
+######
+
+# AUTH ROUTE
+
+## POST
+
+### Log into an existing account -- OK
+POST http://127.0.0.1:3000/api/auth/ 
+Content-Type: application/json
+
+{
+    "email": "dd@gmail.com",
+    "password": "dd"
+}
+
+### Try to log into a fake account -- OK
+POST http://127.0.0.1:3000/api/auth/ 
+Content-Type: application/json
+
+{
+    "email": "dd@gmail.com",
+    "password": "FakeBobPassword"
 }
