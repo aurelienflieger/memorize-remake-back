@@ -1,5 +1,5 @@
 import CoreController from "./core.controller.js";
-import CardDataMapper from "../datamappers/index.datamapper.js";
+import {CardDataMapper} from "../datamappers/index.datamapper.js";
 
 /* The methods from the CoreDataMapper are available in addition to those specific to the Card. */
 export default class CardController extends CoreController {

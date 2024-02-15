@@ -47,7 +47,7 @@ GET http://127.0.0.1:3000/api/account/3/decks/16
 
 ## POST
 
-### Create a new deck -- X - needs user_id being set correctly
+### Create a new deck -- OK
 
 POST http://127.0.0.1:3000/api/account/3/decks/
 Content-Type: application/json
@@ -140,11 +140,4 @@ Content-Type: application/json
 {
     "email": "dd@gmail.com",
     "password": "FakeBobPassword"
-}
-
-
-{
-  "name": "mon deckds",
-  "description": "un set de traduction FR vers ENG",
-  "user_id": 5
 }

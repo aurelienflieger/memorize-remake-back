@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import generateJWT from "../utils/generateJWT.util.js";
 import CoreController from "./core.controller.js";
-import UserDataMapper from "../datamappers/user.datamapper.js";
+import {UserDataMapper} from "../datamappers/index.datamapper.js";
 
 
 class UserController extends CoreController {
