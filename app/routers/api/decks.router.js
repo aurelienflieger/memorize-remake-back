@@ -8,12 +8,12 @@ const decksRouter = express.Router({ mergeParams: true });
 decksRouter
   .route("/")
   .get(controllerWrapper(deckController.getAllDecksByUserID))
-  .post(controllerWrapper(deckController.create));
+  .post(controllerWrapper(deckController.createNewDeck));
 
 decksRouter
   .route("/:id")
   .get(controllerWrapper(deckController.getByPk))
-  .patch(controllerWrapper(deckController.update))
+  .patch(controllerWrapper(deckController.updateDeck))
   .delete(controllerWrapper(deckController.delete));
 
 decksRouter.use("/:id/cards", cardsRouter);

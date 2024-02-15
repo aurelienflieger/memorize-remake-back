@@ -7,28 +7,27 @@ POST http://127.0.0.1:3000/api/account/
 Content-Type: application/json
 
 {
-    "email": "bob@gmail.com",
-    "password": "BobPassword",
-    "username": "BobUsername" 
+    "email": "dd@gmail.com",
+    "password": "dd",
+    "username": "dd" 
 }
 
 ## GET
 
 ### Get a single user -- OK
 
-GET http://127.0.0.1:3000/api/account/11 
+GET http://127.0.0.1:3000/api/account/7
 
 ### Update a single user -- OK
 
-PATCH http://127.0.0.1:3000/api/account/11 
+PATCH http://127.0.0.1:3000/api/account/3
 Content-Type: application/json
 
 {
-    "email": "updatedBob@gmail.com",
-    "username": "UpdatedBobUsername" 
+    "username": "bobi"
 }
 
-### Delete a single user X - delete_user not detected
+### Delete a single user -- OK
 
 DELETE http://127.0.0.1:3000/api/account/1
 
@@ -40,21 +39,21 @@ DELETE http://127.0.0.1:3000/api/account/1
 
 ### Get all decks from a user -- OK
 
-GET http://127.0.0.1:3000/api/account/1/decks
+GET http://127.0.0.1:3000/api/account/3/decks
 
 ### Get a single deck from a user -- OK
 
-GET http://127.0.0.1:3000/api/account/1/decks/1
+GET http://127.0.0.1:3000/api/account/3/decks/16
 
 ## POST
 
-### Create a new deck -- X - needs user_id being set correctly
+### Create a new deck -- OK
 
-POST http://127.0.0.1:3000/api/account/1/decks/
+POST http://127.0.0.1:3000/api/account/3/decks/
 Content-Type: application/json
 
 {
-    "name": "A new deck",
+    "name": "A deced",
     "description": "Some description for the new deck"
 }
 
@@ -62,19 +61,18 @@ Content-Type: application/json
 
 ### Update a single deck -- OK
 
-PATCH http://127.0.0.1:3000/api/account/1/decks/1
+PATCH http://127.0.0.1:3000/api/account/3/decks/16
 Content-Type: application/json
 
 {
-    "description": "Some updated description",
-    "name": "Some updated name" 
+    "name": "New namee"
 }
 
 ## DELETE
 
-### Delete a single deck X -- SQL function delete_deck not detected
+### Delete a single deck -- OK
 
-DELETE http://127.0.0.1:3000/api/account/1/decks/1
+DELETE http://127.0.0.1:3000/api/account/1/decks/16
 
 ######
 
@@ -83,44 +81,42 @@ DELETE http://127.0.0.1:3000/api/account/1/decks/1
 ## GET
 
 ### Get all cards from a deck -- OK
-GET http://127.0.0.1:3000/api/account/1/decks/1/cards
+GET http://127.0.0.1:3000/api/account/1/decks/16/cards
 
 ### Get a single card from a deck -- OK
 
-GET http://127.0.0.1:3000/api/account/1/decks/1/cards/1
+GET http://127.0.0.1:3000/api/account/1/decks/7/cards/16
 
 ## POST
 
 ### Create a new card -- X - needs deck_id being set correctly
 
-POST http://127.0.0.1:3000/api/account/1/decks/1/cards
+POST http://127.0.0.1:3000/api/account/3/decks/21/cards
 Content-Type: application/json
 
 {
-    "front": "What's a reply for this card's question?",
-    "back": "Some reply",
-    "difficulty": "1"
+    "front": "frontt",
+    "back": "back!",
+    "difficulty": "2"
 }
 
 ## PATCH
 
 ### Update a single card -- OK
 
-PATCH http://127.0.0.1:3000/api/account/1/decks/1/cards/1
+PATCH http://127.0.0.1:3000/api/account/3/decks/21/cards/23
 Content-Type: application/json
 
 {
-    "front": "What's a reply for this card's question?",
-    "back": "Some reply",
-    "deck_id": "1",
-    "difficulty": "1"
+    "back": "Back answer",
+    "front": "Los frontos"
 }
 
 ## DELETE
 
-### Delete a single card -- X - SQL function delete_card not detected
+### Delete a single card -- OK
 
-DELETE http://127.0.0.1:3000/api/account/1/decks/1/cards/1
+DELETE http://127.0.0.1:3000/api/account/1/decks/21/cards/21
 
 ######
 
@@ -133,8 +129,8 @@ POST http://127.0.0.1:3000/api/auth/
 Content-Type: application/json
 
 {
-    "email": "bob@gmail.com",
-    "password": "BobPassword"
+    "email": "dd@gmail.com",
+    "password": "dd"
 }
 
 ### Try to log into a fake account -- OK
@@ -142,7 +138,6 @@ POST http://127.0.0.1:3000/api/auth/
 Content-Type: application/json
 
 {
-    "email": "fakebob@gmail.com",
+    "email": "dd@gmail.com",
     "password": "FakeBobPassword"
 }
-

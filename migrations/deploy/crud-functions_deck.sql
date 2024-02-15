@@ -18,7 +18,7 @@ CREATE FUNCTION create_deck(json) RETURNS TABLE (
     $1->>'name',
     $1->>'description',
     ($1->>'user_id')::INT
-  ) RETURNING id, name, description, user_id
+  ) RETURNING id, name, description, user_id;
 
 $$ LANGUAGE SQL STRICT;
 
@@ -46,15 +46,10 @@ CREATE FUNCTION update_deck(json) RETURNS TABLE (
 
 $$ LANGUAGE SQL;
 
-CREATE FUNCTION delete_deck(INT) RETURNS TABLE (
-    id INT,
-    name TEXT,
-    description TEXT,
-    user_id INT
-) AS $$
+CREATE FUNCTION delete_deck(INT) RETURNS "deck" AS $$
 
 	DELETE FROM "deck" WHERE "id" = $1
-	RETURNING  id, name, description, user_id
+	RETURNING *
 	
 $$ LANGUAGE SQL STRICT;
 

@@ -20,7 +20,7 @@ CREATE TABLE "deck" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "name" TEXT NOT NULL UNIQUE,
   "description" TEXT,
-  "user_id" INT NOT NULL REFERENCES "user"("id"),
+  "user_id" INT NOT NULL REFERENCES "user"("id") ON DELETE CASCADE,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   "updated_at" TIMESTAMPTZ
 );
@@ -30,7 +30,7 @@ CREATE TABLE "card" (
     "front" TEXT NOT NULL,
     "back" TEXT NOT NULL,
     "difficulty" DIFFICULTY_CHECK,
-    "deck_id" INT NOT NULL REFERENCES "deck"("id"),
+    "deck_id" INT NOT NULL REFERENCES "deck"("id") ON DELETE CASCADE,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     "updated_at" TIMESTAMPTZ
 );

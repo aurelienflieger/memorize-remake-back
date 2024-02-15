@@ -7,12 +7,12 @@ const cardsRouter = express.Router({ mergeParams: true });
 cardsRouter
   .route("/")
   .get(controllerWrapper(cardController.getAllCardsByDeckID))
-  .post(controllerWrapper(cardController.create));
+  .post(controllerWrapper(cardController.createNewCard));
 
 cardsRouter
-  .route("/:cardid")
+  .route("/:id")
   .get(controllerWrapper(cardController.getByPk))
-  .patch(controllerWrapper(cardController.update))
+  .patch(controllerWrapper(cardController.updateCard))
   .delete(controllerWrapper(cardController.delete));
 
 export default cardsRouter;

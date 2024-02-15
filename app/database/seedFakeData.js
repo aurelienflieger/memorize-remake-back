@@ -1,3 +1,4 @@
+import "dotenv/config";
 import pool from "./pg.client.js";
 import { fakerFR as faker } from "@faker-js/faker";
 
