@@ -13,7 +13,7 @@ CREATE TABLE "user" (
   "password" TEXT NOT NULL,
   "username" TEXT NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  "updated_at" TIMESTAMPTZ,
+  "updated_at" TIMESTAMPTZ
 );
 
 CREATE TABLE "deck" (
@@ -22,7 +22,7 @@ CREATE TABLE "deck" (
   "description" TEXT,
   "user_id" INT NOT NULL REFERENCES "user"("id") ON DELETE CASCADE,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  "updated_at" TIMESTAMPTZ,
+  "updated_at" TIMESTAMPTZ
 );
 
 CREATE TABLE "card" (
@@ -32,7 +32,7 @@ CREATE TABLE "card" (
     "difficulty" DIFFICULTY_CHECK,
     "deck_id" INT NOT NULL REFERENCES "deck"("id") ON DELETE CASCADE,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    "updated_at" TIMESTAMPTZ,
+    "updated_at" TIMESTAMPTZ
 );
 
 
