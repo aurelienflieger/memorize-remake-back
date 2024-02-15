@@ -1,38 +1,36 @@
 import CoreController from "./core.controller.js";
+import {DeckDataMapper} from "../datamappers/index.datamapper.js";
 
 export default class DeckController extends CoreController {
-  constructor(Datamapper) {
-    super(Datamapper);
+  constructor() {
+    const datamapper = new DeckDataMapper();
 
-    this.datamapper = new Datamapper();
-    this.getAllDecksByUserID = this.getAllDecksByUserID.bind(this);
-    this.createNewDeck = this.createNewDeck.bind(this);
-    this.updateDeck = this.updateDeck.bind(this);
-    this.getByPk = this.getByPk.bind(this);
-    this.delete = this.delete.bind(this);
+    super(datamapper);
+
+    this.datamapper = datamapper;
   }
 
-  async getAllDecksByUserID({ params }, res) {
+  getAllDecksByUserID = async ({ params }, res) => {
     const { id } = params;
     const rows = await this.datamapper.findAllDecksByUserID(id);
     res.status(200).json(rows);
-  }
+  };
 
-  async createNewDeck({ params, body }, res) {
+  createNewDeck = async ({ params, body }, res) => {
     const { id } = params;
     const deck = { ...body, user_id: id };
 
     const row = await this.datamapper.insert(deck);
     res.status(200).json(row);
-  }
+  };
 
-  async updateDeck({ params, body }, res) {
+  updateDeck = async ({ params, body }, res) => {
     const { id } = params;
     let { name, description } = body;
     const data = await this.datamapper.findByPk(id);
 
     if (!data) {
-      throw new Error("This deck does not exist.")
+      throw new Error("This deck does not exist.");
     }
 
     name ? name : name = data.name;
@@ -49,5 +47,5 @@ export default class DeckController extends CoreController {
     const row = await this.datamapper.update(newDeckInfo);
 
     return res.status(200).json(row);
-  }
+  };
 }
