@@ -99,7 +99,7 @@ class UserController extends CoreController {
     const row = await this.datamapper.update(newAccountInfo);
 
     return res.status(200).json(row);
-  };
+  }
 }
 
 export default UserController;

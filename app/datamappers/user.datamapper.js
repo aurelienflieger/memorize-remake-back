@@ -11,5 +11,5 @@ export default class UserDataMapper extends CoreDatamapper {
       email,
     ]);
     return users.rows[0];
-  };
+  }
 }
