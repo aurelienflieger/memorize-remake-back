@@ -1,5 +1,8 @@
 %syntax-version=1.0.0
 %project=memorize
 
-tables_creation 2024-02-06T13:02:36Z Topi <aurelien.flieger@pm.me> # Create all tables (card, user, deck)
-util_functions 2024-02-08T12:35:56Z Nicolas Sokolowski <nicolas.sokolowski@oclock.school> # Useful sql functions create and update post
+tables-creation 2024-02-06T13:02:36Z Topi <aurelien.flieger@pm.me> # Create all tables: card, user, deck
+crud-functions_user 2024-02-09T14:02:39Z Topi <aurelien.flieger@pm.me> # Add SQL functions for user
+crud-functions_card 2024-02-10T08:12:19Z Topi <aurelien.flieger@pm.me> # Add SQL crud functions for card
+crud-functions_deck 2024-02-10T08:29:07Z Topi <aurelien.flieger@pm.me> # Add SQL crud functions for deck
+get-function_user 2024-02-14T19:15:45Z Nicolas Sokolowski <nicolas.sokolowski@oclock.school> # Custom get user function with no hashed password returned

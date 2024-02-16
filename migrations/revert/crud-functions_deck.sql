@@ -1,5 +1,4 @@
--- Revert memorize:util_functions from pg
-
+-- Revert memorize:crud-functions_deck from pg
 BEGIN;
 
 DROP FUNCTION create_deck(json);

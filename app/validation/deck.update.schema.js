@@ -1,0 +1,7 @@
+import Joi from "joi";
+
+export default Joi.object({
+  name: Joi.string(),
+  description: Joi.string(),
+});
+import Joi from "joi";

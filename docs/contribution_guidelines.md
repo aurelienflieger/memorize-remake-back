@@ -21,6 +21,8 @@ Then create a _pull request (PR)_ for merging it to the `dev` branch.
 - Use `-` to separate two words belonging to one word group
 - Use only lowercase
 
+---
+
 # COMMITS MANAGEMENT: THE CONVENTIONAL COMMITS METHOD
 
 ## The keywords explained
@@ -48,6 +50,8 @@ Then create a _pull request (PR)_ for merging it to the `dev` branch.
 3. A descri­ption must immedi­ately follow the type/scope prefix : `fix: component height when page is set to maximum width.`
 
 4. A longer commit body may be provided after the short descri­ption. The body must begin one blank line after the descri­ption.
+
+---
 
 # GITHUB PROJECTS: THE KEYWORD/DESCRIPTION METHOD
 

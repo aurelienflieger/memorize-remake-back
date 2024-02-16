@@ -9,7 +9,7 @@ CHECK (
 
 CREATE TABLE "user" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "email" TEXT UNIQUE,
+  "email" TEXT NOT NULL UNIQUE,
   "password" TEXT NOT NULL,
   "username" TEXT NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -20,20 +20,19 @@ CREATE TABLE "deck" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "name" TEXT NOT NULL UNIQUE,
   "description" TEXT,
-  "user_id" INT NOT NULL REFERENCES "user"("id"),
-  "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  "updated_at" TIMESTAMPTZ 
-);
-
-CREATE TABLE "card" (
-  "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "front" TEXT NOT NULL,
-  "back" TEXT NOT NULL,
-  "difficulty" DIFFICULTY_CHECK,
-  "deck_id" INT NOT NULL REFERENCES "deck"("id"),
+  "user_id" INT NOT NULL REFERENCES "user"("id") ON DELETE CASCADE,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   "updated_at" TIMESTAMPTZ
 );
 
+CREATE TABLE "card" (
+    "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "front" TEXT NOT NULL,
+    "back" TEXT NOT NULL,
+    "difficulty" DIFFICULTY_CHECK,
+    "deck_id" INT NOT NULL REFERENCES "deck"("id") ON DELETE CASCADE,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
 
 COMMIT;

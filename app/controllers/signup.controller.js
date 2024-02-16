@@ -1,17 +1,16 @@
 import bcrypt from "bcrypt";
-import signupDatamapper from "../datamappers/signup.datamapper.js";
+import UserDataMapper from "../datamappers/user.datamapper.js";
+import generateJWT from "../utils/generateJWT.js";
 
-const signupController = {
-  signup: async (req, res) => {
-    const { name, email, password } = req.body;
-    try {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = await signupDatamapper.newUser(name, email, hashedPassword)
-      res.json({ newUser });
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  }
-};
+export default async function signup(req, res) {
+  const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-export default signupController;
+  const newUser = await UserDataMapper.createUser(
+    req.body.username,
+    req.body.email,
+    hashedPassword
+  );
+
+  // Both the access oken & the refresh token are returned in JSON format for front-end authentification
+  res.json(generateJWT(newUser));
+}
