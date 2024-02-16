@@ -35,5 +35,4 @@ CREATE TABLE "card" (
     "updated_at" TIMESTAMPTZ
 );
 
-
 COMMIT;
