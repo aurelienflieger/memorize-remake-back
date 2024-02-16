@@ -1,7 +1,6 @@
 {
   "name": "projet-09-memorize-back",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -28,5 +27,9 @@
     "joi": "^17.12.1",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.11.3"
-  }
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "description": ""
 }
