@@ -7,7 +7,7 @@ POST http://127.0.0.1:3000/api/account/
 Content-Type: application/json
 
 {
-    "email": "dd@gmail.com",
+    "email": "ddi@gmail.com",
     "password": "dd",
     "username": "dd" 
 }
@@ -24,7 +24,7 @@ PATCH http://127.0.0.1:3000/api/account/3
 Content-Type: application/json
 
 {
-    "username": "bobi"
+    "username": "bobii"
 }
 
 ### Delete a single user -- OK
@@ -61,7 +61,7 @@ Content-Type: application/json
 
 ### Update a single deck -- OK
 
-PATCH http://127.0.0.1:3000/api/account/3/decks/16
+PATCH http://127.0.0.1:3000/api/account/3/decks/14
 Content-Type: application/json
 
 {
@@ -104,7 +104,7 @@ Content-Type: application/json
 
 ### Update a single card -- OK
 
-PATCH http://127.0.0.1:3000/api/account/3/decks/21/cards/23
+PATCH http://127.0.0.1:3000/api/account/3/decks/1/cards/101
 Content-Type: application/json
 
 {

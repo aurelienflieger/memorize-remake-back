@@ -7,7 +7,7 @@ const { Pool } = pg;
 
 const poolConfig = {
   connectionString: process.env.PG_URL,
-  ssl: { rejectUnauthorized:false },
+  database: process.env.PG_DB,
 };
 
 const pool = new Pool(poolConfig);
