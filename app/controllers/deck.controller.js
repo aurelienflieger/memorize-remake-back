@@ -1,5 +1,5 @@
 import CoreController from "./core.controller.js";
-import {DeckDataMapper} from "../datamappers/index.datamapper.js";
+import { DeckDataMapper } from "../datamappers/index.datamapper.js";
 
 export default class DeckController extends CoreController {
   constructor() {
