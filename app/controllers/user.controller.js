@@ -1,20 +1,19 @@
 import bcrypt from "bcrypt";
-import CoreController from "./core.controller.js";
 import generateJWT from "../utils/generateJWT.util.js";
+import CoreController from "./core.controller.js";
+import {UserDataMapper} from "../datamappers/index.datamapper.js";
+
 
 class UserController extends CoreController {
-  constructor(Datamapper) {
-    super(Datamapper);
+  constructor() {
+    const datamapper = new UserDataMapper();
 
-    this.datamapper = new Datamapper();
-    this.login = this.login.bind(this);
-    this.signup = this.signup.bind(this);
-    this.getByPk = this.getByPk.bind(this);
-    this.delete = this.delete.bind(this);
-    this.updateAccount = this.updateAccount.bind(this);
+    super(datamapper);
+
+    this.datamapper = datamapper;
   }
 
-  async login(req, res) {
+  login = async (req, res) => {
     const { email: inputEmail, password: inputPassword } = req.body;
 
     const user = await this.datamapper.getUserByEmail(inputEmail);
@@ -42,29 +41,29 @@ class UserController extends CoreController {
 
     // Both the access token & the refresh token are returned in JSON format for front-end authentification
     res.status(200).json(tokensWithUser);
-  }
+  };
 
-  async signup(req, res) {
+  signup = async (req, res) => {
     const { password, username, email } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = await this.create({
+    const newUser = await this.datamapper.insert({
       email,
       username,
       password: hashedPassword,
     });
 
     res.status(201).json({ newUser });
-  }
+  };
 
-  async updateAccount({ params, body }, res) {
+  updateAccount = async ({ params, body }, res) => {
     const { id } = params;
     let { username, email, password, newPassword } = body;
     const data = await this.datamapper.findByPk(id);
 
     if (!data) {
-      throw new Error("This account does not exist.")
+      throw new Error("This account does not exist.");
     }
 
     username ? username : username = data.username;

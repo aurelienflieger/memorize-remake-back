@@ -7,7 +7,7 @@ POST http://127.0.0.1:3000/api/account/
 Content-Type: application/json
 
 {
-    "email": "dd@gmail.com",
+    "email": "ddi@gmail.com",
     "password": "dd",
     "username": "dd" 
 }
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 ### Get a single user -- OK
 
-GET http://127.0.0.1:3000/api/account/1
+GET http://127.0.0.1:3000/api/account/7
 
 ### Update a single user -- OK
 
@@ -24,7 +24,7 @@ PATCH http://127.0.0.1:3000/api/account/3
 Content-Type: application/json
 
 {
-    "username": "bobi"
+    "username": "bobiisdadasdasdasd"
 }
 
 ### Delete a single user -- OK
@@ -47,22 +47,21 @@ GET http://127.0.0.1:3000/api/account/3/decks/16
 
 ## POST
 
-### Create a new deck -- X - needs user_id being set correctly
+### Create a new deck -- OK
 
 POST http://127.0.0.1:3000/api/account/3/decks/
 Content-Type: application/json
 
 {
-    "name": "A decod",
-    "description": "Some description for the new deck",
-    "user_id": 2
+    "name": 23,
+    "description": "Some description for the new deck"
 }
 
 ## PATCH
 
 ### Update a single deck -- OK
 
-PATCH http://127.0.0.1:3000/api/account/3/decks/16
+PATCH http://127.0.0.1:3000/api/account/3/decks/14
 Content-Type: application/json
 
 {
@@ -105,7 +104,7 @@ Content-Type: application/json
 
 ### Update a single card -- OK
 
-PATCH http://127.0.0.1:3000/api/account/3/decks/21/cards/21
+PATCH http://127.0.0.1:3000/api/account/3/decks/1/cards/101
 Content-Type: application/json
 
 {
@@ -137,15 +136,3 @@ Content-Type: application/json
 ### Try to log into a fake account -- OK
 POST http://127.0.0.1:3000/api/auth/ 
 Content-Type: application/json
-
-{
-    "email": "dd@gmail.com",
-    "password": "FakeBobPassword"
-}
-
-
-{
-  "name": "mon deckds",
-  "description": "un set de traduction FR vers ENG",
-  "user_id": 5
-}
