@@ -1,0 +1,28 @@
+openapi: "3.1.0"
+info:
+  title: "Memorize"
+  version: "1.0.0"
+servers:
+  - url: "/"
+paths: {}
+components:
+  schemas:
+    User:
+      required: ["email"]
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          description: "The user's unique identifier"
+    Deck:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          description: "The deck's unique identifier"
+    Card:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          description: "The card's unique identifier"
