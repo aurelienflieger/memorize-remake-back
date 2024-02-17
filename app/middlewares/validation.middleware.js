@@ -1,4 +1,4 @@
-import ApiError from '../errors/api.error.js';
+import ApiError from "../errors/api.error.js";
 
 export default (sourceProperty, schema) => async (request, _, next) => {
   try {

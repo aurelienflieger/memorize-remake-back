@@ -19,7 +19,7 @@ CREATE FUNCTION create_card(json) RETURNS TABLE (
     ) VALUES (
         $1->>'front',
         $1->>'back',
-        ($1->>'difficulty')::DIFFICULTY_CHECK,
+        0,
         ($1->>'deck_id')::INT
     ) 
     RETURNING id, front, back, difficulty, deck_id

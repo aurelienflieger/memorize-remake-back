@@ -53,7 +53,7 @@ POST http://127.0.0.1:3000/api/account/3/decks/
 Content-Type: application/json
 
 {
-    "name": 23,
+    "name": "243",
     "description": "Some description for the new deck"
 }
 
@@ -65,7 +65,7 @@ PATCH http://127.0.0.1:3000/api/account/3/decks/14
 Content-Type: application/json
 
 {
-    "name": "New namee"
+    "name": "New name"
 }
 
 ## DELETE
@@ -89,15 +89,14 @@ GET http://127.0.0.1:3000/api/account/1/decks/7/cards/16
 
 ## POST
 
-### Create a new card -- X - needs deck_id being set correctly
+### Create a new card -- OK
 
 POST http://127.0.0.1:3000/api/account/3/decks/21/cards
 Content-Type: application/json
 
 {
     "front": "frontt",
-    "back": "back!",
-    "difficulty": "2"
+    "back": "back!"
 }
 
 ## PATCH
