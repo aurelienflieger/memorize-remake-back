@@ -3,7 +3,7 @@ import { userController } from "../../controllers/index.controller.js";
 import decksRouter from "./decks.router.js";
 import controllerWrapper from "../../utils/controller-wrapper.util.js";
 import validationMiddleware from '../../middlewares/validation.middleware.js';
-import { userCreateSchema, userUpdateSchema } from "../../validation/index.validation.js";
+import { userCreateSchema, userUpdateSchema } from "../../schemas/index.schema.js";
 
 const userRouter = express.Router();
 

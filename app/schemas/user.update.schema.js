@@ -16,7 +16,6 @@ export default Joi.object({
     .when("newPassword", {
       is: Joi.exist(),
       then: Joi.required()
-    }
-    ), 
+    }), 
   newPassword: Joi.string()
 }).min(1);

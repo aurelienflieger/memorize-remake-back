@@ -3,7 +3,7 @@ import { deckController } from "../../controllers/index.controller.js";
 import cardsRouter from "./cards.router.js";
 import controllerWrapper from "../../utils/controller-wrapper.util.js";
 import validationMiddleware from "../../middlewares/validation.middleware.js";
-import { deckCreateSchema, deckUpdateSchema } from "../../validation/index.validation.js";
+import { deckCreateSchema, deckUpdateSchema } from "../../schemas/index.schema.js";
 
 const decksRouter = express.Router({ mergeParams: true });
 

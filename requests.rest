@@ -7,24 +7,26 @@ POST http://127.0.0.1:3000/api/account/
 Content-Type: application/json
 
 {
-    "email": "ddi@gmail.com",
-    "password": "dd",
-    "username": "dd" 
+    "email": "nico@gmail.com",
+    "password": "nico",
+    "username": "nico" 
 }
 
 ## GET
 
 ### Get a single user -- OK
 
-GET http://127.0.0.1:3000/api/account/7
+GET http://127.0.0.1:3000/api/account/15
 
 ### Update a single user -- OK
 
-PATCH http://127.0.0.1:3000/api/account/3
+PATCH http://127.0.0.1:3000/api/account/15
 Content-Type: application/json
 
 {
-    "username": "bobiisdadasdasdasd"
+    "username": "bobiisdasd",
+    "password": "nico",
+    "newPassword": "ni"
 }
 
 ### Delete a single user -- OK
@@ -130,7 +132,7 @@ Content-Type: application/json
 
 {
     "email": "dd@gmail.com",
-    "password": "dd"
+    "newPassword": "dd"
 }
 
 ### Try to log into a fake account -- OK

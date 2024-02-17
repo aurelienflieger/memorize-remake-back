@@ -2,7 +2,7 @@ import express from "express";
 import { cardController } from "../../controllers/index.controller.js";
 import controllerWrapper from "../../utils/controller-wrapper.util.js";
 import validationMiddleware from "../../middlewares/validation.middleware.js";
-import { cardCreateSchema, cardUpdateSchema } from "../../validation/index.validation.js";
+import { cardCreateSchema, cardUpdateSchema } from "../../schemas/index.schema.js";
 
 
 const cardsRouter = express.Router({ mergeParams: true });
