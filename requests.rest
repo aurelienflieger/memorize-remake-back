@@ -85,7 +85,7 @@ GET http://127.0.0.1:3000/api/account/1/decks/6/cards
 
 ### Get a single card from a deck -- OK
 
-GET http://127.0.0.1:3000/api/account/1/decks/7/cards/16
+GET http://127.0.0.1:3000/api/account/1/decks/6/cards/16
 
 ## POST
 

@@ -260,7 +260,7 @@ paths:
       summary: Creates a new card
       description: >
         Using the card fields necessary, this operation creates a new card inside an existing deck.
-      operationId: createDeck
+      operationId: createCard
       parameters:
         - $ref: "#/components/parameters/UserId"
         - $ref: "#/components/parameters/DeckId"
@@ -271,6 +271,30 @@ paths:
           $ref: "#/components/responses/CardCreateResponse"
         "401":
           $ref: "#/components/responses/UserUnauthorizedResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+  /account/{id}/decks/{id}/cards/{id}:
+    get:
+      tags:
+        - Card
+      summary: Gets a single card by its ID
+      description: >
+        Using the card's ID, this operation fetches all relevant card details.
+      operationId: getOneCardById
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+        - $ref: "#/components/parameters/DeckId"
+        - $ref: "#/components/parameters/CardId"
+      responses:
+        "200":
+          $ref: "#/components/responses/CardGetResponse"
+        "400":
+          $ref: "#/components/responses/CardIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/CardNotFoundResponse"
         "500":
           $ref: "#/components/responses/GenericServerErrorResponse"
 
@@ -352,6 +376,14 @@ components:
       required: true
       schema:
         $ref: "#/components/schemas/Deck/properties/id"
+
+    CardId:
+      name: id
+      in: path
+      description: Deck ID
+      required: true
+      schema:
+        $ref: "#/components/schemas/Card/properties/id"
 
   responses:
     GenericServerErrorResponse:
@@ -541,6 +573,29 @@ components:
               value:
                 message: "Deletion success"
 
+    CardIdIncorrectResponse:
+      description: "The card ID must be a positive integer."
+
+    CardNotFoundResponse:
+      description: "The requested card could not be located."
+
+    CardGetResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Card"
+          examples:
+            card:
+              value:
+                id: 1
+                front: "Batman's archenemy"
+                back: "The Joker"
+                difficulty: 2
+                deck_id: 5
+                created_at: "2022-01-09T11:46:48.370Z"
+                updated_at: "2023-01-11T11:46:48.370Z"
+
   requestBodies:
     UserUpdate:
       description: User object that needs to be updated
@@ -590,3 +645,15 @@ components:
               value:
                 name: "Shrek Characters in Italian"
                 description: "You know Shrek, you love Shrek. But can you name the characters in Italian?"
+
+    CardCreate:
+      description: Card object for card creation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Card"
+          examples:
+            user:
+              value:
+                front: "The Iron Lady"
+                back: "Margaret Thatcher"
