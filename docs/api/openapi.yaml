@@ -121,6 +121,28 @@ paths:
         "500":
           $ref: "#/components/responses/GenericServerErrorResponse"
 
+  /account/{id}/decks:
+    get:
+      tags:
+        - Deck
+      summary: Gets all decks of a user by the user's id
+      description: >
+        Using the user's ID, this operation fetches all decks from the user's collection.
+      operationId: getAllDecksByUserId
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "200":
+          $ref: "#/components/responses/DecksGetResponse"
+        "400":
+          $ref: "#/components/responses/UserIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/UserNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
 components:
   schemas:
     User:
@@ -133,6 +155,49 @@ components:
           type: string
         username:
           type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    Card:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        front:
+          type: string
+        back:
+          type: string
+        difficulty:
+          type: integer
+          format: int32
+        deck_id:
+          type: integer
+          format: int32
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    Deck:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        description:
+          type: string
+        user_id:
+          type: integer
+          format: int32
         created_at:
           type: string
           format: date-time
@@ -214,6 +279,28 @@ components:
                 email: "alansemail@example.com"
                 username: "alansusername"
                 created_at: "2022-01-09T11:46:48.370Z"
+
+    DecksGetResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Deck"
+          examples:
+            deck:
+              value:
+                - id: 11
+                  name: "Wild Animals Of Australia"
+                  description: "Get to know a bunch of wild animals from the Outbacks."
+                  user_id: 3
+                  created_at: "2024-02-18T09:16:45.663Z"
+                  updated_at: null
+                - id: 12
+                  name: "Meryl Streep Movies"
+                  description: "Because Mama Mia! ain't the only one."
+                  user_id: 3
+                  created_at: "2024-02-18T09:16:45.680Z"
+                  updated_at: null
 
   requestBodies:
     UserUpdate:
