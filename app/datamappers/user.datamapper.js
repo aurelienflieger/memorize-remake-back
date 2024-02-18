@@ -11,13 +11,12 @@ export default class UserDataMapper extends CoreDatamapper {
       email,
     ]);
     return users.rows[0];
-  }
+  };
 
   findByPkWithNoReturnedPassword = async (id) => {
-    const result = await pool.query(
-      `SELECT * FROM get_${this.tableName}($1)`,
-      [id]
-    );
+    const result = await pool.query(`SELECT * FROM get_${this.tableName}($1)`, [
+      id,
+    ]);
 
     return result.rows[0];
   };
