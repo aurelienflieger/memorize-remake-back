@@ -162,6 +162,75 @@ paths:
         "500":
           $ref: "#/components/responses/GenericServerErrorResponse"
 
+  /account/{id}/decks/{id}:
+    get:
+      tags:
+        - Deck
+      summary: Gets a single deck by its ID
+      description: >
+        Using the deck's ID, this operation fetches all relevant deck details.
+      operationId: getOneDeckByUserId
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+        - $ref: "#/components/parameters/DeckId"
+      responses:
+        "200":
+          $ref: "#/components/responses/DeckGetResponse"
+        "400":
+          $ref: "#/components/responses/DeckIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/DeckNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+    patch:
+      tags:
+        - Deck
+      summary: Updates a single deck by its ID
+      description: >
+        Using the deck's ID, this operation updates one or several user fields.
+      operationId: updateDeckById
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+        - $ref: "#/components/parameters/DeckId"
+      requestBody:
+        $ref: "#/components/requestBodies/DeckUpdate"
+      responses:
+        "200":
+          $ref: "#/components/responses/DeckPatchResponse"
+        "400":
+          $ref: "#/components/responses/DeckIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/DeckNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+    delete:
+      tags:
+        - Deck
+      summary: Delete a deck by its ID
+      description: >
+        Using the deck's ID, this operation deletes the deck.
+      operationId: deleteDeckById
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+        - $ref: "#/components/parameters/DeckId"
+      responses:
+        "202":
+          $ref: "#/components/responses/DeckDeleteResponse"
+        "400":
+          $ref: "#/components/responses/DeckIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/DeckNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
 components:
   schemas:
     User:
@@ -232,6 +301,14 @@ components:
       required: true
       schema:
         $ref: "#/components/schemas/User/properties/id"
+
+    DeckId:
+      name: id
+      in: path
+      description: Deck ID
+      required: true
+      schema:
+        $ref: "#/components/schemas/Deck/properties/id"
 
   responses:
     GenericServerErrorResponse:
@@ -335,6 +412,53 @@ components:
                 description: "It's not just The Lion King: how many Disney movies can you remember?"
                 user_id: 15
 
+    DeckIdIncorrectResponse:
+      description: "The deck ID must be a positive integer."
+
+    DeckNotFoundResponse:
+      description: "The requested deck could not be located."
+
+    DeckGetResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Deck"
+          examples:
+            deck:
+              value:
+                id: 1
+                name: "Beloved American Writers"
+                description: "From Hemingway to RR Martin"
+                user_id: 5
+                created_at: "2022-01-09T11:46:48.370Z"
+                updated_at: "2023-01-11T11:46:48.370Z"
+
+    DeckPatchResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Deck"
+          examples:
+            deck:
+              value:
+                id: 1
+                name: "Beloved French Writers"
+                description: "From Rousseau to Musso"
+                user_id: 1
+                created_at: "2022-01-09T11:46:48.370Z"
+                updated_at: "2023-01-11T11:46:48.370Z"
+
+    DeckDeleteResponse:
+      description: Successful operation
+      content:
+        application/json:
+          examples:
+            deck:
+              value:
+                message: "Deletion success"
+
   requestBodies:
     UserUpdate:
       description: User object that needs to be updated
@@ -372,3 +496,15 @@ components:
               value:
                 name: "Shrek Characters in German"
                 description: "You know Shrek, you love Shrek. But do you all the characters in German?"
+
+    DeckUpdate:
+      description: Deck object that needs to be updated
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Deck"
+          examples:
+            deck:
+              value:
+                name: "Shrek Characters in Italian"
+                description: "You know Shrek, you love Shrek. But can you name the characters in Italian?"
