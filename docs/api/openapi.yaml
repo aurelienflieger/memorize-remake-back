@@ -16,7 +16,7 @@ info:
 
 
     Thank you for checking it out!
-  version: 1.0.0
+  version: "1.0"
 
 externalDocs:
   description: Find out more about Memorize
@@ -140,6 +140,25 @@ paths:
           $ref: "#/components/responses/UserUnauthorizedResponse"
         "404":
           $ref: "#/components/responses/UserNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+    post:
+      tags:
+        - Deck
+      summary: Creates a new deck
+      description: >
+        Using the deck fields necessary, this operation creates a new deck for a user's collection.
+      operationId: createDeck
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      requestBody:
+        $ref: "#/components/requestBodies/DeckCreate"
+      responses:
+        "200":
+          $ref: "#/components/responses/DeckCreateResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
         "500":
           $ref: "#/components/responses/GenericServerErrorResponse"
 
@@ -302,6 +321,20 @@ components:
                   created_at: "2024-02-18T09:16:45.680Z"
                   updated_at: null
 
+    DeckCreateResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Deck"
+          examples:
+            user:
+              value:
+                id: 1
+                name: "Walt Disney's Best Movies"
+                description: "It's not just The Lion King: how many Disney movies can you remember?"
+                user_id: 15
+
   requestBodies:
     UserUpdate:
       description: User object that needs to be updated
@@ -327,3 +360,15 @@ components:
                 email: "alansemail@example.com"
                 username: "alansusername"
                 password: "alanssecurepassword57"
+
+    DeckCreate:
+      description: Deck object for deck creation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Deck"
+          examples:
+            user:
+              value:
+                name: "Shrek Characters in German"
+                description: "You know Shrek, you love Shrek. But do you all the characters in German?"
