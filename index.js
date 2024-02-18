@@ -1,6 +1,5 @@
 import "dotenv/config";
 import express, { json } from "express";
-import { initialize } from "express-openapi";
 import cors from "cors";
 import errorHandler from "./app/middlewares/errorHandler.middleware.js";
 import router from "./app/routers/index.router.js";
@@ -9,13 +8,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST || "127.0.0.1";
 const corsOptions = { credentials: true, origin: process.env.URL || "*" };
-
-initialize({
-  app,
-  docsPath: "./api",
-  paths: "./api/paths",
-  apiDoc: "./api/api-definition-base.yml",
-});
 
 app.use(cors(corsOptions));
 app.use(json());

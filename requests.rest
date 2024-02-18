@@ -7,7 +7,7 @@ POST http://127.0.0.1:3000/api/account/
 Content-Type: application/json
 
 {
-    "email": "nico@gmail.com",
+    "email": "nicoo@gmail.com",
     "password": "nico",
     "username": "nico" 
 }

@@ -1,0 +1,242 @@
+openapi: 3.0.0
+
+info:
+  title: Memorize - flashcards have never felt better!
+  description: >-
+    This is the OpenAPI documentation for the flashcards app, Memorize.
+
+
+    It allows you to :
+
+    - obtain information on all API endpoints
+
+    - try sample requests to the API, for all available methods
+
+    - view all existing Models for our API
+
+
+    Thank you for checking it out!
+  version: 1.0.0
+
+externalDocs:
+  description: Find out more about Memorize
+  url: https://github.com/orgs/O-clock-Gyoza/teams/team-09-memorize/repositories
+
+servers:
+  - url: https://memorize-back.onrender.com/api
+    description: The live production server
+  - url: http://localhost:3000/api
+    description: The local development server
+
+tags:
+  - name: User
+    description: All user account operations
+  - name: Deck
+    description: All deck operations
+  - name: Card
+    description: All card operations
+
+paths:
+  /account:
+    post:
+      tags:
+        - User
+      summary: Creates a new user account
+      description: >
+        Using the user fields necessary, this operation creates a new user account.
+      operationId: createUser
+      requestBody:
+        $ref: "#/components/requestBodies/UserCreate"
+      responses:
+        "200":
+          $ref: "#/components/responses/UserCreateResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+  /account/{id}:
+    get:
+      tags:
+        - User
+      summary: Gets a user by their ID
+      description: >
+        Using the user's ID, this operation fetches all relevant user details.
+      operationId: getUserById
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "200":
+          $ref: "#/components/responses/UserGetResponse"
+        "400":
+          $ref: "#/components/responses/UserIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/UserNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+    patch:
+      tags:
+        - User
+      summary: Updates a user by their ID
+      description: >
+        Using the user's ID, this operation updates one or several user fields.
+      operationId: updateUserById
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      requestBody:
+        $ref: "#/components/requestBodies/UserUpdate"
+      responses:
+        "200":
+          $ref: "#/components/responses/UserPatchResponse"
+        "400":
+          $ref: "#/components/responses/UserIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/UserNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+    delete:
+      tags:
+        - User
+      summary: Delete a user by their ID
+      description: >
+        Using the user's ID, this operation deletes the user.
+      operationId: deleteUserById
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "202":
+          $ref: "#/components/responses/UserDeleteResponse"
+        "400":
+          $ref: "#/components/responses/UserIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/UserNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        email:
+          type: string
+        username:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+  parameters:
+    UserId:
+      name: id
+      in: path
+      description: User ID
+      required: true
+      schema:
+        $ref: "#/components/schemas/User/properties/id"
+
+  responses:
+    GenericServerErrorResponse:
+      description: "The server encountered an internal error."
+
+    UserUnauthorizedResponse:
+      description: "The user authorization is missing or incorrect."
+
+    UserIdIncorrectResponse:
+      description: "The user ID must be a positive integer."
+
+    UserNotFoundResponse:
+      description: "The requested user could not be located."
+
+    UserGetResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+          examples:
+            user:
+              value:
+                id: 1
+                email: "alan@example.com"
+                username: "alansusername"
+                created_at: "2022-01-09T11:46:48.370Z"
+                updated_at: "2023-01-11T11:46:48.370Z"
+
+    UserPatchResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+          examples:
+            user:
+              value:
+                id: 1
+                email: "alansnewemail@example.com"
+                username: "alansnewusername"
+                created_at: "2022-01-09T11:46:48.370Z"
+                updated_at: "2024-02-15T11:46:48.370Z"
+
+    UserDeleteResponse:
+      description: Successful operation
+      content:
+        application/json:
+          examples:
+            user:
+              value:
+                message: "Deletion success"
+
+    UserCreateResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+          examples:
+            user:
+              value:
+                id: 1
+                email: "alansemail@example.com"
+                username: "alansusername"
+                created_at: "2022-01-09T11:46:48.370Z"
+
+  requestBodies:
+    UserUpdate:
+      description: User object that needs to be updated
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+          examples:
+            user:
+              value:
+                email: "alansnewemail@example.com"
+                username: "alansnewusername"
+
+    UserCreate:
+      description: User object for account creation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+          examples:
+            user:
+              value:
+                email: "alansemail@example.com"
+                username: "alansusername"
+                password: "alanssecurepassword57"
