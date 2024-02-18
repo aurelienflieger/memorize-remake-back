@@ -231,6 +231,49 @@ paths:
         "500":
           $ref: "#/components/responses/GenericServerErrorResponse"
 
+  /account/{id}/decks/{id}/cards:
+    get:
+      tags:
+        - Card
+      summary: Gets all cards from a deck by the deck's id
+      description: >
+        Using the deck's ID, this operation fetches all cards from the deck.
+      operationId: getAllCardsByDeckId
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+        - $ref: "#/components/parameters/DeckId"
+      responses:
+        "200":
+          $ref: "#/components/responses/CardsGetResponse"
+        "400":
+          $ref: "#/components/responses/DeckIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/DeckNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+    post:
+      tags:
+        - Card
+      summary: Creates a new card
+      description: >
+        Using the card fields necessary, this operation creates a new card inside an existing deck.
+      operationId: createDeck
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+        - $ref: "#/components/parameters/DeckId"
+      requestBody:
+        $ref: "#/components/requestBodies/CardCreate"
+      responses:
+        "200":
+          $ref: "#/components/responses/CardCreateResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
 components:
   schemas:
     User:
@@ -411,6 +454,45 @@ components:
                 name: "Walt Disney's Best Movies"
                 description: "It's not just The Lion King: how many Disney movies can you remember?"
                 user_id: 15
+
+    CardsGetResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Card"
+          examples:
+            deck:
+              value:
+                - id: 1
+                  front: "Jumps high, has a big pocket"
+                  back: "The Kangaroo"
+                  difficulty": 1,
+                  deck_id: 3
+                  created_at: "2024-02-18T09:16:45.663Z"
+                  updated_at: null
+                - id: 2
+                  front: "Probably hangs out in your bathroom"
+                  back: "The Redback Spider"
+                  difficulty": 2,
+                  deck_id: 3
+                  created_at: "2024-02-18T09:16:45.663Z"
+                  updated_at: "2024-02-19T08:45:10.663Z"
+
+    CardCreateResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Card"
+          examples:
+            user:
+              value:
+                id: 105
+                front: "The King"
+                back: "Elvis Presley"
+                difficulty: 0
+                deck_id: 15
 
     DeckIdIncorrectResponse:
       description: "The deck ID must be a positive integer."

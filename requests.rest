@@ -81,7 +81,7 @@ DELETE http://127.0.0.1:3000/api/account/1/decks/16
 ## GET
 
 ### Get all cards from a deck -- OK
-GET http://127.0.0.1:3000/api/account/1/decks/16/cards
+GET http://127.0.0.1:3000/api/account/1/decks/6/cards
 
 ### Get a single card from a deck -- OK
 
