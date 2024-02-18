@@ -97,7 +97,6 @@ class UserController extends CoreController {
     }
 
     const newHashedPassword = await bcrypt.hash(newPassword, 10);
-    console.log(newHashedPassword);
 
     const comparePasswords = await bcrypt.compare(newPassword, data.password);
 

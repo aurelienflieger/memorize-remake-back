@@ -30,13 +30,12 @@ Content-Type: application/json
 
 ### Update a single user password-- OK
 
-PATCH http://127.0.0.1:3000/api/account/17/changepassword
+PATCH http://127.0.0.1:3000/api/account/18/changepassword
 Content-Type: application/json
 
 {
-    "password": "niko",
-    "newPassword": "nico"
-
+    "password": "niquolaa",
+    "newPassword": "niquola"
 }
 
 ### Delete a single user -- OK
