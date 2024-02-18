@@ -57,9 +57,9 @@ class UserController extends CoreController {
     res.status(201).json({ newUser });
   };
 
-  updateAccount = async ({ params, body }, res) => {
+  updateAccountInfo = async ({ params, body }, res) => {
     const { id } = params;
-    let { username, email, password, newPassword } = body;
+    let { username, email } = body;
     const data = await this.datamapper.findByPk(id);
 
     if (!data) {
@@ -69,9 +69,27 @@ class UserController extends CoreController {
     username ? username : username = data.username;
     email ? email : email = data.email;
 
-    /*
-    password ? password : password = data.password;
-    newPassword ? password : newPassword = data.password;
+    const isModified = data.username === username && data.email === email;
+
+    if (isModified) {
+      throw new Error("You need to change at least one field");
+    }
+
+    const newAccountInfo = { ...data, email: email, username: username};
+
+    const row = await this.datamapper.update(newAccountInfo);
+
+    return res.status(200).json(row);
+  }
+
+  updateAccountPassword = async ({ params, body }, res) => {
+    const { id } = params;
+    let { password, newPassword } = body;
+    const data = await this.datamapper.findByPk(id);
+
+    if (!data) {
+      throw new Error("This account does not exist.");
+    }
 
     const validPassword = await bcrypt.compare(password, data.password);
 
@@ -87,18 +105,13 @@ class UserController extends CoreController {
     if (comparePasswords) {
       throw new Error("Your current password and the new one must be different.")
     }
-    */
-    const isModified = data.username === username && data.email === email;
 
-    if (isModified) {
-      throw new Error("You need to change at least one field");
-    }
+    const newAccountPassword = { ...data, password: newHashedPassword };
 
-    const newAccountInfo = { ...data, email: email, username: username};
-
-    const row = await this.datamapper.update(newAccountInfo);
+    const row = await this.datamapper.update(newAccountPassword);
 
     return res.status(200).json(row);
+
   }
 }
 
