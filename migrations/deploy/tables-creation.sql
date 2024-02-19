@@ -1,4 +1,4 @@
--- Deploy memorize:tables_creation to pg
+/*  */-- Deploy memorize:tables_creation to pg
 
 BEGIN;
 
@@ -7,9 +7,14 @@ CHECK (
   VALUE >= 0 AND VALUE <= 32
 );
 
+CREATE DOMAIN EMAIL_CHECK AS VARCHAR(255) NOT NULL
+CHECK (
+  VALUE ~* '^[.\w-]+@([.\w-]+\.)+[.\w-]{2,6}$'
+);
+
 CREATE TABLE "user" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "email" TEXT NOT NULL UNIQUE,
+  "email" EMAIL_CHECK UNIQUE,
   "password" TEXT NOT NULL,
   "username" TEXT NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
