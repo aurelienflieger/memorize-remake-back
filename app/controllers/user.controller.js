@@ -113,38 +113,6 @@ class UserController extends CoreController {
     return res.status(200).json(row);
   };
 
-  updateAccountPassword = async ({ params, body }, res) => {
-    const { id } = params;
-    let { password, newPassword } = body;
-    const data = await this.datamapper.findByPk(id);
-
-    if (!data) {
-      throw new Error("This account does not exist.");
-    }
-
-    const validPassword = await bcrypt.compare(password, data.password);
-
-    if (!validPassword) {
-      return res.status(401).json({ error: "Incorrect password" });
-    }
-
-    const newHashedPassword = await bcrypt.hash(newPassword, 10);
-
-    const comparePasswords = await bcrypt.compare(newPassword, data.password);
-
-    if (comparePasswords) {
-      throw new Error(
-        "Your current password and the new one must be different."
-      );
-    }
-
-    const newAccountPassword = { ...data, password: newHashedPassword };
-
-    const row = await this.datamapper.update(newAccountPassword);
-
-    return res.status(200).json(row);
-  };
-
   getByPk = async ({ params }, res) => {
     const { id } = params;
 
