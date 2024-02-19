@@ -1,6 +1,6 @@
 import CoreController from "./core.controller.js";
 import { DeckDataMapper } from "../datamappers/index.datamapper.js";
-import apiError from "../errors/api.error.js";
+import ApiError from "../errors/api.error.js";
 
 export default class DeckController extends CoreController {
   constructor() {
@@ -32,7 +32,7 @@ export default class DeckController extends CoreController {
     const data = await this.datamapper.findByPk(id);
 
     if (!data) {
-      throw new Error("This deck does not exist.");
+      throw new ApiError("This deck does not exist.", { httpStatus: 404 });
     }
 
     name ? name : name = data.name;
@@ -41,7 +41,7 @@ export default class DeckController extends CoreController {
     const isModified = data.name === name && data.description === description;
 
     if (isModified) {
-      throw new Error("You need to change at least one field");
+      throw new ApiError("You need to change at least one field", { httpStatus: 400 });
     }
 
     const newDeckInfo = { ...data, name: name, description: description };

@@ -7,35 +7,35 @@ POST http://127.0.0.1:3000/api/account/
 Content-Type: application/json
 
 {
-    "email": "fahim@example.com",
-    "password": "Fahim!123",
-    "username": "fahim" 
+    "email": "nikoula@example.com",
+    "password": "Nikoula!123",
+    "username": "nikoula" 
 }
 
 ## GET
 
 ### Get a single user -- OK
 
-GET http://127.0.0.1:3000/api/account/26
+GET http://127.0.0.1:3000/api/account/1
 
 ### Update a single user informations -- OK
 
-PATCH http://127.0.0.1:3000/api/account/26
+PATCH http://127.0.0.1:3000/api/account/16
 Content-Type: application/json
 
 {
-    "username": "bobid",
+    "username": "nikoula",
     "email": "Fahim!123@gmail.com"
 }
 
 ### Update a single user password-- OK
 
-PATCH http://127.0.0.1:3000/api/account/26/changepassword
+PATCH http://127.0.0.1:3000/api/account/17/changepassword
 Content-Type: application/json
 
 {
-    "password": "Fahim!123",
-    "newPassword": "Samantha!1"
+    "password": "Nikoula!123",
+    "newPassword": "Nikoula!123"
 }
 
 ### Delete a single user -- OK
@@ -64,7 +64,7 @@ POST http://127.0.0.1:3000/api/account/3/decks/
 Content-Type: application/json
 
 {
-    "name": "243",
+    "name": "24drfger3",
     "description": "Some description for the new deck"
 }
 
@@ -72,11 +72,11 @@ Content-Type: application/json
 
 ### Update a single deck -- OK
 
-PATCH http://127.0.0.1:3000/api/account/3/decks/123
+PATCH http://127.0.0.1:3000/api/account/3/decks/50
 Content-Type: application/json
 
 {
-    "name": "New nameee"
+    "name": "New namedee"
 }
 
 ## DELETE
@@ -92,17 +92,17 @@ DELETE http://127.0.0.1:3000/api/account/1/decks/16
 ## GET
 
 ### Get all cards from a deck -- OK
-GET http://127.0.0.1:3000/api/account/1/decks/6/cards
+GET http://127.0.0.1:3000/api/account/1/decks/50/cards
 
 ### Get a single card from a deck -- OK
 
-GET http://127.0.0.1:3000/api/account/1/decks/6/cards/16
+GET http://127.0.0.1:3000/api/account/1/decks/50/cards/16
 
 ## POST
 
 ### Create a new card -- OK
 
-POST http://127.0.0.1:3000/api/account/3/decks/21/cards
+POST http://127.0.0.1:3000/api/account/1/decks/21/cards
 Content-Type: application/json
 
 {
@@ -114,7 +114,7 @@ Content-Type: application/json
 
 ### Update a single card -- OK
 
-PATCH http://127.0.0.1:3000/api/account/3/decks/1/cards/2345
+PATCH http://127.0.0.1:3000/api/account/3/decks/1/cards/14
 Content-Type: application/json
 
 {
@@ -151,3 +151,6 @@ Content-Type: application/json
     "email": "dd@gmail.com",
     "password": "FakeBobPassword"
 }
+
+### 404 NOT FOUND 
+GET http://127.0.0.1:3000/api/truc

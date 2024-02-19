@@ -1,5 +1,6 @@
 import CoreController from "./core.controller.js";
 import {CardDataMapper} from "../datamappers/index.datamapper.js";
+import ApiError from "../errors/api.error.js";
 
 /* The methods from the CoreDataMapper are available in addition to those specific to the Card. */
 export default class CardController extends CoreController {
@@ -30,7 +31,7 @@ export default class CardController extends CoreController {
     const data = await this.datamapper.findByPk(id);
 
     if (!data) {
-      throw new Error("This card does not exist.");
+      throw new ApiError("This card does not exist.", { httpStatus: 404 });
     }
 
     front ? front : front = data.front;
@@ -39,7 +40,7 @@ export default class CardController extends CoreController {
     const isModified = data.front === front && data.back === back;
 
     if (isModified) {
-      throw new Error("You need to change at least one field");
+      throw new ApiError("You need to change at least one field", { httpStatus: 400 });
     }
 
     const newCardInfo = { ...data, front: front, back: back };

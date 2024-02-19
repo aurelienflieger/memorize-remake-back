@@ -1,3 +1,5 @@
+import ApiError from "../errors/api.error.js";
+
 // The CoreController can be used to flexibly perform CRUD operations a database postgres table.
 export default class CoreController {
   constructor(datamapper) {
@@ -9,7 +11,7 @@ export default class CoreController {
     const checkId = await this.datamapper.findByPk(id);
 
     if(!checkId) {
-      throw new Error("The id you're looking for does not exist.");
+      throw new ApiError("The id you're looking for does not exist.", { httpStatus: 404 });
     }
     
     const deleted = await this.datamapper.delete(id);
@@ -25,7 +27,9 @@ export default class CoreController {
 
     const row = await this.datamapper.findByPk(id);
 
-    if (row === undefined) throw new Error("This id does not exists");
+    if (row === undefined) {
+      throw new ApiError("This account does not exist.", { httpStatus: 404 })
+    };
 
     return res.status(201).json(row);
   };
