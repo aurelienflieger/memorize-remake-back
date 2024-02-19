@@ -112,6 +112,16 @@ class UserController extends CoreController {
     return res.status(200).json(row);
 
   }
+
+  getByPk = async ({ params }, res) => {
+    const { id } = params;
+
+    const row = await this.datamapper.findByPkWithNoReturnedPassword(id);
+
+    if (row === undefined) throw new Error("This id does not exists");
+
+    return res.status(201).json(row);
+  };
 }
 
 export default UserController;

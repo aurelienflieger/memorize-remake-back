@@ -13,7 +13,7 @@ export default class UserDataMapper extends CoreDatamapper {
     return users.rows[0];
   }
 
-  findByPk = async (id) => {
+  findByPkWithNoReturnedPassword = async (id) => {
     const result = await pool.query(
       `SELECT * FROM get_${this.tableName}($1)`,
       [id]
