@@ -6,4 +6,8 @@ const userController = new UserController();
 const deckController = new DeckController();
 const cardController = new CardController();
 
-export { cardController, deckController, userController };
+export { 
+  cardController, 
+  deckController, 
+  userController 
+};

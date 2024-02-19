@@ -4,17 +4,6 @@ export default class CoreController {
     this.datamapper = datamapper;
   }
 
-  update = async ({ params, body }, res) => {
-    const { id } = params;
-
-    const dbData = await this.datamapper.findByPk(id);
-
-    const data = { ...dbData, ...body };
-    const row = await this.datamapper.update(data);
-
-    return res.status(200).json(row);
-  };
-
   delete = async ({ params }, res) => {
     const { id } = params;
     const checkId = await this.datamapper.findByPk(id);
