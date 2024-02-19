@@ -12,8 +12,8 @@ class UserController extends CoreController {
     this.datamapper = datamapper;
   }
 
-  login = async (req, res) => {
-    const { email: inputEmail, password: inputPassword } = req.body;
+  login = async ({ body }, res) => {
+    const { email: inputEmail, password: inputPassword } = body;
 
     const user = await this.datamapper.getUserByEmail(inputEmail);
 
@@ -42,8 +42,8 @@ class UserController extends CoreController {
     res.status(200).json(tokensWithUser);
   };
 
-  signup = async (req, res) => {
-    const { password, username, email } = req.body;
+  signup = async ({ body }, res) => {
+    const { password, username, email } = body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 

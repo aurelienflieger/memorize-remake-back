@@ -4,11 +4,6 @@ import pool from "../database/pg.client.js";
 export default class CoreDatamapper {
   tableName;
 
-  findAll = async () => {
-    const result = await pool.query(`SELECT * FROM "${this.tableName}"`);
-    return result.rows;
-  };
-
   findByPk = async (id) => {
     const result = await pool.query(
       `SELECT * FROM "${this.tableName}" WHERE "id" = $1`,

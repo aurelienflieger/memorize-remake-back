@@ -1,5 +1,6 @@
 import CoreController from "./core.controller.js";
 import { DeckDataMapper } from "../datamappers/index.datamapper.js";
+import apiError from "../errors/api.error.js";
 
 export default class DeckController extends CoreController {
   constructor() {
@@ -13,6 +14,7 @@ export default class DeckController extends CoreController {
   getAllDecksByUserID = async ({ params }, res) => {
     const { id } = params;
     const rows = await this.datamapper.findAllDecksByUserID(id);
+
     res.status(200).json(rows);
   };
 
