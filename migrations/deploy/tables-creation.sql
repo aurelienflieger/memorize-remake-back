@@ -7,19 +7,10 @@ CHECK (
   VALUE >= 0 AND VALUE <= 32
 );
 
-CREATE DOMAIN PASSWORD_CHECK AS TEXT NOT NULL
-CHECK (
-  VALUE ~ '[ -~]*[a-z][ -~]*'
-  AND VALUE ~ '[ -~]*[A-Z][ -~]*'
-  AND VALUE ~ '[ -~]*(?=[ -~])[^0-9a-zA-Z][ -~]*'
-  AND VALUE ~ '[ -~]*[0-9][ -~]*'
-  AND LENGTH(VALUE) >= 8
-);
-
 CREATE TABLE "user" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "email" TEXT NOT NULL UNIQUE,
-  "password" PASSWORD_CHECK,
+  "password" TEXT NOT NULL,
   "username" TEXT NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   "updated_at" TIMESTAMPTZ
