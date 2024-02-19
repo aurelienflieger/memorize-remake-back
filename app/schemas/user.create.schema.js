@@ -12,11 +12,15 @@ export default Joi.object({
     .messages({
       "string.base": "The adress has to be of type TEXT.",
       "string.email": "Please enter a valid email address."
-    }
-    ),
+    }),
   password: Joi.string()
-    .min(6)
+    .pattern(new RegExp(/[ -~]*[a-z][ -~]*/)) // at least 1 lower-case
+    .pattern(new RegExp(/[ -~]*[A-Z][ -~]*/)) // at least 1 upper-case
+    .pattern(new RegExp(/[ -~]*(?=[ -~])[^0-9a-zA-Z][ -~]*/)) // basically: [ -~] && [^0-9a-zA-Z], at least 1 special character
+    .pattern(new RegExp(/[ -~]*[0-9][ -~]*/)) // at least 1 number
+    .min(8)
     .messages({
-      "string.min": "The password needs 6 characters or more."
+      "string.base": "The password has to be of type TEXT",
+      "string.min": "The password should contain at least 8 characters."
     })
 }).required();
