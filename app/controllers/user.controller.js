@@ -1,7 +1,8 @@
 import bcrypt from "bcrypt";
 import generateJWT from "../utils/generateJWT.util.js";
 import CoreController from "./core.controller.js";
-import {UserDataMapper} from "../datamappers/index.datamapper.js";
+import { UserDataMapper } from "../datamappers/index.datamapper.js";
+import ApiError from "../errors/api.error.js";
 
 
 class UserController extends CoreController {
@@ -19,13 +20,13 @@ class UserController extends CoreController {
     const user = await this.datamapper.getUserByEmail(inputEmail);
 
     if (!user) {
-      return res.status(401).json({ error: "Please verify the input email." });
+      throw new ApiError("Please verify the input email", { httpStatus: 400 });
     }
 
     const validPassword = await bcrypt.compare(inputPassword, user.password);
 
     if (!validPassword) {
-      return res.status(401).json({ error: "Incorrect password" });
+      throw new ApiError("Incorrect password", { httpStatus: 400 })
     }
 
     const tokens = generateJWT(user);
@@ -63,7 +64,7 @@ class UserController extends CoreController {
     const data = await this.datamapper.findByPk(id);
 
     if (!data) {
-      throw new Error("This account does not exist.");
+      throw new ApiError("This account does not exist.", { httpStatus: 404 });
     }
 
     username ? username : username = data.username;
@@ -72,7 +73,7 @@ class UserController extends CoreController {
     const isModified = data.username === username && data.email === email;
 
     if (isModified) {
-      throw new Error("You need to change at least one field");
+      throw new ApiError("You need to change at least one field", { httpStatus: 400 });
     }
 
     const newAccountInfo = { ...data, email: email, username: username};
@@ -88,13 +89,13 @@ class UserController extends CoreController {
     const data = await this.datamapper.findByPk(id);
 
     if (!data) {
-      throw new Error("This account does not exist.");
+      throw new ApiError("This account does not exist.", { httpStatus: 404 });
     }
 
     const validPassword = await bcrypt.compare(password, data.password);
 
     if (!validPassword) {
-      return res.status(401).json({ error: "Incorrect password" });
+      throw new ApiError("Incorrect password", { httpStatus: 400 })
     }
 
     const newHashedPassword = await bcrypt.hash(newPassword, 10);
@@ -102,7 +103,7 @@ class UserController extends CoreController {
     const comparePasswords = await bcrypt.compare(newPassword, data.password);
 
     if (comparePasswords) {
-      throw new Error("Your current password and the new one must be different.")
+      throw new ApiError("Your current password and the new one must be different.", { httpStatus: 400 })
     }
 
     const newAccountPassword = { ...data, password: newHashedPassword };
@@ -118,7 +119,9 @@ class UserController extends CoreController {
 
     const row = await this.datamapper.findByPkWithNoReturnedPassword(id);
 
-    if (row === undefined) throw new Error("This id does not exists");
+    if (row === undefined) {
+      throw new ApiError("This account does not exist.", { httpStatus: 404 });
+    };
 
     return res.status(201).json(row);
   };
