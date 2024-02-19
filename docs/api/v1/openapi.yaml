@@ -298,6 +298,54 @@ paths:
         "500":
           $ref: "#/components/responses/GenericServerErrorResponse"
 
+    patch:
+      tags:
+        - Card
+      summary: Updates a single card by its ID
+      description: >
+        Using the card's ID, this operation updates one or several card fields.
+      operationId: updateDeckById
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+        - $ref: "#/components/parameters/DeckId"
+        - $ref: "#/components/parameters/CardId"
+      requestBody:
+        $ref: "#/components/requestBodies/CardUpdate"
+      responses:
+        "200":
+          $ref: "#/components/responses/CardPatchResponse"
+        "400":
+          $ref: "#/components/responses/CardIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/CardNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+    delete:
+      tags:
+        - Card
+      summary: Delete a card by its ID
+      description: >
+        Using the card's ID, this operation deletes the card.
+      operationId: deleteDeckById
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+        - $ref: "#/components/parameters/DeckId"
+        - $ref: "#/components/parameters/CardId"
+      responses:
+        "202":
+          $ref: "#/components/responses/CardDeleteResponse"
+        "400":
+          $ref: "#/components/responses/CardIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/CardNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
 components:
   schemas:
     User:
@@ -494,7 +542,7 @@ components:
           schema:
             $ref: "#/components/schemas/Card"
           examples:
-            deck:
+            card:
               value:
                 - id: 1
                   front: "Jumps high, has a big pocket"
@@ -518,7 +566,7 @@ components:
           schema:
             $ref: "#/components/schemas/Card"
           examples:
-            user:
+            card:
               value:
                 id: 105
                 front: "The King"
@@ -596,6 +644,31 @@ components:
                 created_at: "2022-01-09T11:46:48.370Z"
                 updated_at: "2023-01-11T11:46:48.370Z"
 
+    CardPatchResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Card"
+          examples:
+            card:
+              value:
+                id: 1
+                front: "The Beacon Of Hope"
+                description: "The Statue Of Liberty"
+                difficulty: 0
+                deck_id: 1
+                updated_at: "2023-01-11T11:46:48.370Z"
+
+    CardDeleteResponse:
+      description: Successful operation
+      content:
+        application/json:
+          examples:
+            card:
+              value:
+                message: "Deletion success"
+
   requestBodies:
     UserUpdate:
       description: User object that needs to be updated
@@ -657,3 +730,15 @@ components:
               value:
                 front: "The Iron Lady"
                 back: "Margaret Thatcher"
+
+    CardUpdate:
+      description: Card object that needs to be updated
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Card"
+          examples:
+            deck:
+              value:
+                front: "The Iron Lady"
+                back: "The Statue Of Liberty"
