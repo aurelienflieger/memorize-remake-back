@@ -67,8 +67,8 @@ class UserController extends CoreController {
       throw new ApiError("This account does not exist.", { httpStatus: 404 });
     }
 
-    username ? username : username = data.username;
-    email ? email : email = data.email;
+    username ? username : (username = data.username);
+    email ? email : (email = data.email);
 
     const isModified = data.username === username && data.email === email;
 
@@ -82,6 +82,7 @@ class UserController extends CoreController {
 
     return res.status(200).json(row);
   }
+  };
 
   updateAccountPassword = async ({ params, body }, res) => {
     const { id } = params;
@@ -111,7 +112,6 @@ class UserController extends CoreController {
     const row = await this.datamapper.update(newAccountPassword);
 
     return res.status(200).json(row);
-
   }
 
   getByPk = async ({ params }, res) => {

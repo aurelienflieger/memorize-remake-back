@@ -1,0 +1,744 @@
+openapi: 3.0.0
+
+info:
+  title: Memorize - flashcards have never felt better!
+  description: >-
+    This is the OpenAPI documentation for the flashcards app, Memorize.
+
+
+    It allows you to :
+
+    - obtain information on all API endpoints
+
+    - try sample requests to the API, for all available methods
+
+    - view all existing Models for our API
+
+
+    Thank you for checking it out!
+  version: "1.0"
+
+externalDocs:
+  description: Find out more about Memorize
+  url: https://github.com/orgs/O-clock-Gyoza/teams/team-09-memorize/repositories
+
+servers:
+  - url: https://memorize-back.onrender.com/api
+    description: The live production server
+  - url: http://localhost:3000/api
+    description: The local development server
+
+tags:
+  - name: User
+    description: All user account operations
+  - name: Deck
+    description: All deck operations
+  - name: Card
+    description: All card operations
+
+paths:
+  /account:
+    post:
+      tags:
+        - User
+      summary: Creates a new user account
+      description: >
+        Using the user fields necessary, this operation creates a new user account.
+      operationId: createUser
+      requestBody:
+        $ref: "#/components/requestBodies/UserCreate"
+      responses:
+        "200":
+          $ref: "#/components/responses/UserCreateResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+  /account/{id}:
+    get:
+      tags:
+        - User
+      summary: Gets a user by their ID
+      description: >
+        Using the user's ID, this operation fetches all relevant user details.
+      operationId: getUserById
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "200":
+          $ref: "#/components/responses/UserGetResponse"
+        "400":
+          $ref: "#/components/responses/UserIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/UserNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+    patch:
+      tags:
+        - User
+      summary: Updates a user by their ID
+      description: >
+        Using the user's ID, this operation updates one or several user fields.
+      operationId: updateUserById
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      requestBody:
+        $ref: "#/components/requestBodies/UserUpdate"
+      responses:
+        "200":
+          $ref: "#/components/responses/UserPatchResponse"
+        "400":
+          $ref: "#/components/responses/UserIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/UserNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+    delete:
+      tags:
+        - User
+      summary: Delete a user by their ID
+      description: >
+        Using the user's ID, this operation deletes the user.
+      operationId: deleteUserById
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "202":
+          $ref: "#/components/responses/UserDeleteResponse"
+        "400":
+          $ref: "#/components/responses/UserIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/UserNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+  /account/{id}/decks:
+    get:
+      tags:
+        - Deck
+      summary: Gets all decks of a user by the user's id
+      description: >
+        Using the user's ID, this operation fetches all decks from the user's collection.
+      operationId: getAllDecksByUserId
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "200":
+          $ref: "#/components/responses/DecksGetResponse"
+        "400":
+          $ref: "#/components/responses/UserIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/UserNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+    post:
+      tags:
+        - Deck
+      summary: Creates a new deck
+      description: >
+        Using the deck fields necessary, this operation creates a new deck for a user's collection.
+      operationId: createDeck
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      requestBody:
+        $ref: "#/components/requestBodies/DeckCreate"
+      responses:
+        "200":
+          $ref: "#/components/responses/DeckCreateResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+  /account/{id}/decks/{id}:
+    get:
+      tags:
+        - Deck
+      summary: Gets a single deck by its ID
+      description: >
+        Using the deck's ID, this operation fetches all relevant deck details.
+      operationId: getOneDeckByUserId
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+        - $ref: "#/components/parameters/DeckId"
+      responses:
+        "200":
+          $ref: "#/components/responses/DeckGetResponse"
+        "400":
+          $ref: "#/components/responses/DeckIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/DeckNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+    patch:
+      tags:
+        - Deck
+      summary: Updates a single deck by its ID
+      description: >
+        Using the deck's ID, this operation updates one or several user fields.
+      operationId: updateDeckById
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+        - $ref: "#/components/parameters/DeckId"
+      requestBody:
+        $ref: "#/components/requestBodies/DeckUpdate"
+      responses:
+        "200":
+          $ref: "#/components/responses/DeckPatchResponse"
+        "400":
+          $ref: "#/components/responses/DeckIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/DeckNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+    delete:
+      tags:
+        - Deck
+      summary: Delete a deck by its ID
+      description: >
+        Using the deck's ID, this operation deletes the deck.
+      operationId: deleteDeckById
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+        - $ref: "#/components/parameters/DeckId"
+      responses:
+        "202":
+          $ref: "#/components/responses/DeckDeleteResponse"
+        "400":
+          $ref: "#/components/responses/DeckIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/DeckNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+  /account/{id}/decks/{id}/cards:
+    get:
+      tags:
+        - Card
+      summary: Gets all cards from a deck by the deck's id
+      description: >
+        Using the deck's ID, this operation fetches all cards from the deck.
+      operationId: getAllCardsByDeckId
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+        - $ref: "#/components/parameters/DeckId"
+      responses:
+        "200":
+          $ref: "#/components/responses/CardsGetResponse"
+        "400":
+          $ref: "#/components/responses/DeckIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/DeckNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+    post:
+      tags:
+        - Card
+      summary: Creates a new card
+      description: >
+        Using the card fields necessary, this operation creates a new card inside an existing deck.
+      operationId: createCard
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+        - $ref: "#/components/parameters/DeckId"
+      requestBody:
+        $ref: "#/components/requestBodies/CardCreate"
+      responses:
+        "200":
+          $ref: "#/components/responses/CardCreateResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+  /account/{id}/decks/{id}/cards/{id}:
+    get:
+      tags:
+        - Card
+      summary: Gets a single card by its ID
+      description: >
+        Using the card's ID, this operation fetches all relevant card details.
+      operationId: getOneCardById
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+        - $ref: "#/components/parameters/DeckId"
+        - $ref: "#/components/parameters/CardId"
+      responses:
+        "200":
+          $ref: "#/components/responses/CardGetResponse"
+        "400":
+          $ref: "#/components/responses/CardIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/CardNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+    patch:
+      tags:
+        - Card
+      summary: Updates a single card by its ID
+      description: >
+        Using the card's ID, this operation updates one or several card fields.
+      operationId: updateDeckById
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+        - $ref: "#/components/parameters/DeckId"
+        - $ref: "#/components/parameters/CardId"
+      requestBody:
+        $ref: "#/components/requestBodies/CardUpdate"
+      responses:
+        "200":
+          $ref: "#/components/responses/CardPatchResponse"
+        "400":
+          $ref: "#/components/responses/CardIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/CardNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+    delete:
+      tags:
+        - Card
+      summary: Delete a card by its ID
+      description: >
+        Using the card's ID, this operation deletes the card.
+      operationId: deleteDeckById
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+        - $ref: "#/components/parameters/DeckId"
+        - $ref: "#/components/parameters/CardId"
+      responses:
+        "202":
+          $ref: "#/components/responses/CardDeleteResponse"
+        "400":
+          $ref: "#/components/responses/CardIdIncorrectResponse"
+        "401":
+          $ref: "#/components/responses/UserUnauthorizedResponse"
+        "404":
+          $ref: "#/components/responses/CardNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/GenericServerErrorResponse"
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        email:
+          type: string
+        username:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    Card:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        front:
+          type: string
+        back:
+          type: string
+        difficulty:
+          type: integer
+          format: int32
+        deck_id:
+          type: integer
+          format: int32
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    Deck:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        description:
+          type: string
+        user_id:
+          type: integer
+          format: int32
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+  parameters:
+    UserId:
+      name: id
+      in: path
+      description: User ID
+      required: true
+      schema:
+        $ref: "#/components/schemas/User/properties/id"
+
+    DeckId:
+      name: id
+      in: path
+      description: Deck ID
+      required: true
+      schema:
+        $ref: "#/components/schemas/Deck/properties/id"
+
+    CardId:
+      name: id
+      in: path
+      description: Deck ID
+      required: true
+      schema:
+        $ref: "#/components/schemas/Card/properties/id"
+
+  responses:
+    GenericServerErrorResponse:
+      description: "The server encountered an internal error."
+
+    UserUnauthorizedResponse:
+      description: "The user authorization is missing or incorrect."
+
+    UserIdIncorrectResponse:
+      description: "The user ID must be a positive integer."
+
+    UserNotFoundResponse:
+      description: "The requested user could not be located."
+
+    UserGetResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+          examples:
+            user:
+              value:
+                id: 1
+                email: "alan@example.com"
+                username: "alansusername"
+                created_at: "2022-01-09T11:46:48.370Z"
+                updated_at: "2023-01-11T11:46:48.370Z"
+
+    UserPatchResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+          examples:
+            user:
+              value:
+                id: 1
+                email: "alansnewemail@example.com"
+                username: "alansnewusername"
+                created_at: "2022-01-09T11:46:48.370Z"
+                updated_at: "2024-02-15T11:46:48.370Z"
+
+    UserDeleteResponse:
+      description: Successful operation
+      content:
+        application/json:
+          examples:
+            user:
+              value:
+                message: "Deletion success"
+
+    UserCreateResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+          examples:
+            user:
+              value:
+                id: 1
+                email: "alansemail@example.com"
+                username: "alansusername"
+                created_at: "2022-01-09T11:46:48.370Z"
+
+    DecksGetResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Deck"
+          examples:
+            deck:
+              value:
+                - id: 11
+                  name: "Wild Animals Of Australia"
+                  description: "Get to know a bunch of wild animals from the Outbacks."
+                  user_id: 3
+                  created_at: "2024-02-18T09:16:45.663Z"
+                  updated_at: null
+                - id: 12
+                  name: "Meryl Streep Movies"
+                  description: "Because Mama Mia! ain't the only one."
+                  user_id: 3
+                  created_at: "2024-02-18T09:16:45.680Z"
+                  updated_at: null
+
+    DeckCreateResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Deck"
+          examples:
+            user:
+              value:
+                id: 1
+                name: "Walt Disney's Best Movies"
+                description: "It's not just The Lion King: how many Disney movies can you remember?"
+                user_id: 15
+
+    CardsGetResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Card"
+          examples:
+            card:
+              value:
+                - id: 1
+                  front: "Jumps high, has a big pocket"
+                  back: "The Kangaroo"
+                  difficulty": 1,
+                  deck_id: 3
+                  created_at: "2024-02-18T09:16:45.663Z"
+                  updated_at: null
+                - id: 2
+                  front: "Probably hangs out in your bathroom"
+                  back: "The Redback Spider"
+                  difficulty": 2,
+                  deck_id: 3
+                  created_at: "2024-02-18T09:16:45.663Z"
+                  updated_at: "2024-02-19T08:45:10.663Z"
+
+    CardCreateResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Card"
+          examples:
+            card:
+              value:
+                id: 105
+                front: "The King"
+                back: "Elvis Presley"
+                difficulty: 0
+                deck_id: 15
+
+    DeckIdIncorrectResponse:
+      description: "The deck ID must be a positive integer."
+
+    DeckNotFoundResponse:
+      description: "The requested deck could not be located."
+
+    DeckGetResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Deck"
+          examples:
+            deck:
+              value:
+                id: 1
+                name: "Beloved American Writers"
+                description: "From Hemingway to RR Martin"
+                user_id: 5
+                created_at: "2022-01-09T11:46:48.370Z"
+                updated_at: "2023-01-11T11:46:48.370Z"
+
+    DeckPatchResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Deck"
+          examples:
+            deck:
+              value:
+                id: 1
+                name: "Beloved French Writers"
+                description: "From Rousseau to Musso"
+                user_id: 1
+                created_at: "2022-01-09T11:46:48.370Z"
+                updated_at: "2023-01-11T11:46:48.370Z"
+
+    DeckDeleteResponse:
+      description: Successful operation
+      content:
+        application/json:
+          examples:
+            deck:
+              value:
+                message: "Deletion success"
+
+    CardIdIncorrectResponse:
+      description: "The card ID must be a positive integer."
+
+    CardNotFoundResponse:
+      description: "The requested card could not be located."
+
+    CardGetResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Card"
+          examples:
+            card:
+              value:
+                id: 1
+                front: "Batman's archenemy"
+                back: "The Joker"
+                difficulty: 2
+                deck_id: 5
+                created_at: "2022-01-09T11:46:48.370Z"
+                updated_at: "2023-01-11T11:46:48.370Z"
+
+    CardPatchResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Card"
+          examples:
+            card:
+              value:
+                id: 1
+                front: "The Beacon Of Hope"
+                description: "The Statue Of Liberty"
+                difficulty: 0
+                deck_id: 1
+                updated_at: "2023-01-11T11:46:48.370Z"
+
+    CardDeleteResponse:
+      description: Successful operation
+      content:
+        application/json:
+          examples:
+            card:
+              value:
+                message: "Deletion success"
+
+  requestBodies:
+    UserUpdate:
+      description: User object that needs to be updated
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+          examples:
+            user:
+              value:
+                email: "alansnewemail@example.com"
+                username: "alansnewusername"
+
+    UserCreate:
+      description: User object for account creation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+          examples:
+            user:
+              value:
+                email: "alansemail@example.com"
+                username: "alansusername"
+                password: "alanssecurepassword57"
+
+    DeckCreate:
+      description: Deck object for deck creation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Deck"
+          examples:
+            user:
+              value:
+                name: "Shrek Characters in German"
+                description: "You know Shrek, you love Shrek. But do you all the characters in German?"
+
+    DeckUpdate:
+      description: Deck object that needs to be updated
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Deck"
+          examples:
+            deck:
+              value:
+                name: "Shrek Characters in Italian"
+                description: "You know Shrek, you love Shrek. But can you name the characters in Italian?"
+
+    CardCreate:
+      description: Card object for card creation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Card"
+          examples:
+            user:
+              value:
+                front: "The Iron Lady"
+                back: "Margaret Thatcher"
+
+    CardUpdate:
+      description: Card object that needs to be updated
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Card"
+          examples:
+            deck:
+              value:
+                front: "The Iron Lady"
+                back: "The Statue Of Liberty"
