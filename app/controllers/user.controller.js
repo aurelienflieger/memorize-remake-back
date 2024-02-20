@@ -2,11 +2,8 @@ import bcrypt from "bcrypt";
 import generateJWT from "../utils/generateJWT.util.js";
 import CoreController from "./core.controller.js";
 import { UserDataMapper } from "../datamappers/index.datamapper.js";
-<<<<<<< HEAD
-=======
 import ApiError from "../errors/api.error.js";
 
->>>>>>> da435dd (refactor: error handling)
 
 class UserController extends CoreController {
   constructor() {
@@ -79,11 +76,12 @@ class UserController extends CoreController {
       throw new ApiError("You need to change at least one field", { httpStatus: 400 });
     }
 
-    const newAccountInfo = { ...data, email: email, username: username };
+    const newAccountInfo = { ...data, email: email, username: username};
 
     const row = await this.datamapper.update(newAccountInfo);
 
     return res.status(200).json(row);
+  }
   };
 
   updateAccountPassword = async ({ params, body }, res) => {
@@ -114,7 +112,7 @@ class UserController extends CoreController {
     const row = await this.datamapper.update(newAccountPassword);
 
     return res.status(200).json(row);
-  };
+  }
 
   getByPk = async ({ params }, res) => {
     const { id } = params;

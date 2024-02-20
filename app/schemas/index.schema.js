@@ -7,11 +7,11 @@ import userUpdateInfoSchema from "./user.info.update.schema.js";
 import userUpdatePasswordSchema from "./user.password.update.schema.js";
 
 export {
-  cardCreateSchema,
-  cardUpdateSchema,
-  deckCreateSchema,
-  deckUpdateSchema,
-  userCreateSchema,
+  cardCreateSchema, 
+  cardUpdateSchema, 
+  deckCreateSchema, 
+  deckUpdateSchema, 
+  userCreateSchema, 
   userUpdateInfoSchema,
-  userUpdatePasswordSchema,
+  userUpdatePasswordSchema
 };

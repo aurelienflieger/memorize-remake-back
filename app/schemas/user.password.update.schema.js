@@ -1,9 +1,10 @@
 import Joi from "joi";
 
 export default Joi.object({
-  password: Joi.string().messages({
-    "string.base": "The password has to be of type TEXT.",
-  }),
+  password: Joi.string()
+    .messages({
+      "string.base": "The password has to be of type TEXT.",
+    }),
   newPassword: Joi.string()
     .pattern(new RegExp(/[ -~]*[a-z][ -~]*/)) // at least 1 lower-case
     .pattern(new RegExp(/[ -~]*[A-Z][ -~]*/)) // at least 1 upper-case
@@ -13,6 +14,8 @@ export default Joi.object({
     .messages({
       "string.base": "The password has to be of type TEXT",
       "string.min": "The password should contain at least 8 characters.",
+      "string.pattern": "Wrong pattern"
+    })
+}).required();
       "string.pattern": "Wrong pattern",
     }),
-}).required();

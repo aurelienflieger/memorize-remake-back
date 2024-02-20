@@ -16,7 +16,4 @@ export default Joi.object({
     .pattern(new RegExp(/[ -~]*[0-9][ -~]*/)) // at least 1 number
     .min(8)
     .messages({
-      "string.base": "The password has to be of type TEXT",
-      "string.min": "The password should contain at least 8 characters.",
-    }),
 }).required();
