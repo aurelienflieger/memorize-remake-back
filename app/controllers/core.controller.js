@@ -10,15 +10,17 @@ export default class CoreController {
     const { id } = params;
     const checkId = await this.datamapper.findByPk(id);
 
-    if(!checkId) {
-      throw new ApiError("The id you're looking for does not exist.", { httpStatus: 404 });
+    if (!checkId) {
+      throw new ApiError("The id you're looking for does not exist.", {
+        httpStatus: 404,
+      });
     }
-    
+
     const deleted = await this.datamapper.delete(id);
     return deleted
       ? res.status(400).json({
-        message: "Deletion failed",
-      })
+          message: "Deletion failed",
+        })
       : res.status(202).json({ message: "Deletion success" });
   };
 
@@ -28,8 +30,8 @@ export default class CoreController {
     const row = await this.datamapper.findByPk(id);
 
     if (row === undefined) {
-      throw new ApiError("This account does not exist.", { httpStatus: 404 })
-    };
+      throw new ApiError("This account does not exist.", { httpStatus: 404 });
+    }
 
     return res.status(201).json(row);
   };
