@@ -1,7 +1,7 @@
 import "dotenv/config";
 import express, { json } from "express";
 import cors from "cors";
-import errorHandler from "./app/middlewares/errorHandler.middleware.js";
+import { handleErrors } from "./app/middlewares/index.middleware.js";
 import router from "./app/routers/index.router.js";
 
 const app = express();
@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(router);
 
 /* The error handler is placed after all routes to make sure all errors are handled. */
-app.use(errorHandler);
+app.use(handleErrors);
 
 app.listen({ port: PORT, host: HOST }, () => {
   console.log(`The back-end server is listening on port:${PORT}`);
