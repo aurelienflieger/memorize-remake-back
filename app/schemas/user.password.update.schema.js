@@ -17,5 +17,3 @@ export default Joi.object({
       "string.pattern": "Wrong pattern"
     })
 }).required();
-      "string.pattern": "Wrong pattern",
-    }),

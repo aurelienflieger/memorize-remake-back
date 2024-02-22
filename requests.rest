@@ -7,9 +7,9 @@ POST http://127.0.0.1:3000/api/account/
 Content-Type: application/json
 
 {
-    "email": "nikoula@example.com",
-    "password": "Nikoula!123",
-    "username": "nikoula" 
+    "email": "sahim@gmail.com",
+    "password": "Sahim!123",
+    "username": "Famantha" 
 }
 
 ## GET
@@ -50,7 +50,7 @@ DELETE http://127.0.0.1:3000/api/account/1
 
 ### Get all decks from a user -- OK
 
-GET http://127.0.0.1:3000/api/account/1/decks
+GET http://127.0.0.1:3000/api/account/19/decks
 
 ### Get a single deck from a user -- OK
 
@@ -60,11 +60,11 @@ GET http://127.0.0.1:3000/api/account/3/decks/16
 
 ### Create a new deck -- OK
 
-POST http://127.0.0.1:3000/api/account/3/decks/
+POST http://127.0.0.1:3000/api/account/19/decks/
 Content-Type: application/json
 
 {
-    "name": "24drfger3",
+    "name": "sauter dans le lit",
     "description": "Some description for the new deck"
 }
 

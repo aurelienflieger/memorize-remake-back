@@ -82,7 +82,7 @@ class UserController extends CoreController {
 
     return res.status(200).json(row);
   }
-  };
+
 
   updateAccountPassword = async ({ params, body }, res) => {
     const { id } = params;
@@ -124,7 +124,7 @@ class UserController extends CoreController {
     };
 
     return res.status(201).json(row);
-  };
-}
+  }
+};
 
 export default UserController;
