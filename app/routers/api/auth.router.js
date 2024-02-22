@@ -7,7 +7,7 @@ const authRouter = express.Router();
 authRouter.route("/").post(controllerWrapper(userController.login));
 
 authRouter
-  .route("/refresh-token")
-  .post(controllerWrapper(userController.checkRefreshToken));
+  .route("/refresh-tokens")
+  .post(controllerWrapper(userController.refreshTokens));
 
 export default authRouter;

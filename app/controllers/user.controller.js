@@ -130,13 +130,12 @@ class UserController extends CoreController {
     return res.status(201).json(row);
   };
 
-  checkRefreshToken = (req, res) => {
+  refreshTokens = (req, res) => {
     const refreshToken = req.body.refreshToken;
 
     if (!refreshToken) {
       return res.status(403).json({
-        error:
-          "The access token could not be refreshed. Your session is invalid.",
+        error: "The refresh token is missing. Your session is invalid.",
       });
     }
 
