@@ -131,7 +131,7 @@ class UserController extends CoreController {
   };
 
   refreshTokens = (req, res) => {
-    const refreshToken = req.body.refreshToken;
+    const refreshToken = JSON.parse(req.body.refreshToken);
 
     if (!refreshToken || refreshToken == "undefined") {
       return res.status(403).json({
