@@ -146,16 +146,7 @@ class UserController extends CoreController {
         });
       }
 
-      const accessToken = jwt.sign(
-        { id: user.id, email: user.email },
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "1h" }
-      );
-      const refreshToken = jwt.sign(
-        { id: user.id, email: user.email },
-        process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: "1d" }
-      );
+      const { accessToken, refreshToken } = generateJWT(user);
 
       return res.status(200).json({ accessToken, refreshToken });
     });
