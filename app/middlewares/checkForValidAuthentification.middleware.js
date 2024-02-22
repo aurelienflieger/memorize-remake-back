@@ -11,7 +11,7 @@ const checkForValidAuthentification = async (req, res, next) => {
     });
   }
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err) => {
     console.log(err);
     if (err) {
       return res.status(500).json({
@@ -19,8 +19,6 @@ const checkForValidAuthentification = async (req, res, next) => {
           "The token provided is invalid. There may be an issue with your account. Please contact support.",
       });
     }
-
-    console.log(decoded);
 
     next();
   });
