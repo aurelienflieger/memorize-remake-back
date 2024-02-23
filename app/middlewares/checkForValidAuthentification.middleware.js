@@ -50,9 +50,11 @@ const checkForValidAuthentification = async (req, res, next) => {
           `Bearer: ${JSON.stringify(newAccessToken)}`
         );
         res.setHeader("x-refresh-token", newRefreshToken);
+
         console.log("New tokens issued - checkForValidAuthentification");
         console.log(newAccessToken);
         console.log(newRefreshToken);
+
         next();
       } catch (err) {
         return res.status(500).json({
