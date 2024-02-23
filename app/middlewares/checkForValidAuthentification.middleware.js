@@ -15,7 +15,7 @@ const verifyToken = (token, secret) => {
 };
 
 const checkForValidAuthentification = async (req, res, next) => {
-  const accessToken = JSON.parse(req.headers["authorization"]);
+  const accessToken = JSON.parse(req.headers["authorization"].split(" ")[1]);
   const refreshToken = JSON.parse(req.headers["x-refresh-token"]);
 
   console.log(`checkForValidAuth / token: ${accessToken}`);
@@ -45,7 +45,10 @@ const checkForValidAuthentification = async (req, res, next) => {
         );
         const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
           generateJWT(decoded);
-        res.setHeader("authorization", newAccessToken);
+        res.setHeader(
+          "authorization",
+          `Bearer: ${JSON.stringify(newAccessToken)}`
+        );
         res.setHeader("x-refresh-token", newRefreshToken);
         console.log("New tokens issued - checkForValidAuthentification");
         console.log(newAccessToken);
