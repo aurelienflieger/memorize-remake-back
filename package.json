@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "DEBUG=* nodemon -L",
+    "dev": "DEBUG=memorize:server nodemon -L",
     "start": "nodemon -L",
     "db_reset": "dropdb memorize && createdb memorize && sqitch deploy && npm run db_seed",
     "db_seed": "node './app/database/seedFakeData.js'"
