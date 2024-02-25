@@ -80,4 +80,12 @@ export default class CardController extends CoreController {
 
     return res.status(200).json(updatedCard);
   };
+
+  deleteCard = async (req, res) => {
+    return this.delete(req, res, "deck", "card");
+  };
+
+  getCardById = async (req, res) => {
+    return this.getByPk(req, res, "deck", "card");
+  };
 }

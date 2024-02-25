@@ -1,6 +1,5 @@
 import CoreController from "./core.controller.js";
 import { DeckDataMapper } from "../datamappers/index.datamapper.js";
-import ApiError from "../errors/api.error.js";
 import { createFailedCreationError, createMissingIdError, createResourceNotFoundError, createUpdateNotModifiedError } from "../errors/helpers.error.js";
 
 export default class DeckController extends CoreController {
@@ -73,5 +72,13 @@ export default class DeckController extends CoreController {
     }
 
     return res.status(200).json(updatedDeck);
+  };
+
+  deleteDeck = async (req, res) => {
+    return this.delete(req, res, "deck", "user");
+  };
+
+  getDeckById = async (req, res) => {
+    return this.getByPk(req, res, "deck", "user");
   };
 }
