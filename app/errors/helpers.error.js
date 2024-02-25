@@ -1,22 +1,22 @@
 import ApiError from "./api.error";
 
-function createMissingIdError({path, method}) {
+function createMissingIdError({path, method}, {entityName}) {
   return new ApiError(
-    "The user ID was not provided", 
+    `The ${entityName} ID was not provided`, 
     {
       httpStatus: 400, 
       errorCode: "MISSING_PARAMETER", 
       path: path, 
       method: method, 
-      details: "The user id must be provided to the server. \n Please provide an 'id' parameter to process your request."
+      details: `The ${entityName} id must be provided to the server. \n Please provide an 'id' parameter to process your request.`
     }
   );
 }
 
-function createAccountNotFoundError({path, method}) {
+function createResourceNotFoundError({path, method}, {entityName, targetName}) {
   return new ApiError(
-    "The provided user ID does not match any account.", {httpStatus: 404, errorCode: "ACCOUNT_NOT_FOUND", path: path, method: method, details: "The user id provided to the server does not match any user account. \n Please provide a 'id' parameter matching an actual user ID to process your request."}
+    `The provided ${entityName} ID does not match any ${targetName}.`, {httpStatus: 404, errorCode: "ACCOUNT_NOT_FOUND", path: path, method: method, details: `The ${entityName} ID provided to the server does not match any ${targetName}. \n Please provide an existing ${entityName} 'id' parameter to process your request.`}
   );
 }
 
-export {createMissingIdError, createAccountNotFoundError};
+export {createMissingIdError, createResourceNotFoundError};

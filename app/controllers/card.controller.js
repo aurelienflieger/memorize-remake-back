@@ -1,6 +1,7 @@
 import CoreController from "./core.controller.js";
 import {CardDataMapper} from "../datamappers/index.datamapper.js";
 import ApiError from "../errors/api.error.js";
+import { createMissingIdError, createResourceNotFoundError } from "../errors/helpers.error.js";
 
 /* The methods from the CoreDataMapper are available in addition to those specific to the Card. */
 export default class CardController extends CoreController {
@@ -12,10 +13,20 @@ export default class CardController extends CoreController {
     this.datamapper = datamapper;
   }
 
-  getAllCardsByDeckID = async ({ params }, res) => {
-    const { id } = params;
-    const rows = await this.datamapper.findAllCardsByDeckID(id);
-    res.status(200).json(rows);
+  getAllCardsByDeckID = async (req, res) => {
+    const { id: deckId } = req.params;
+
+    if (!deckId) {
+      throw createMissingIdError(req, {entityName : "deck"});
+    }
+
+    const cardsMatchingDeckId = await this.datamapper.findAllCardsByDeckID(deckId);
+    
+    if (!cardsMatchingDeckId) {
+      throw new createResourceNotFoundError(req, {entityName: "deck", targetName: "card"});
+    }
+    
+    res.status(200).json(cardsMatchingDeckId);
   };
 
   createNewCard = async ({ params, body }, res) => {

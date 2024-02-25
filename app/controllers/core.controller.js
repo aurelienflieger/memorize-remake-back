@@ -1,5 +1,5 @@
 import ApiError from "../errors/api.error.js";
-import { createAccountNotFoundError, createMissingIdError } from "../errors/helpers.error.js";
+import { createResourceNotFoundError, createMissingIdError } from "../errors/helpers.error.js";
 
 // The CoreController can be used to flexibly perform CRUD operations a database postgres table.
 export default class CoreController {
@@ -11,13 +11,13 @@ export default class CoreController {
     const { id } = req.params;
 
     if (!id) {
-      throw createMissingIdError(req);
+      throw createMissingIdError(req, {entityName: "user"});
     }
 
     const userMatchingId = await this.datamapper.findByPk(id);
 
     if (!userMatchingId) {
-      throw new createAccountNotFoundError(req);
+      throw new createResourceNotFoundError(req, {entityName: "user", targeName: "account"} );
     }
 
     const deleted = await this.datamapper.delete(id);
@@ -32,13 +32,13 @@ export default class CoreController {
     const { id } = req.params;
 
     if (!id) {
-      throw createMissingIdError(req);
+      throw createMissingIdError(req, {entityName: "user"});
     }
 
     const userMatchingId = await this.datamapper.findByPk(id);
 
     if (!userMatchingId) {
-      throw new createAccountNotFoundError(req);
+      throw new createResourceNotFoundError(req, {entityName: "user", targeName: "account"});
     }
 
     return res.status(200).json(userMatchingId);
