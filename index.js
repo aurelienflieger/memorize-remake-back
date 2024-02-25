@@ -3,6 +3,7 @@ import express, { json } from "express";
 import cors from "cors";
 import { handleErrors } from "./app/middlewares/index.middleware.js";
 import router from "./app/routers/index.router.js";
+import logger from "./app/utils/logger.util.js";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -19,5 +20,5 @@ app.use(router);
 app.use(handleErrors);
 
 app.listen({ port: PORT, host: HOST }, () => {
-  console.log(`The back-end server is listening on port:${PORT}`);
+  logger(`The back-end server is listening on port:${PORT}`);
 });
