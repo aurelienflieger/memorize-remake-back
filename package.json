@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon -L",
-    "db_remove": "sqitch revert -y",
-    "db_reset": "sqitch revert -y && sqitch deploy && npm run db_seed",
+    "db_clear": "sqitch revert -y",
+    "db_reset": "dropdb memorize && createdb memorize && sqitch deploy && npm run db_seed",
     "db_seed": "node './app/database/seedFakeData.js'"
   },
   "keywords": [],
