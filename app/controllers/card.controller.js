@@ -1,6 +1,5 @@
 import CoreController from "./core.controller.js";
 import {CardDataMapper} from "../datamappers/index.datamapper.js";
-import ApiError from "../errors/api.error.js";
 import { createFailedCreationError, createMissingIdError, createResourceNotFoundError, createUpdateNotModifiedError } from "../errors/helpers.error.js";
 
 /* The methods from the CoreDataMapper are available in addition to those specific to the Card. */
@@ -48,30 +47,30 @@ export default class CardController extends CoreController {
   };
 
   updateCard = async (req, res) => {
-    const { id: deckId } = req.params;
+    const { id: cardId } = req.params;
 
-    if (!deckId) {
-      throw createMissingIdError(req, {entityName : "deck"});
+    if (!cardId) {
+      throw createMissingIdError(req, {entityName : "card"});
     }
 
     let { front, back } = req.body;
 
-    const cardMatchingDeckId = await this.datamapper.findByPk(deckId);
+    const cardMatchingId = await this.datamapper.findByPk(cardId);
 
-    if (!cardMatchingDeckId) {
-      throw createResourceNotFoundError(req, {entityName: "deck", targetName: "card"});
+    if (!cardMatchingId) {
+      throw createResourceNotFoundError(req, {entityName: "card", targetName: "card"});
     }
 
-    front ? front : front = cardMatchingDeckId.front;
-    back ? back : back = cardMatchingDeckId.back;
+    front ? front : front = cardMatchingId.front;
+    back ? back : back = cardMatchingId.back;
 
-    const isNotModified = cardMatchingDeckId.front === front && cardMatchingDeckId.back === back;
+    const isNotModified = cardMatchingId.front === front && cardMatchingId.back === back;
 
     if (isNotModified) {
       throw createUpdateNotModifiedError(req, {entityName: "card"});
     }
 
-    const updatedCardInfo = { ...cardMatchingDeckId, front: front, back: back };
+    const updatedCardInfo = { ...cardMatchingId, front: front, back: back };
 
     const updatedCard = await this.datamapper.update(updatedCardInfo);
 

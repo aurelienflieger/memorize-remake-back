@@ -1,6 +1,7 @@
 import CoreController from "./core.controller.js";
 import { DeckDataMapper } from "../datamappers/index.datamapper.js";
 import ApiError from "../errors/api.error.js";
+import { createFailedCreationError, createMissingIdError, createResourceNotFoundError, createUpdateNotModifiedError } from "../errors/helpers.error.js";
 
 export default class DeckController extends CoreController {
   constructor() {
@@ -11,43 +12,66 @@ export default class DeckController extends CoreController {
     this.datamapper = datamapper;
   }
 
-  getAllDecksByUserID = async ({ params }, res) => {
-    const { id } = params;
-    const rows = await this.datamapper.findAllDecksByUserID(id);
+  getAllDecksByUserID = async (req, res) => {
+    const { id: userId } = req.params;
 
-    res.status(200).json(rows);
-  };
-
-  createNewDeck = async ({ params, body }, res) => {
-    const { id } = params;
-    const deck = { ...body, user_id: id };
-
-    const row = await this.datamapper.insert(deck);
-    res.status(200).json(row);
-  };
-
-  updateDeck = async ({ params, body }, res) => {
-    const { id } = params;
-    let { name, description } = body;
-    const data = await this.datamapper.findByPk(id);
-
-    if (!data) {
-      throw new ApiError("This deck does not exist.", { httpStatus: 404 });
+    if (!userId) {
+      throw createMissingIdError(req, {entityName : "user"});
     }
 
-    name ? name : name = data.name;
-    description ? description : description = data.description;
+    const decksMatchingUserId = await this.datamapper.findAllDecksByUserID(userId);
 
-    const isModified = data.name === name && data.description === description;
-
-    if (isModified) {
-      throw new ApiError("You need to change at least one field", { httpStatus: 400 });
+    if (!decksMatchingUserId) {
+      throw new createResourceNotFoundError(req, {entityName: "user", targetName: "deck"});
     }
 
-    const newDeckInfo = { ...data, name: name, description: description };
+    res.status(200).json(decksMatchingUserId);
+  };
 
-    const row = await this.datamapper.update(newDeckInfo);
+  createNewDeck = async (req, res) => {
+    const { id: userId } = req.params;
 
-    return res.status(200).json(row);
+    if (!userId) {
+      throw createMissingIdError(req, {entityName : "user"});
+    }
+
+    const deck = { ...req.body, user_id: userId };
+
+    const createdDeck = await this.datamapper.insert(deck);
+
+    if (!createdDeck) {
+      throw createFailedCreationError(req, {entityName: "deck"});
+    }
+
+    res.status(200).json(createdDeck);
+  };
+
+  updateDeck = async (req, res) => {
+    const { id: deckId } = req.params;
+    let { name, description } = req.body;
+    const deckMatchingId = await this.datamapper.findByPk(deckId);
+
+    if (!deckMatchingId) {
+      throw createResourceNotFoundError(req, {entityName: "deck", targetName: "deck"});
+    }
+
+    name ? name : name = deckMatchingId.name;
+    description ? description : description = deckMatchingId.description;
+
+    const isNotModified = deckMatchingId.name === name && deckMatchingId.description === description;
+
+    if (isNotModified) {
+      throw createUpdateNotModifiedError(req, {entityName: "deck"});
+    }
+
+    const newDeckInfo = { ...deckMatchingId, name: name, description: description };
+
+    const updatedDeck = await this.datamapper.update(newDeckInfo);
+
+    if (!updatedDeck) {
+      throw createUpdateNotModifiedError(req, {entityName: "deck"});
+    }
+
+    return res.status(200).json(updatedDeck);
   };
 }
