@@ -1,4 +1,5 @@
 import ApiError from "../errors/api.error.js";
+import { createAccountNotFoundError, createMissingIdError } from "../errors/helpers.error.js";
 
 // The CoreController can be used to flexibly perform CRUD operations a database postgres table.
 export default class CoreController {
@@ -6,33 +7,40 @@ export default class CoreController {
     this.datamapper = datamapper;
   }
 
-  delete = async ({ params }, res) => {
-    const { id } = params;
-    const checkId = await this.datamapper.findByPk(id);
+  delete = async (req, res) => {
+    const { id } = req.params;
 
-    if (!checkId) {
-      throw new ApiError("The id you're looking for does not exist.", {
-        httpStatus: 404,
-      });
+    if (!id) {
+      throw createMissingIdError(req);
+    }
+
+    const userMatchingId = await this.datamapper.findByPk(id);
+
+    if (!userMatchingId) {
+      throw new createAccountNotFoundError(req);
     }
 
     const deleted = await this.datamapper.delete(id);
-    return deleted
-      ? res.status(400).json({
-        message: "Deletion failed",
-      })
-      : res.status(202).json({ message: "Deletion success" });
+
+    if (!deleted) {
+      throw new ApiError("The user account could not be successfully deleted.", {httpStatus: 500, errorCode: "USER_DELETION_FAILED", path: req.path, method: req.method, details: "The user id provided to the server matched an user account but the deletion could not be performed."});
+    }
+    return res.status(204).json({ message: "The user account was successfully deleted." });
   };
 
-  getByPk = async ({ params }, res) => {
-    const { id } = params;
+  getByPk = async (req, res) => {
+    const { id } = req.params;
 
-    const row = await this.datamapper.findByPk(id);
-
-    if (row === undefined) {
-      throw new ApiError("This account does not exist.", { httpStatus: 404 });
+    if (!id) {
+      throw createMissingIdError(req);
     }
 
-    return res.status(201).json(row);
+    const userMatchingId = await this.datamapper.findByPk(id);
+
+    if (!userMatchingId) {
+      throw new createAccountNotFoundError(req);
+    }
+
+    return res.status(200).json(userMatchingId);
   };
 }

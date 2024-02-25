@@ -1,9 +1,12 @@
 export default class ApiError extends Error {
-  constructor(message, info) {
+  constructor(message, {httpStatus, errorCode, path, method, details}) {
     super(message);
-    this.name = "apiError";
-    Object.entries(info).forEach(([key, value]) => {
-      this[key] = value;
-    });
+    this.name = "API error";
+    this.timestamp = new Date().toISOString();
+    this.httpStatus = httpStatus;
+    this.errorCode = errorCode;
+    this.details = details;
+    this.path = path;
+    this.method = method;
   }
 }
