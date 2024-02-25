@@ -10,8 +10,6 @@ async function seedFakeData() {
       username: faker.internet.userName(),
     };
 
-    console.log(user.email);
-
     const userInsert = await pool.query(
       // eslint-disable-next-line quotes
       'INSERT INTO "user"(email, password, username) VALUES($1, $2, $3) RETURNING id',
