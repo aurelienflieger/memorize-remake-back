@@ -3,7 +3,7 @@ import generateJWT from "../utils/generateJWT.util.js";
 import CoreController from "./core.controller.js";
 import { UserDataMapper } from "../datamappers/index.datamapper.js";
 import ApiError from "../errors/api.error.js";
-import { createFailedCreationError, createMissingParamsError, createResourceNotFoundError } from "../errors/helpers.error.js";
+import { createFailedCreationError, createFailedUpdateError, createMissingIdError, createMissingParamsError, createResourceNotFoundError, createUpdateNotModifiedError } from "../errors/helpers.error.js";
 
 class UserController extends CoreController {
   constructor() {
@@ -104,31 +104,38 @@ class UserController extends CoreController {
     res.status(201).json({ newUser });
   };
 
-  updateAccountInfo = async ({ params, body }, res) => {
-    const { id } = params;
-    let { username, email } = body;
-    const data = await this.datamapper.findByPk(id);
+  updateAccountInfo = async (req, res) => {
+    const { id } = req.params;
 
-    if (!data) {
-      throw new ApiError("This account does not exist.", { httpStatus: 404 });
+    if (!id) {
+      throw createMissingIdError(req, {entityName : "user"});
     }
 
-    username ? username : (username = data.username);
-    email ? email : (email = data.email);
+    let { username, email } = req.body;
+    const accountMatchingId = await this.datamapper.findByPk(id);
 
-    const isModified = data.username === username && data.email === email;
-
-    if (isModified) {
-      throw new ApiError("You need to change at least one field", {
-        httpStatus: 400,
-      });
+    if (!accountMatchingId) {
+      throw createResourceNotFoundError(req, {entityName: "user", targetName: "user"});
     }
 
-    const newAccountInfo = { ...data, email: email, username: username };
+    username ? username : (username = accountMatchingId.username);
+    email ? email : (email = accountMatchingId.email);
 
-    const row = await this.datamapper.update(newAccountInfo);
+    const isNotModified = accountMatchingId.username === username && accountMatchingId.email === email;
 
-    return res.status(200).json(row);
+    if (isNotModified) {
+      throw createUpdateNotModifiedError(req, {entityName: "user"});
+    }
+
+    const updatedAccountInfo = { ...accountMatchingId, email: email, username: username };
+
+    const updatedAccount = await this.datamapper.update(updatedAccountInfo);
+
+    if (!updatedAccount) {
+      throw createFailedUpdateError(req, {entityName: "user"});
+    }
+
+    return res.status(200).json(updatedAccount);
   };
 
   updateAccountPassword = async ({ params, body }, res) => {
