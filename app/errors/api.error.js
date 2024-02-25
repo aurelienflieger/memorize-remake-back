@@ -4,6 +4,6 @@ export default class ApiError extends Error {
     this.name = "apiError";
     Object.entries(info).forEach(([key, value]) => {
       this[key] = value;
-    })
+    });
   }
 }

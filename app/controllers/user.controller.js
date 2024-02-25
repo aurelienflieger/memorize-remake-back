@@ -19,7 +19,8 @@ class UserController extends CoreController {
     const user = await this.datamapper.getUserByEmail(inputEmail);
 
     if (!user) {
-      throw new ApiError("Please verify the input email", { httpStatus: 400 });
+      /*       throw new ApiError("Please verify the input email", { httpStatus: 400 });*/      
+      throw new ApiError("Missing parameter: id", { httpStatus: 400, errorCode: "MISSING_PARAMETER", details: "The id parameter is required." });
     }
 
     const validPassword = await bcrypt.compare(inputPassword, user.password);

@@ -1,11 +1,8 @@
-import debugLogger from "../utils/debugLogger.util.js";
-
-const logger = debugLogger();
-
 // The error handler automatically handles all Express errors and sends the appropriate status.
 const handleErrors = (error, _, res, next) => {
-  logger(error);
-  return res.status(error.httpStatus).json({ error: error.message });
+  console.log(error);
+  res.status(error.httpStatus).json({ code: error.errorCode, message: error.message, details: error.details  });
+  next();
 };
 
 export default handleErrors;
