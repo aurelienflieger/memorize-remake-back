@@ -1,4 +1,7 @@
 import ApiError from "../errors/api.error.js";
+import debugLogger from "./debugLogger.util.js";
+
+const logger = debugLogger();
 
 // The controller wrapper takes a controller as argument & returns a curried controller.
 export default function controllerWrapper(controller) {
@@ -6,7 +9,7 @@ export default function controllerWrapper(controller) {
     try {
       await controller(req, res);
     } catch (error) {
-      console.log(error);
+      logger(error);
       next(new ApiError(error.message, { httpStatus: 500 }));
     }
   };
