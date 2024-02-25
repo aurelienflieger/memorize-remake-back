@@ -4,8 +4,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon -L",
-    "db_clear": "sqitch revert -y",
+    "dev": "DEBUG=* nodemon -L",
+    "start": "nodemon -L",
     "db_reset": "dropdb memorize && createdb memorize && sqitch deploy && npm run db_seed",
     "db_seed": "node './app/database/seedFakeData.js'"
   },
