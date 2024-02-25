@@ -31,7 +31,7 @@ userRouter
     validateInput("body", userUpdateInfoSchema),
     controllerWrapper(userController.updateAccountInfo)
   )
-  .delete(controllerWrapper(userController.delete));
+  .delete(controllerWrapper(userController.deleteUser));
 
 userRouter
   .route("/:id/change-password")

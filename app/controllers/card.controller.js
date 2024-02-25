@@ -1,7 +1,7 @@
 import CoreController from "./core.controller.js";
 import {CardDataMapper} from "../datamappers/index.datamapper.js";
 import ApiError from "../errors/api.error.js";
-import { createMissingIdError, createResourceNotFoundError } from "../errors/helpers.error.js";
+import { createFailedCreationError, createMissingIdError, createResourceNotFoundError, createUpdateNotModifiedError } from "../errors/helpers.error.js";
 
 /* The methods from the CoreDataMapper are available in addition to those specific to the Card. */
 export default class CardController extends CoreController {
@@ -29,35 +29,56 @@ export default class CardController extends CoreController {
     res.status(200).json(cardsMatchingDeckId);
   };
 
-  createNewCard = async ({ params, body }, res) => {
-    const { id } = params;
-    const card = { ...body, deck_id: id };
-    const row = await this.datamapper.insert(card);
-    res.status(200).json(row);
+  createNewCard = async (req, res) => {
+    const { id: deckId } = req.params;
+
+    if (!deckId) {
+      throw createMissingIdError(req, {entityName : "deck"});
+    }
+
+    const card = { ...req.body, deck_id: deckId };
+
+    const createdCard = await this.datamapper.insert(card);
+
+    if (!createdCard) {
+      throw createFailedCreationError(req, {entityName: "card"});
+    }
+
+    res.status(200).json(createdCard);
   };
 
-  updateCard = async ({ params, body }, res) => {
-    const { id } = params;
-    let { front, back } = body;
-    const data = await this.datamapper.findByPk(id);
+  updateCard = async (req, res) => {
+    const { id: deckId } = req.params;
 
-    if (!data) {
-      throw new ApiError("This card does not exist.", { httpStatus: 404 });
+    if (!deckId) {
+      throw createMissingIdError(req, {entityName : "deck"});
     }
 
-    front ? front : front = data.front;
-    back ? back : back = data.back;
+    let { front, back } = req.body;
 
-    const isModified = data.front === front && data.back === back;
+    const cardMatchingDeckId = await this.datamapper.findByPk(deckId);
 
-    if (isModified) {
-      throw new ApiError("You need to change at least one field", { httpStatus: 400 });
+    if (!cardMatchingDeckId) {
+      throw createResourceNotFoundError(req, {entityName: "deck", targetName: "card"});
     }
 
-    const newCardInfo = { ...data, front: front, back: back };
+    front ? front : front = cardMatchingDeckId.front;
+    back ? back : back = cardMatchingDeckId.back;
 
-    const row = await this.datamapper.update(newCardInfo);
+    const isNotModified = cardMatchingDeckId.front === front && cardMatchingDeckId.back === back;
 
-    return res.status(200).json(row);
+    if (isNotModified) {
+      throw createUpdateNotModifiedError(req, {entityName: "card"});
+    }
+
+    const updatedCardInfo = { ...cardMatchingDeckId, front: front, back: back };
+
+    const updatedCard = await this.datamapper.update(updatedCardInfo);
+
+    if (!updatedCard) {
+      throw createUpdateNotModifiedError(req, {entityName: "card"});
+    }
+
+    return res.status(200).json(updatedCard);
   };
 }
