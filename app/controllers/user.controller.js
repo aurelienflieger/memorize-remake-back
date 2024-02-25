@@ -138,49 +138,78 @@ class UserController extends CoreController {
     return res.status(200).json(updatedAccount);
   };
 
-  updateAccountPassword = async ({ params, body }, res) => {
-    const { id } = params;
-    let { password, newPassword } = body;
-    const data = await this.datamapper.findByPk(id);
+  updateAccountPassword = async (req, res) => {
+    const { id } = req.params;
 
-    if (!data) {
-      throw new ApiError("This account does not exist.", { httpStatus: 404 });
+    if (!id) {
+      throw createMissingIdError(req, {entityName : "user"});
     }
 
-    const validPassword = await bcrypt.compare(password, data.password);
+    let { password, newPassword } = req.body;
+
+    const accountMatchingId = await this.datamapper.findByPk(id);
+
+    if (!accountMatchingId) {
+      throw createResourceNotFoundError(req, {entityName: "user", targetName: "user"});
+    }
+
+    const validPassword = await bcrypt.compare(password, accountMatchingId.password);
 
     if (!validPassword) {
-      throw new ApiError("Incorrect password", { httpStatus: 400 });
-    }
-
-    const newHashedPassword = await bcrypt.hash(newPassword, 10);
-
-    const comparePasswords = await bcrypt.compare(newPassword, data.password);
-
-    if (comparePasswords) {
       throw new ApiError(
-        "Your current password and the new one must be different.",
-        { httpStatus: 400 }
+        "The password provided is incorrect.", 
+        {
+          httpStatus: 401, 
+          errorCode: "INCORRECT_PASSWORD", 
+          path: req.path, 
+          method: req.method, 
+          details: "A valid password must be provided to the server. \n Please check your password to process your login request."
+        }
       );
     }
 
-    const newAccountPassword = { ...data, password: newHashedPassword };
+    const updatedHashedPassword = await bcrypt.hash(newPassword, 10);
 
-    const row = await this.datamapper.update(newAccountPassword);
-
-    return res.status(200).json(row);
-  };
-
-  getByPk = async ({ params }, res) => {
-    const { id } = params;
-
-    const row = await this.datamapper.findByPkWithNoReturnedPassword(id);
-
-    if (row === undefined) {
-      throw new ApiError("This account does not exist.", { httpStatus: 404 });
+    if (!updatedHashedPassword) {
+      throw new ApiError(
+        "The password could not be encrypted.", 
+        {
+          httpStatus: 500, 
+          errorCode: "ENCRYPTION_FAILED", 
+          path: req.path, 
+          method: req.method, 
+          details: "The password could not be encrypted although the information provided was valid. This is an internal server error."
+        }
+      );
     }
 
-    return res.status(201).json(row);
+    const comparePasswords = await bcrypt.compare(newPassword, accountMatchingId.password);
+
+    if (!comparePasswords) {
+      throw createUpdateNotModifiedError(req, {entityName: "password"});
+    }
+
+    const updatedAccount = { ...accountMatchingId, password: updatedHashedPassword };
+
+    const updatedAccountWithPassword = await this.datamapper.update(updatedAccount);
+
+    return res.status(200).json(updatedAccountWithPassword);
+  };
+
+  getByPk = async (req, res) => {
+    const { id } = req.params;
+
+    if (!id) {
+      throw createMissingIdError(req, {entityName : "user"});
+    }
+
+    const accountMatchingId = await this.datamapper.findByPkWithNoReturnedPassword(id);
+
+    if (!accountMatchingId) {
+      throw createResourceNotFoundError(req, {entityName: "user", targetName: "user"});
+    }
+
+    return res.status(200).json(accountMatchingId);
   };
 
   deleteUser = async (req, res) => {
