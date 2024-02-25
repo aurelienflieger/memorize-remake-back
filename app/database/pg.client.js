@@ -1,6 +1,6 @@
 import "dotenv/config";
 import pg from "pg";
-import debugLogger from "../utils/debugLogger.util";
+import debugLogger from "../utils/debugLogger.util.js";
 import { fileURLToPath } from "url";
 import { basename } from "path";
 

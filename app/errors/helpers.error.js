@@ -1,4 +1,4 @@
-import ApiError from "./api.error";
+import ApiError from "./api.error.js";
 
 function createMissingIdError({ path, method }, { entityName }) {
   return new ApiError(`The ${entityName} ID was not provided`, {
@@ -6,7 +6,7 @@ function createMissingIdError({ path, method }, { entityName }) {
     errorCode: "MISSING_PARAMETER",
     path: path,
     method: method,
-    details: `The ${entityName} ID must be provided to the server. \n Please provide an 'id' parameter to process your request.`,
+    details: `The ${entityName} ID must be provided to the server.  Please provide an 'id' parameter to process your request.`,
   });
 }
 
@@ -20,7 +20,7 @@ function createMissingParamsError({ path, method }, { entityName, params }) {
       method: method,
       details: `The ${entityName} parameters ${[
         ...params,
-      ]} must be provided to the server. \n Please provide them to process your request.`,
+      ]} must be provided to the server.  Please provide them to process your request.`,
     }
   );
 }
@@ -36,7 +36,7 @@ function createResourceNotFoundError(
       errorCode: "RESOURCE_NOT_FOUND",
       path: path,
       method: method,
-      details: `The ${entityName} ID provided to the server does not match any ${targetName}. \n Please provide an existing ${entityName} 'id' parameter to process your request.`,
+      details: `The ${entityName} ID provided to the server does not match any ${targetName}.  Please provide an existing ${entityName} 'id' parameter to process your request.`,
     }
   );
 }
@@ -72,7 +72,7 @@ function createUpdateNotModifiedError({ path, method }, { entityName }) {
       errorCode: "UPDATE_IDENTICAL",
       path: path,
       method: method,
-      details: `You cannot update a ${entityName} if all fields are identical. \n Please update at least one field.`,
+      details: `You cannot update a ${entityName} if all fields are identical.  Please update at least one field.`,
     }
   );
 }
@@ -84,7 +84,7 @@ function createIncorrectPasswordError({ path, method }) {
     path,
     method,
     details:
-      "A valid password must be provided to the server. \n Please check your password to process your login request.",
+      "A valid password must be provided to the server.  Please check your password to process your login request.",
   });
 }
 
