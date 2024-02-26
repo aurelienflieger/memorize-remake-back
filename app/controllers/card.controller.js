@@ -1,6 +1,6 @@
 import CoreController from "./core.controller.js";
 import {CardDataMapper} from "../datamappers/index.datamapper.js";
-import { createFailedCreationError, createMissingIdError, createResourceNotFoundError, createUpdateNotModifiedError } from "../errors/helpers.error.js";
+import { createFailedCreationError, createFailedUpdateError, createMissingIdError, createMissingParamsError, createResourceNotFoundError, createUpdateNotModifiedError } from "../errors/helpers.error.js";
 
 /* The methods from the CoreDataMapper are available in addition to those specific to the Card. */
 export default class CardController extends CoreController {
@@ -87,5 +87,34 @@ export default class CardController extends CoreController {
 
   getCardById = async (req, res) => {
     return this.getByPk(req, res, "deck", "card");
+  };
+
+  updateCardDifficulties = async (req, res) => {
+    const updatedDifficulties = req.body;
+  
+    if (!updatedDifficulties || Object.keys(updatedDifficulties).length === 0) {
+      throw createMissingParamsError(req, { entityName: "card", params: ["updatedDifficulties"] });
+    }
+  
+    const updatedCards = [];
+  
+    for (const [cardId, newDifficulty] of Object.entries(updatedDifficulties)) {
+      const card = await this.datamapper.findByPk(cardId);
+  
+      if (!card) {
+        throw createResourceNotFoundError(req, { entityName: "card", targetName: "card" });
+      }
+  
+      card.difficulty = newDifficulty;
+      const updatedCard = await this.datamapper.update(card);
+      
+      if (!updatedCard) {
+        throw createFailedUpdateError(req, { entityName: "card" });
+      }
+  
+      updatedCards.push(updatedCard);
+    }
+  
+    res.status(200).json(updatedCards);
   };
 }

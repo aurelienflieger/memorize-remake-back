@@ -23,6 +23,12 @@ cardsRouter
   );
 
 cardsRouter
+  .route("/update-difficulties")
+  .patch(
+    controllerWrapper(cardController.updateCardDifficulties)
+  );
+  
+cardsRouter
   .route("/:id")
   .get(controllerWrapper(cardController.getCardById))
   .patch(
