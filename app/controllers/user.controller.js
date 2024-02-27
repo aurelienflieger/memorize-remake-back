@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import generateJWT from "../utils/generateJWT.util.js";
 import CoreController from "./core.controller.js";
 import { UserDataMapper } from "../datamappers/index.datamapper.js";
@@ -82,7 +83,6 @@ class UserController extends CoreController {
     const row = await this.datamapper.update(newAccountInfo);
 
     return res.status(200).json(row);
-  };
 
   updateAccountPassword = async ({ params, body }, res) => {
     const { id } = params;
@@ -127,6 +127,31 @@ class UserController extends CoreController {
     }
 
     return res.status(201).json(row);
+  }
+};
+
+  };
+
+  refreshTokens = (req, res) => {
+    const refreshToken = req.body.refreshToken;
+
+    if (!refreshToken) {
+      return res.status(403).json({
+        error: "The refresh token is missing. Your session is invalid.",
+      });
+    }
+
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+      if (err) {
+        return res.status(403).json({
+          error: "The refresh token is incorrect. Your session is invalid.",
+        });
+      }
+
+      const { accessToken, refreshToken } = generateJWT(user);
+
+      return res.status(200).json({ accessToken, refreshToken });
+    });
   };
 }
 
