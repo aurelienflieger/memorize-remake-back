@@ -34,7 +34,7 @@ userRouter
   .delete(controllerWrapper(userController.delete));
 
 userRouter
-  .route("/:id/changepassword")
+  .route("/:id/change-password")
   .patch(
     validateInput("body", userUpdatePasswordSchema),
     controllerWrapper(userController.updateAccountPassword)

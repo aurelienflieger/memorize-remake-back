@@ -12,7 +12,7 @@ const checkForValidAuthentification = async (req, res, next) => {
   }
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err) => {
-    console.log(err);
+
     if (err) {
       return res.status(500).json({
         error:
