@@ -170,7 +170,6 @@ class UserController extends CoreController {
   deleteUser = async (req, res) => {
     return this.delete(req, res, "user", "account");
   };
-
 }
 
 export default UserController;

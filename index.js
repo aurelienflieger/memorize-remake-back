@@ -8,7 +8,12 @@ import debugLogger from "./app/utils/debugLogger.util.js";
 const app = express();
 const PORT = process.env.PORT;
 const HOST = process.env.HOST;
-const corsOptions = { credentials: true, origin: process.env.URL || "*" };
+
+const corsOptions = {
+  credentials: true,
+  origin: process.env.URL || "*",
+  allowedHeaders: ["Content-Type", "Authorization", "x-refresh-token"],
+};
 const logger = debugLogger("index.js");
 
 app.use(cors(corsOptions));
