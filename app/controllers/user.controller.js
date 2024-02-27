@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import generateJWT from "../utils/generateJWT.util.js";
 import CoreController from "./core.controller.js";
 import { UserDataMapper } from "../datamappers/index.datamapper.js";
-import ApiError from "../errors/api.error.js";
+import { createFailedCreationError, createFailedUpdateError, createIncorrectPasswordError, createMissingIdError, createMissingParamsError, createPasswordEncryptionError, createResourceNotFoundError, createTokenGenerationError, createUpdateNotModifiedError } from "../errors/helpers.error.js";
 
 class UserController extends CoreController {
   constructor() {
@@ -14,22 +14,30 @@ class UserController extends CoreController {
     this.datamapper = datamapper;
   }
 
-  login = async ({ body }, res) => {
-    const { email: inputEmail, password: inputPassword } = body;
+  login = async (req, res) => {
+    const { email: inputEmail, password: inputPassword } = req.body;
+
+    if (!inputEmail || !inputPassword) {
+      throw createMissingParamsError(req, {entityName: "user", params: ["email", "password"]});
+    }
 
     const user = await this.datamapper.getUserByEmail(inputEmail);
 
     if (!user) {
-      throw new ApiError("Please verify the input email", { httpStatus: 400 });
+      throw createResourceNotFoundError(req, {entityName: "user", targetName: "user"});  
     }
 
     const validPassword = await bcrypt.compare(inputPassword, user.password);
 
     if (!validPassword) {
-      throw new ApiError("Incorrect password", { httpStatus: 400 });
+      throw createIncorrectPasswordError(req);
     }
 
     const tokens = generateJWT(user);
+
+    if (!tokens) {
+      throw createTokenGenerationError(req);
+    }
 
     const { email, username, id } = user;
 
@@ -40,14 +48,21 @@ class UserController extends CoreController {
       id,
     };
 
-    // Both the access token & the refresh token are returned in JSON format for front-end authentification
     res.status(200).json(tokensWithUser);
   };
 
-  signup = async ({ body }, res) => {
-    const { password, username, email } = body;
+  signup = async (req, res) => {
+    const { password, username, email } = req.body;
+
+    if (!password || !username || !email) {
+      throw createMissingParamsError(req, {entityName: "user", params: ["username", "email", "password"]});
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    if (!hashedPassword) {
+      throw createPasswordEncryptionError(req);
+    }
 
     const newUser = await this.datamapper.insert({
       email,
@@ -55,101 +70,105 @@ class UserController extends CoreController {
       password: hashedPassword,
     });
 
+    if (!newUser) {
+      throw createFailedCreationError(req, {entityName: "user"});
+    }
+
     res.status(201).json({ newUser });
   };
 
-  updateAccountInfo = async ({ params, body }, res) => {
-    const { id } = params;
-    let { username, email } = body;
-    const data = await this.datamapper.findByPk(id);
+  updateAccountInfo = async (req, res) => {
+    const { id } = req.params;
 
-    if (!data) {
-      throw new ApiError("This account does not exist.", { httpStatus: 404 });
+    if (!id) {
+      throw createMissingIdError(req, {entityName : "user"});
     }
 
-    username ? username : (username = data.username);
-    email ? email : (email = data.email);
+    let { username, email } = req.body;
+    const accountMatchingId = await this.datamapper.findByPk(id);
 
-    const isModified = data.username === username && data.email === email;
-
-    if (isModified) {
-      throw new ApiError("You need to change at least one field", {
-        httpStatus: 400,
-      });
+    if (!accountMatchingId) {
+      throw createResourceNotFoundError(req, {entityName: "user", targetName: "user"});
     }
 
-    const newAccountInfo = { ...data, email: email, username: username };
+    username ? username : (username = accountMatchingId.username);
+    email ? email : (email = accountMatchingId.email);
 
-    const row = await this.datamapper.update(newAccountInfo);
+    const isNotModified = accountMatchingId.username === username && accountMatchingId.email === email;
 
-    return res.status(200).json(row);
+    if (isNotModified) {
+      throw createUpdateNotModifiedError(req, {entityName: "user"});
+    }
+
+    const updatedAccountInfo = { ...accountMatchingId, email: email, username: username };
+
+    const updatedAccount = await this.datamapper.update(updatedAccountInfo);
+
+    if (!updatedAccount) {
+      throw createFailedUpdateError(req, {entityName: "user"});
+    }
+
+    return res.status(200).json(updatedAccount);
   };
 
-  updateAccountPassword = async ({ params, body }, res) => {
-    const { id } = params;
-    let { password, newPassword } = body;
-    const data = await this.datamapper.findByPk(id);
+  updateAccountPassword = async (req, res) => {
+    const { id } = req.params;
 
-    if (!data) {
-      throw new ApiError("This account does not exist.", { httpStatus: 404 });
+    if (!id) {
+      throw createMissingIdError(req, {entityName : "user"});
     }
 
-    const validPassword = await bcrypt.compare(password, data.password);
+    let { password, newPassword } = req.body;
+
+    const accountMatchingId = await this.datamapper.findByPk(id);
+
+    if (!accountMatchingId) {
+      throw createResourceNotFoundError(req, {entityName: "user", targetName: "user"});
+    }
+
+    const validPassword = await bcrypt.compare(password, accountMatchingId.password);
 
     if (!validPassword) {
-      throw new ApiError("Incorrect password", { httpStatus: 400 });
+      throw createIncorrectPasswordError(req);
     }
 
-    const newHashedPassword = await bcrypt.hash(newPassword, 10);
+    const updatedHashedPassword = await bcrypt.hash(newPassword, 10);
 
-    const comparePasswords = await bcrypt.compare(newPassword, data.password);
-
-    if (comparePasswords) {
-      throw new ApiError(
-        "Your current password and the new one must be different.",
-        { httpStatus: 400 }
-      );
+    if (!updatedHashedPassword) {
+      throw createPasswordEncryptionError(req);
     }
 
-    const newAccountPassword = { ...data, password: newHashedPassword };
+    const comparePasswords = await bcrypt.compare(newPassword, accountMatchingId.password);
 
-    const row = await this.datamapper.update(newAccountPassword);
+    if (!comparePasswords) {
+      throw createUpdateNotModifiedError(req, {entityName: "password"});
+    }
 
-    return res.status(200).json(row);
+    const updatedAccount = { ...accountMatchingId, password: updatedHashedPassword };
+
+    const updatedAccountWithPassword = await this.datamapper.update(updatedAccount);
+
+    return res.status(200).json(updatedAccountWithPassword);
   };
 
-  getByPk = async ({ params }, res) => {
-    const { id } = params;
+  getByPk = async (req, res) => {
+    const { id } = req.params;
 
-    const row = await this.datamapper.findByPkWithNoReturnedPassword(id);
-
-    if (row === undefined) {
-      throw new ApiError("This account does not exist.", { httpStatus: 404 });
+    if (!id) {
+      throw createMissingIdError(req, {entityName : "user"});
     }
 
-    return res.status(201).json(row);
-  };
+    const accountMatchingId = await this.datamapper.findByPkWithNoReturnedPassword(id);
 
-  refreshTokens = (req, res) => {
-    const refreshToken = JSON.parse(req.body.refreshToken);
-
-    if (!refreshToken || refreshToken == "undefined") {
-      return res.status(403).json({
-        error: "The refresh token is missing. Your session is invalid.",
-      });
+    if (!accountMatchingId) {
+      throw createResourceNotFoundError(req, {entityName: "user", targetName: "user"});
     }
 
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-      if (err) {
-        return res.status(403).json({
-          error: "The refresh token is incorrect. Your session is invalid.",
-        });
-      }
-
-      const { accessToken, refreshToken } = generateJWT(user);
-
-      return res.status(200).json({ accessToken, refreshToken });
-    });
+    return res.status(200).json(accountMatchingId);
+  }
+  
+  deleteUser = async (req, res) => {
+    return this.delete(req, res, "user", "account");
   };
 }
 

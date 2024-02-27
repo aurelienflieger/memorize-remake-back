@@ -23,12 +23,18 @@ cardsRouter
   );
 
 cardsRouter
+  .route("/update-difficulties")
+  .patch(
+    controllerWrapper(cardController.updateCardDifficulties)
+  );
+  
+cardsRouter
   .route("/:id")
-  .get(controllerWrapper(cardController.getByPk))
+  .get(controllerWrapper(cardController.getCardById))
   .patch(
     validateInput("body", cardUpdateSchema),
     controllerWrapper(cardController.updateCard)
   )
-  .delete(controllerWrapper(cardController.delete));
+  .delete(controllerWrapper(cardController.deleteCard));
 
 export default cardsRouter;

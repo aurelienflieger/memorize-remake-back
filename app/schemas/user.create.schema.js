@@ -15,6 +15,4 @@ export default Joi.object({
     .pattern(new RegExp(/[ -~]*(?=[ -~])[^0-9a-zA-Z][ -~]*/)) // basically: [ -~] && [^0-9a-zA-Z], at least 1 special character
     .pattern(new RegExp(/[ -~]*[0-9][ -~]*/)) // at least 1 number
     .min(8)
-    .messages({})
-    .required(),
-});
+}).required()

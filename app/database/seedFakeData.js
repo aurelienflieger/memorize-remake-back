@@ -54,5 +54,5 @@ seedFakeData()
     console.log("The database was successfully seeded!");
   })
   .catch((error) => {
-    console.log("There was an issue seeding the database:", error);
+    console.log("There was an issue seeding the database:", error.message);
   });
