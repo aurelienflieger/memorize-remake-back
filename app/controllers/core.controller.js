@@ -19,8 +19,8 @@ export default class CoreController {
     const deleted = await this.datamapper.delete(id);
     return deleted
       ? res.status(400).json({
-          message: "Deletion failed",
-        })
+        message: "Deletion failed",
+      })
       : res.status(202).json({ message: "Deletion success" });
   };
 
