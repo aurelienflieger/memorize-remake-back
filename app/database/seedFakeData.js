@@ -10,8 +10,6 @@ async function seedFakeData() {
       username: faker.internet.userName(),
     };
 
-    console.log(user.email);
-
     const userInsert = await pool.query(
       // eslint-disable-next-line quotes
       'INSERT INTO "user"(email, password, username) VALUES($1, $2, $3) RETURNING id',
@@ -56,5 +54,5 @@ seedFakeData()
     console.log("The database was successfully seeded!");
   })
   .catch((error) => {
-    console.log("There was an issue seeding the database:", error);
+    console.log("There was an issue seeding the database:", error.message);
   });

@@ -34,7 +34,7 @@ export default class CoreDatamapper {
       `SELECT * FROM delete_${this.tableName}($1)`,
       [id]
     );
-    return result.rowCount === 0;
+    return result.rowCount > 0;
   };
 }
 

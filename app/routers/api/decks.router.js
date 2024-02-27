@@ -25,12 +25,12 @@ decksRouter
 
 decksRouter
   .route("/:id")
-  .get(controllerWrapper(deckController.getByPk))
+  .get(controllerWrapper(deckController.getDeckById))
   .patch(
     validateInput("body", deckUpdateSchema),
     controllerWrapper(deckController.updateDeck)
   )
-  .delete(controllerWrapper(deckController.delete));
+  .delete(controllerWrapper(deckController.deleteDeck));
 
 decksRouter.use("/:id/cards", cardsRouter);
 
