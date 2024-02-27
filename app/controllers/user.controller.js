@@ -1,9 +1,9 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import generateJWT from "../utils/generateJWT.util.js";
 import CoreController from "./core.controller.js";
 import { UserDataMapper } from "../datamappers/index.datamapper.js";
 import ApiError from "../errors/api.error.js";
-
 
 class UserController extends CoreController {
   constructor() {
@@ -26,7 +26,7 @@ class UserController extends CoreController {
     const validPassword = await bcrypt.compare(inputPassword, user.password);
 
     if (!validPassword) {
-      throw new ApiError("Incorrect password", { httpStatus: 400 })
+      throw new ApiError("Incorrect password", { httpStatus: 400 });
     }
 
     const tokens = generateJWT(user);
@@ -73,16 +73,16 @@ class UserController extends CoreController {
     const isModified = data.username === username && data.email === email;
 
     if (isModified) {
-      throw new ApiError("You need to change at least one field", { httpStatus: 400 });
+      throw new ApiError("You need to change at least one field", {
+        httpStatus: 400,
+      });
     }
 
-    const newAccountInfo = { ...data, email: email, username: username};
+    const newAccountInfo = { ...data, email: email, username: username };
 
     const row = await this.datamapper.update(newAccountInfo);
 
     return res.status(200).json(row);
-  }
-
 
   updateAccountPassword = async ({ params, body }, res) => {
     const { id } = params;
@@ -96,7 +96,7 @@ class UserController extends CoreController {
     const validPassword = await bcrypt.compare(password, data.password);
 
     if (!validPassword) {
-      throw new ApiError("Incorrect password", { httpStatus: 400 })
+      throw new ApiError("Incorrect password", { httpStatus: 400 });
     }
 
     const newHashedPassword = await bcrypt.hash(newPassword, 10);
@@ -104,7 +104,10 @@ class UserController extends CoreController {
     const comparePasswords = await bcrypt.compare(newPassword, data.password);
 
     if (comparePasswords) {
-      throw new ApiError("Your current password and the new one must be different.", { httpStatus: 400 })
+      throw new ApiError(
+        "Your current password and the new one must be different.",
+        { httpStatus: 400 }
+      );
     }
 
     const newAccountPassword = { ...data, password: newHashedPassword };
@@ -112,7 +115,7 @@ class UserController extends CoreController {
     const row = await this.datamapper.update(newAccountPassword);
 
     return res.status(200).json(row);
-  }
+  };
 
   getByPk = async ({ params }, res) => {
     const { id } = params;
@@ -121,10 +124,35 @@ class UserController extends CoreController {
 
     if (row === undefined) {
       throw new ApiError("This account does not exist.", { httpStatus: 404 });
-    };
+    }
 
     return res.status(201).json(row);
   }
 };
+
+  };
+
+  refreshTokens = (req, res) => {
+    const refreshToken = req.body.refreshToken;
+
+    if (!refreshToken) {
+      return res.status(403).json({
+        error: "The refresh token is missing. Your session is invalid.",
+      });
+    }
+
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+      if (err) {
+        return res.status(403).json({
+          error: "The refresh token is incorrect. Your session is invalid.",
+        });
+      }
+
+      const { accessToken, refreshToken } = generateJWT(user);
+
+      return res.status(200).json({ accessToken, refreshToken });
+    });
+  };
+}
 
 export default UserController;
