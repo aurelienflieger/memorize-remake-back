@@ -83,7 +83,6 @@ class UserController extends CoreController {
     const row = await this.datamapper.update(newAccountInfo);
 
     return res.status(200).json(row);
-  };
 
   updateAccountPassword = async ({ params, body }, res) => {
     const { id } = params;
@@ -128,6 +127,9 @@ class UserController extends CoreController {
     }
 
     return res.status(201).json(row);
+  }
+};
+
   };
 
   refreshTokens = (req, res) => {
