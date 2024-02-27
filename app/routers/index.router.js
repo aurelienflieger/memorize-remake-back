@@ -8,6 +8,7 @@ router.use("/api", apiRouter);
 
 router.use((_, __, next) => {
   const error = new ApiError("Ressource not found.", { httpStatus: 404 });
+  error.name = "NotFound";
   next(error);
 });
 

@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import generateJWT from "../utils/generateJWT.util.js";
 import CoreController from "./core.controller.js";
 import { UserDataMapper } from "../datamappers/index.datamapper.js";
@@ -164,8 +165,8 @@ class UserController extends CoreController {
     }
 
     return res.status(200).json(accountMatchingId);
-  };
-
+  }
+  
   deleteUser = async (req, res) => {
     return this.delete(req, res, "user", "account");
   };
