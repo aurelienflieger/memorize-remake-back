@@ -138,9 +138,10 @@ class UserController extends CoreController {
       throw createPasswordEncryptionError(req);
     }
 
-    const comparePasswords = await bcrypt.compare(newPassword, accountMatchingId.password);
+    const comparePasswords = await bcrypt.compare(newPassword, updatedHashedPassword);
 
     if (!comparePasswords) {
+      console.log(accountMatchingId.password);
       throw createUpdateNotModifiedError(req, {entityName: "password"});
     }
 
@@ -165,7 +166,7 @@ class UserController extends CoreController {
     }
 
     return res.status(200).json(accountMatchingId);
-  }
+  };
   
   deleteUser = async (req, res) => {
     return this.delete(req, res, "user", "account");
