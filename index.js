@@ -14,6 +14,7 @@ const corsOptions = {
   origin: process.env.URL || "*",
   allowedHeaders: ["Content-Type", "Authorization", "x-refresh-token"],
 };
+
 const logger = debugLogger("index.js");
 
 app.use(cors(corsOptions));
