@@ -39,6 +39,7 @@ userRouter
     validateInput("body", userUpdatePasswordSchema),
     controllerWrapper(userController.updateAccountPassword)
   );
+
 userRouter.use("/:id/decks", decksRouter);
 
 export default userRouter;

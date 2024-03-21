@@ -5,7 +5,7 @@ import pool from "../database/pg.client.js";
 export default class DeckDataMapper extends CoreDataMapper {
   tableName = "deck";
 
-  findAllDecksByUserID = async (id) =>  {
+  findAllDecksByUserID = async (id) => {
     const result = await pool.query(
       `SELECT * FROM "${this.tableName}" WHERE "user_id" = $1`,
       [id]

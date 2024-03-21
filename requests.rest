@@ -7,9 +7,9 @@ POST http://127.0.0.1:3000/api/account/
 Content-Type: application/json
 
 {
-    "email": "sahim@gmail.com",
-    "password": "Sahim!123",
-    "username": "Famantha" 
+    "email": "fahim@fahim.com",
+    "password": "Fahim!123",
+    "username": "Fahim" 
 }
 
 ## GET
@@ -30,12 +30,12 @@ Content-Type: application/json
 
 ### Update a single user password-- OK
 
-PATCH http://127.0.0.1:3000/api/account/17/changepassword
+PATCH http://127.0.0.1:3000/api/account/11/change-password
 Content-Type: application/json
 
 {
-    "password": "Nikoula!123",
-    "newPassword": "Nikoula!123"
+    "password": "Fahim!123",
+    "newPassword": "Fahim!012"
 }
 
 ### Delete a single user -- OK

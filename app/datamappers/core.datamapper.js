@@ -9,7 +9,6 @@ export default class CoreDatamapper {
       `SELECT * FROM "${this.tableName}" WHERE "id" = $1`,
       [id]
     );
-
     return result.rows[0];
   };
 
@@ -37,4 +36,3 @@ export default class CoreDatamapper {
     return result.rowCount > 0;
   };
 }
-
