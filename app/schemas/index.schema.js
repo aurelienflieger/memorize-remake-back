@@ -5,13 +5,15 @@ import deckUpdateSchema from "./deck.update.schema.js";
 import userCreateSchema from "./user.create.schema.js";
 import userUpdateInfoSchema from "./user.info.update.schema.js";
 import userUpdatePasswordSchema from "./user.password.update.schema.js";
+import authLoginSchema from "./auth.login.schema.js";
 
 export {
-  cardCreateSchema, 
-  cardUpdateSchema, 
-  deckCreateSchema, 
-  deckUpdateSchema, 
-  userCreateSchema, 
+  cardCreateSchema,
+  cardUpdateSchema,
+  deckCreateSchema,
+  deckUpdateSchema,
+  userCreateSchema,
   userUpdateInfoSchema,
-  userUpdatePasswordSchema
+  userUpdatePasswordSchema,
+  authLoginSchema,
 };
