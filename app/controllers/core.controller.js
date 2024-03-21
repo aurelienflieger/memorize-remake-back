@@ -17,9 +17,9 @@ export default class CoreController {
       throw createMissingIdError(req, { entityName });
     }
 
-    const userMatchingId = await this.datamapper.findByPk(id);
+    const matchingId = await this.datamapper.findByPk(id);
 
-    if (!userMatchingId) {
+    if (!matchingId) {
       throw new createResourceNotFoundError(req, { entityName, targetName });
     }
 
@@ -41,12 +41,12 @@ export default class CoreController {
       throw createMissingIdError(req, { entityName });
     }
 
-    const userMatchingId = await this.datamapper.findByPk(id);
+    const matchingId = await this.datamapper.findByPk(id);
 
-    if (!userMatchingId) {
+    if (!matchingId) {
       throw new createResourceNotFoundError(req, { targetName });
     }
 
-    return res.status(200).json(userMatchingId);
+    return res.status(200).json(matchingId);
   };
 }
