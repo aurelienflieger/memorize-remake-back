@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt'
 import { UserDataMapper } from '../datamappers/index.datamapper.js'
 import {
-  createFailedCreationError,
   createFailedUpdateError,
   createIncorrectPasswordError,
   createMissingIdError,
@@ -29,7 +28,6 @@ class UserController extends CoreController {
 
   login = async (req, res) => {
     const { email: inputEmail, password: inputPassword } = req.body
-    let newUser
 
     if (!inputEmail || !inputPassword) {
       throw createMissingParamsError(req, {
@@ -75,6 +73,7 @@ class UserController extends CoreController {
 
   signup = async (req, res) => {
     const { password, username, email } = req.body
+    let newUser
 
     if (!password || !username || !email) {
       throw createMissingParamsError(req, {
@@ -88,6 +87,7 @@ class UserController extends CoreController {
     if (!hashedPassword) {
       throw createPasswordEncryptionError(req)
     }
+
     try {
       newUser = await this.datamapper.insert({
         email,
@@ -95,8 +95,8 @@ class UserController extends CoreController {
         password: hashedPassword,
       })
     }
-    catch (error) {
-      throw createAccountCreationError(req, error)
+    catch {
+      throw createAccountCreationError(req)
     }
 
     logger('The user successfully created an account.')
