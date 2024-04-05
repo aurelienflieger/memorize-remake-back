@@ -1,125 +1,138 @@
-import ApiError from "./api.error.js";
+import ApiError from './api.error.js'
 
 function createMissingIdError({ path, method }, { entityName }) {
-  return new ApiError(`The ${entityName} ID was not provided`, {
+  return new ApiError(`L'ID de ${entityName} n'a pas été fourni`, {
     httpStatus: 400,
-    errorCode: "MISSING_PARAMETER",
+    errorCode: 'MISSING_ID',
     path: path,
     method: method,
-    details: `The ${entityName} ID must be provided to the server.  Please provide an 'id' parameter to process your request.`,
-  });
+    details: `L'ID de ${entityName} doit être fourni au serveur. Veuillez fournir un paramètre 'id' pour traiter votre demande.`,
+  })
 }
 
 function createMissingParamsError({ path, method }, { entityName, params }) {
   return new ApiError(
-    `The following ${entityName} parameters were not provided: ${[...params]}`,
+    `Les paramètres suivants de ${entityName} n'ont pas été fournis : ${[...params]}`,
     {
       httpStatus: 400,
-      errorCode: "MISSING_PARAMETER",
+      errorCode: 'MISSING_PARAMETER',
       path: path,
       method: method,
-      details: `The ${entityName} parameters ${[
+      details: `Les paramètres de ${entityName} ${[
         ...params,
-      ]} must be provided to the server.  Please provide them to process your request.`,
-    }
-  );
+      ]} doivent être fournis au serveur. Veuillez les fournir pour traiter votre demande.`,
+    },
+  )
 }
 
 function createResourceNotFoundError(
   { path, method },
-  { entityName, targetName }
+  { entityName, targetName },
 ) {
   return new ApiError(
-    `The provided ${entityName} ID does not match any ${targetName}.`,
+    `L'ID de ${entityName} fourni ne correspond à aucun ${targetName}.`,
     {
       httpStatus: 404,
-      errorCode: "RESOURCE_NOT_FOUND",
+      errorCode: 'RESOURCE_NOT_FOUND',
       path: path,
       method: method,
-      details: `The ${entityName} ID provided to the server does not match any ${targetName}.  Please provide an existing ${entityName} 'id' parameter to process your request.`,
-    }
-  );
+      details: `L'ID de ${entityName} fourni au serveur ne correspond à aucun ${targetName}. Veuillez fournir un 'id' de ${entityName} existant pour traiter votre demande.`,
+    },
+  )
 }
 
 function createFailedCreationError({ path, method }, { entityName }) {
   console.log(path, method)
   return new ApiError(
-    `A new ${entityName} could not be successfully created.`,
+    `Un nouveau ${entityName} n'a pas pu être créé avec succès.`,
     {
       httpStatus: 500,
-      errorCode: "CREATION_FAILED",
+      errorCode: 'CREATION_FAILED',
       path: path,
       method: method,
-      details: `Your ${entityName} creation request could not be processed. Does an identical ${entityName} already exist?.`,
-    }
-  );
+      details: `Votre demande de création de ${entityName} n'a pas pu être traitée. Un ${entityName} identique existe-t-il déjà ?`,
+    },
+  )
 }
 
 function createFailedUpdateError({ path, method }, { entityName }) {
-  return new ApiError(`Your ${entityName} could not be successfully updated.`, {
+  return new ApiError(`Votre ${entityName} n'a pas pu être mis à jour avec succès.`, {
     httpStatus: 500,
-    errorCode: "UPDATE_FAILED",
+    errorCode: 'UPDATE_FAILED',
     path: path,
     method: method,
-    details: `Your ${entityName} update request seems to be valid but the process was aborted.`,
-  });
+    details: `Votre demande de mise à jour de ${entityName} semble être valide mais le processus a été interrompu.`,
+  })
 }
 
 function createUpdateNotModifiedError({ path, method }, { entityName }) {
   return new ApiError(
-    `You did not update any of the fields of the ${entityName} you wish to update.`,
+    `Vous n'avez pas mis à jour aucun des champs de ${entityName} que vous souhaitez mettre à jour.`,
     {
       httpStatus: 409,
-      errorCode: "UPDATE_IDENTICAL",
+      errorCode: 'UPDATE_FAILED_IDENTICAL_INPUT',
       path: path,
       method: method,
-      details: `You cannot update a ${entityName} if all fields are identical.  Please update at least one field.`,
-    }
-  );
+      details: `Vous ne pouvez pas mettre à jour un ${entityName} si tous les champs sont identiques. Veuillez mettre à jour au moins un champ.`,
+    },
+  )
 }
 
 function createIncorrectPasswordError({ path, method }) {
-  return new ApiError("The password provided is incorrect.", {
+  return new ApiError('Le mot de passe fourni est incorrect.', {
     httpStatus: 401,
-    errorCode: "INCORRECT_PASSWORD",
+    errorCode: 'INCORRECT_PASSWORD',
     path,
     method,
     details:
-      "A valid password must be provided to the server.  Please check your password to process your login request.",
-  });
+      'Un mot de passe valide doit être fourni au serveur. Veuillez vérifier votre mot de passe pour traiter votre demande de connexion.',
+  })
 }
 
 function createTokenGenerationError({ path, method }) {
-  return new ApiError("The authentication tokens could not be generated.", {
+  return new ApiError('Les jetons d\'authentification n\'ont pas pu être générés.', {
     httpStatus: 500,
-    errorCode: "TOKENS_ERROR",
+    errorCode: 'TOKEN_GENERATION_FAILED',
     path,
     method,
     details:
-      "The access & refresh tokens failed to generate although the information provided was valid. This is an internal server error.",
-  });
+      'Les jetons d\'accès et de rafraîchissement n\'ont pas pu être générés bien que les informations fournies étaient valides. Il s\'agit d\'une erreur interne du serveur.',
+  })
 }
 
 function createPasswordEncryptionError({ path, method }) {
-  return new ApiError("The password could not be encrypted.", {
+  return new ApiError('Le mot de passe n\'a pas pu être crypté.', {
     httpStatus: 500,
-    errorCode: "ENCRYPTION_FAILED",
+    errorCode: 'EPASSWORD_ENCRYPTION_FAILED',
     path,
     method,
     details:
-      "The password could not be encrypted although the information provided was valid. This is an internal server error.",
-  });
+      'Le mot de passe n\'a pas pu être crypté bien que les informations fournies étaient valides. Il s\'agit d\'une erreur interne du serveur.',
+  })
+}
+
+function createAccountCreationError({ method, baseUrl }) {
+  return new ApiError(
+    `Un nouveau compte n'a pas pu être créé avec succès.`,
+    {
+      httpStatus: 400,
+      errorCode: 'USER_CREATION_FAILED',
+      method,
+      baseUrl,
+      details: `Votre demande de création de compte n'a pas pu être traitée. Un compte identique existe-t-il déjà ?`,
+    },
+  )
 }
 
 function createAccountDeletionError({ path, method }) {
-  return new ApiError("The user account could not be successfully deleted.", {
+  return new ApiError('Le compte utilisateur n\'a pas pu être supprimé avec succès.', {
     httpStatus: 500,
-    errorCode: "USER_DELETION_FAILED",
+    errorCode: 'USER_DELETION_FAILED',
     path,
     method,
     details:
-      "The user id provided to the server matched an user account but the deletion could not be performed.",
-  });
+      'L\'id utilisateur fourni au serveur correspond à un compte utilisateur mais la suppression n\'a pas pu être effectuée.',
+  })
 }
 
 export {
@@ -132,5 +145,6 @@ export {
   createIncorrectPasswordError,
   createTokenGenerationError,
   createPasswordEncryptionError,
-  createAccountDeletionError
-};
+  createAccountDeletionError,
+  createAccountCreationError,
+}
