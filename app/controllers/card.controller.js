@@ -8,6 +8,10 @@ import {
   createResourceNotFoundError,
   createUpdateNotModifiedError,
 } from "../errors/helpers.error.js";
+import debugLogger from "../utils/debugLogger.util.js";
+
+const logger = debugLogger('card.controller.js')
+
 
 /* The methods from the CoreDataMapper are available in addition to those specific to the Card. */
 export default class CardController extends CoreController {
@@ -37,6 +41,8 @@ export default class CardController extends CoreController {
       });
     }
 
+    logger('All cards matching the deck ID were retrieved.')
+
     res.status(200).json(cardsMatchingDeckId);
   };
 
@@ -54,6 +60,8 @@ export default class CardController extends CoreController {
     if (!createdCard) {
       throw createFailedCreationError(req, { entityName: "card" });
     }
+
+    logger('The card was successfully created.')
 
     res.status(200).json(createdCard);
   };
@@ -98,6 +106,8 @@ export default class CardController extends CoreController {
     if (!updatedCard) {
       throw createUpdateNotModifiedError(req, { entityName: "card" });
     }
+
+    logger('The card was successfully updated.')
 
     return res.status(200).json(updatedCard);
   };
@@ -163,6 +173,8 @@ export default class CardController extends CoreController {
       // And push each updated card to the previously initialized array...
       updatedCards.push(updatedCard);
     }
+
+    logger('All card difficulties were successfully updated.')
 
     // Which we then return to the client
     res.status(200).json(updatedCards);

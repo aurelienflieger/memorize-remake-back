@@ -11,8 +11,15 @@ const HOST = process.env.HOST;
 
 const corsOptions = {
   credentials: true,
-  origin: process.env.URL || "*",
-  allowedHeaders: ["Content-Type", "Authorization", "x-refresh-token"],
+  origin: (origin, callback) => {
+    const allowedOrigins = ['http://127.0.0.1:5173', 'http://localhost:5173', 'http://127.0.0.1:5174', 'http://localhost:5174'];
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error(`The client origin is not included in the CORS options' allowed origins.`))
+    }
+  },
+  allowedHeaders: ["Content-Type", "authorization", "x-refresh-token"],
 };
 
 const logger = debugLogger("index.js");

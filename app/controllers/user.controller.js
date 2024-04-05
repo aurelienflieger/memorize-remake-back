@@ -1,6 +1,4 @@
 import bcrypt from "bcrypt";
-import generateJWT from "../utils/generateJWT.util.js";
-import CoreController from "./core.controller.js";
 import { UserDataMapper } from "../datamappers/index.datamapper.js";
 import {
   createFailedCreationError,
@@ -13,6 +11,11 @@ import {
   createTokenGenerationError,
   createUpdateNotModifiedError,
 } from "../errors/helpers.error.js";
+import generateJWT from "../utils/generateJWT.util.js";
+import CoreController from "./core.controller.js";
+import debugLogger from "../utils/debugLogger.util.js";
+
+const logger = debugLogger('user.controller.js')
 
 class UserController extends CoreController {
   constructor() {
@@ -63,6 +66,8 @@ class UserController extends CoreController {
       id,
     };
 
+    logger('The user successfully logged into their account.')
+
     res.status(200).json(tokensWithUser);
   };
 
@@ -91,6 +96,8 @@ class UserController extends CoreController {
     if (!newUser) {
       throw createFailedCreationError(req, { entityName: "user" });
     }
+
+    logger('The user successfully created an account.')
 
     res.status(201).json({ newUser });
   };
@@ -135,6 +142,7 @@ class UserController extends CoreController {
       throw createFailedUpdateError(req, { entityName: "user" });
     }
 
+    logger(`The user successfully updated their account's email or username.`)
     return res.status(200).json(updatedAccount);
   };
 
@@ -195,6 +203,8 @@ class UserController extends CoreController {
       updatedAccount
     );
 
+    logger(`The user successfully updated their account's password.`)
+
     return res.status(200).json(updatedAccountWithPassword);
   };
 
@@ -214,6 +224,9 @@ class UserController extends CoreController {
         targetName: "user",
       });
     }
+
+    logger(`The user was successfully fetched from the provided ID.`)
+
 
     return res.status(200).json(accountMatchingId);
   };

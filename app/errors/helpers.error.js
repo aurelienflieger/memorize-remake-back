@@ -42,6 +42,7 @@ function createResourceNotFoundError(
 }
 
 function createFailedCreationError({ path, method }, { entityName }) {
+  console.log(path, method)
   return new ApiError(
     `A new ${entityName} could not be successfully created.`,
     {
@@ -49,7 +50,7 @@ function createFailedCreationError({ path, method }, { entityName }) {
       errorCode: "CREATION_FAILED",
       path: path,
       method: method,
-      details: `Your ${entityName} creation request seems to be valid but the process was aborted.`,
+      details: `Your ${entityName} creation request could not be processed. Does an identical ${entityName} already exist?.`,
     }
   );
 }

@@ -15,11 +15,9 @@ const verifyToken = (token, secret) => {
 };
 
 const checkForValidAuthentification = async (req, res, next) => {
-  const accessToken = JSON.parse(req.headers["authorization"].split(" ")[1]);
-  const refreshToken = JSON.parse(req.headers["x-refresh-token"]);
 
-  console.log(`checkForValidAuth / token: ${accessToken}`);
-  console.log(`checkForValidAuth / refreshToken: ${refreshToken}`);
+  const accessToken = req.headers["authorization"].split(" ")[1];
+  const refreshToken = req.headers["x-refresh-token"];
 
   if (!accessToken && !refreshToken) {
     return res.status(403).json({
@@ -34,8 +32,6 @@ const checkForValidAuthentification = async (req, res, next) => {
       accessToken,
       process.env.ACCESS_TOKEN_SECRET
     );
-    console.log("Decoded token - checkForValidAuthentification");
-    console.log(decoded);
     next();
   } catch (err) {
     // If the access token is not recognized as being the one known to the server, we check if there is a refresh token...
@@ -52,13 +48,9 @@ const checkForValidAuthentification = async (req, res, next) => {
         // We set both tokens in the authorization header...
         res.setHeader(
           "authorization",
-          `Bearer: ${JSON.stringify(newAccessToken)}`
+          `Bearer ${newAccessToken}`
         );
         res.setHeader("x-refresh-token", newRefreshToken);
-
-        console.log("New tokens issued - checkForValidAuthentification");
-        console.log(`New access token : ${newAccessToken}`);
-        console.log(`New access token : ${newRefreshToken}`);
 
         next();
       } catch (err) {

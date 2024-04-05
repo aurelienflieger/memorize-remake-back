@@ -1,6 +1,9 @@
 import CoreController from "./core.controller.js";
 import { DeckDataMapper } from "../datamappers/index.datamapper.js";
 import { createFailedCreationError, createMissingIdError, createResourceNotFoundError, createUpdateNotModifiedError } from "../errors/helpers.error.js";
+import debugLogger from "../utils/debugLogger.util.js";
+
+const logger = debugLogger('deck.controller.js')
 
 export default class DeckController extends CoreController {
   constructor() {
@@ -24,6 +27,8 @@ export default class DeckController extends CoreController {
       throw new createResourceNotFoundError(req, {entityName: "user", targetName: "deck"});
     }
 
+    logger('All decks matching the user ID were retrieved.')
+
     res.status(200).json(decksMatchingUserId);
   };
 
@@ -41,6 +46,8 @@ export default class DeckController extends CoreController {
     if (!createdDeck) {
       throw createFailedCreationError(req, {entityName: "deck"});
     }
+
+    logger('The deck was successfully created.')
 
     res.status(200).json(createdDeck);
   };
@@ -70,6 +77,8 @@ export default class DeckController extends CoreController {
     if (!updatedDeck) {
       throw createUpdateNotModifiedError(req, {entityName: "deck"});
     }
+
+    logger('The deck was successfully updated.')
 
     return res.status(200).json(updatedDeck);
   };

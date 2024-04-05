@@ -3,6 +3,9 @@ import {
   createMissingIdError,
   createAccountDeletionError,
 } from "../errors/helpers.error.js";
+import debugLogger from "../utils/debugLogger.util.js";
+
+const logger = debugLogger('core.controller.js')
 
 // The CoreController can be used to flexibly perform CRUD operations a database postgres table.
 export default class CoreController {
@@ -29,6 +32,8 @@ export default class CoreController {
       throw createAccountDeletionError(req);
     }
 
+    logger('The entity was successfully deleted.')
+
     return res
       .status(204)
       .json({ message: `The ${entityName} was successfully deleted.` });
@@ -46,6 +51,9 @@ export default class CoreController {
     if (!matchingId) {
       throw new createResourceNotFoundError(req, { targetName });
     }
+
+    logger('The entity was successfully fetched from an ID.')
+
 
     return res.status(200).json(matchingId);
   };
