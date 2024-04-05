@@ -11,6 +11,7 @@ const eslintConfig = [
       sourceType: 'module',
       globals: {
         ...globals.browser,
+        ...globals.node,
       },
     },
     linterOptions: {

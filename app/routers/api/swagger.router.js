@@ -1,11 +1,11 @@
-import express from "express";
-import swaggerUi from "swagger-ui-express";
-import yamljs from "yamljs";
+import express from 'express'
+import swaggerUi from 'swagger-ui-express'
+import yamljs from 'yamljs'
 
-const swaggerRouter = express.Router();
+const swaggerRouter = express.Router()
 
-const swaggerDocument = yamljs.load("docs/api/v1/openapi.yaml");
+const swaggerDocument = yamljs.load('docs/api/v1/openapi.yaml')
 
-swaggerRouter.use("/", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+swaggerRouter.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
-export default swaggerRouter;
+export default swaggerRouter

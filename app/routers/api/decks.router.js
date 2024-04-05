@@ -1,37 +1,37 @@
-import express from "express";
-import { deckController } from "../../controllers/index.controller.js";
-import cardsRouter from "./cards.router.js";
-import controllerWrapper from "../../utils/controller-wrapper.util.js";
+import express from 'express'
+import { deckController } from '../../controllers/index.controller.js'
+import cardsRouter from './cards.router.js'
+import controllerWrapper from '../../utils/controller-wrapper.util.js'
 import {
   deckCreateSchema,
   deckUpdateSchema,
-} from "../../schemas/index.schema.js";
+} from '../../schemas/index.schema.js'
 import {
   validateInput,
   checkForValidAuthentification,
-} from "../../middlewares/index.middleware.js";
+} from '../../middlewares/index.middleware.js'
 
-const decksRouter = express.Router({ mergeParams: true });
+const decksRouter = express.Router({ mergeParams: true })
 
-decksRouter.use(checkForValidAuthentification);
+decksRouter.use(checkForValidAuthentification)
 
 decksRouter
-  .route("/")
+  .route('/')
   .get(controllerWrapper(deckController.getAllDecksByUserID))
   .post(
-    validateInput("body", deckCreateSchema),
-    controllerWrapper(deckController.createNewDeck)
-  );
+    validateInput('body', deckCreateSchema),
+    controllerWrapper(deckController.createNewDeck),
+  )
 
 decksRouter
-  .route("/:id")
+  .route('/:id')
   .get(controllerWrapper(deckController.getDeckById))
   .patch(
-    validateInput("body", deckUpdateSchema),
-    controllerWrapper(deckController.updateDeck)
+    validateInput('body', deckUpdateSchema),
+    controllerWrapper(deckController.updateDeck),
   )
-  .delete(controllerWrapper(deckController.deleteDeck));
+  .delete(controllerWrapper(deckController.deleteDeck))
 
-decksRouter.use("/:id/cards", cardsRouter);
+decksRouter.use('/:id/cards', cardsRouter)
 
-export default decksRouter;
+export default decksRouter

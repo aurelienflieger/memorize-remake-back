@@ -1,4 +1,4 @@
-import generateJWT from "./generateJWT.util.js";
-import controllerWrapper from "./controller-wrapper.util.js";
+import generateJWT from './generateJWT.util.js'
+import controllerWrapper from './controller-wrapper.util.js'
 
-export {generateJWT, controllerWrapper};
+export { generateJWT, controllerWrapper }

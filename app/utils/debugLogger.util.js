@@ -1,8 +1,8 @@
-import debug from "debug";
+import debug from 'debug'
 
 function debugLogger(filename) {
-  const logger = debug(`memorize-server:${filename}`);
-  return logger;
+  const logger = debug(`memorize-server:${filename}`)
+  return logger
 }
 
-export default debugLogger;
+export default debugLogger

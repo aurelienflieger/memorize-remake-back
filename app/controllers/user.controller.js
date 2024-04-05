@@ -27,33 +27,40 @@ class UserController extends CoreController {
   }
 
   login = async (req, res) => {
-    const { email: inputEmail, password: inputPassword } = req.body
+    let inputEmail, inputPassword, user, tokens
 
-    if (!inputEmail || !inputPassword) {
+    try {
+      inputEmail = req.body.email
+      inputPassword = req.body.password
+    }
+    catch {
       throw createMissingParamsError(req, {
         entityName: 'user',
         params: ['email', 'password'],
       })
     }
 
-    const user = await this.datamapper.getUserByEmail(inputEmail)
-
-    if (!user) {
+    try {
+      user = await this.datamapper.getUserByEmail(inputEmail)
+    }
+    catch {
       throw createResourceNotFoundError(req, {
         entityName: 'user',
         targetName: 'user',
       })
     }
 
-    const validPassword = await bcrypt.compare(inputPassword, user.password)
-
-    if (!validPassword) {
+    try {
+      await bcrypt.compare(inputPassword, user.password)
+    }
+    catch {
       throw createIncorrectPasswordError(req)
     }
 
-    const tokens = generateJWT(user)
-
-    if (!tokens) {
+    try {
+      tokens = generateJWT(user)
+    }
+    catch {
       throw createTokenGenerationError(req)
     }
 
@@ -72,19 +79,24 @@ class UserController extends CoreController {
   }
 
   signup = async (req, res) => {
-    const { password, username, email } = req.body
-    let newUser
+    let newUser, password, username, email, hashedPassword
 
-    if (!password || !username || !email) {
+    try {
+      password = req.body.password
+      username = req.body.username
+      email = req.body.email
+    }
+    catch {
       throw createMissingParamsError(req, {
         entityName: 'user',
         params: ['username', 'email', 'password'],
       })
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10)
-
-    if (!hashedPassword) {
+    try {
+      hashedPassword = await bcrypt.hash(password, 10)
+    }
+    catch {
       throw createPasswordEncryptionError(req)
     }
 
@@ -105,16 +117,21 @@ class UserController extends CoreController {
   }
 
   updateAccountInfo = async (req, res) => {
-    const { id } = req.params
-
-    if (!id) {
+    let id, username, email, accountMatchingId, updatedAccount
+    try {
+      id = req.params
+    }
+    catch {
       throw createMissingIdError(req, { entityName: 'user' })
     }
 
-    let { username, email } = req.body
-    const accountMatchingId = await this.datamapper.findByPk(id)
+    username = req.body.username
+    email = req.body.email
 
-    if (!accountMatchingId) {
+    try {
+      accountMatchingId = await this.datamapper.findByPk(id)
+    }
+    catch {
       throw createResourceNotFoundError(req, {
         entityName: 'user',
         targetName: 'user',
@@ -138,9 +155,10 @@ class UserController extends CoreController {
       username: username,
     }
 
-    const updatedAccount = await this.datamapper.update(updatedAccountInfo)
-
-    if (!updatedAccount) {
+    try {
+      updatedAccount = await this.datamapper.update(updatedAccountInfo)
+    }
+    catch {
       throw createFailedUpdateError(req, { entityName: 'user' })
     }
 
@@ -149,17 +167,27 @@ class UserController extends CoreController {
   }
 
   updateAccountPassword = async (req, res) => {
-    const { id } = req.params
+    let id, password, newPassword, accountMatchingId, updatedHashedPassword, updatedAccount, updatedAccountWithPassword
 
-    if (!id) {
+    try {
+      id = req.params.id
+    }
+    catch {
       throw createMissingIdError(req, { entityName: 'user' })
     }
 
-    let { password, newPassword } = req.body
+    try {
+      password = req.body
+      newPassword = req.body
+    }
+    catch {
+      throw createMissingParamsError(req, { entityName: 'user', params: ['password', 'newPassword'] })
+    }
 
-    const accountMatchingId = await this.datamapper.findByPk(id)
-
-    if (!accountMatchingId) {
+    try {
+      accountMatchingId = await this.datamapper.findByPk(id)
+    }
+    catch {
       throw createResourceNotFoundError(req, {
         entityName: 'user',
         targetName: 'user',
@@ -167,43 +195,51 @@ class UserController extends CoreController {
     }
 
     // Compares the unencrypted input password to the saved hashed password in the DB
-    const validPassword = await bcrypt.compare(
-      password,
-      accountMatchingId.password,
-    )
-
+    try {
+      await bcrypt.compare(
+        password,
+        accountMatchingId.password,
+      )
+    }
+    catch {
     // If the provided password from the form does not match the actual password in the DB, we send back an error to the client
-    if (!validPassword) {
       throw createIncorrectPasswordError(req)
     }
 
     // If the provided password from the form matches the registered password, the updated password is hashed.
-    const updatedHashedPassword = await bcrypt.hash(newPassword, 10)
-
-    if (!updatedHashedPassword) {
+    try {
+      updatedHashedPassword = await bcrypt.hash(newPassword, 10)
+    }
+    catch {
       throw createPasswordEncryptionError(req)
     }
 
     // Finally, we compare the unencrypted updated password to the previous encrypted password.
-    const comparePasswords = await bcrypt.compare(
-      newPassword,
-      accountMatchingId.password,
-    )
-
-    // If the unencrypted updated password matches the previous encrypted password, an error is thrown.
-    if (comparePasswords) {
+    try {
+      await bcrypt.compare(
+        newPassword,
+        accountMatchingId.password,
+      )
+    }
+    catch {
+      // If the unencrypted updated password matches the previous encrypted password, an error is thrown.
       throw createUpdateNotModifiedError(req, { entityName: 'password' })
     }
 
-    const updatedAccount = {
+    updatedAccount = {
       ...accountMatchingId,
       password: updatedHashedPassword,
     }
 
+    try {
     // Only returns the account info which is not confidential (password excluded!)
-    const updatedAccountWithPassword = await this.datamapper.update(
-      updatedAccount,
-    )
+      updatedAccountWithPassword = await this.datamapper.update(
+        updatedAccount,
+      )
+    }
+    catch {
+      throw createFailedUpdateError(req, { entityName: 'user' })
+    }
 
     logger(`The user successfully updated their account's password.`)
 
@@ -211,16 +247,19 @@ class UserController extends CoreController {
   }
 
   getByPk = async (req, res) => {
-    const { id } = req.params
+    let id, accountMatchingId
 
-    if (!id) {
+    try {
+      id = req.params.id
+    }
+    catch {
       throw createMissingIdError(req, { entityName: 'user' })
     }
 
-    const accountMatchingId
-      = await this.datamapper.findByPkWithNoReturnedPassword(id)
-
-    if (!accountMatchingId) {
+    try {
+      accountMatchingId = await this.datamapper.findByPkWithNoReturnedPassword(id)
+    }
+    catch {
       throw createResourceNotFoundError(req, {
         entityName: 'user',
         targetName: 'user',

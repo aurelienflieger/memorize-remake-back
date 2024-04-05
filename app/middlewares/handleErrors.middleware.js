@@ -6,12 +6,13 @@ const __fileName = basename(fileURLToPath(import.meta.url))
 const logger = debugLogger(__fileName)
 
 // The error handler automatically handles all Express errors and sends the appropriate status.
-const handleErrors = (error, _, res, next) => {
+function handleErrors(error, _, res, next) {
   logger(`An error occured. 
   errorCode: ${error.errorCode} 
   details: ${error.details} 
   method: ${error.method} 
   path: ${error.path} `)
+
   res.status(error.httpStatus).json({ ...error })
   next()
 }

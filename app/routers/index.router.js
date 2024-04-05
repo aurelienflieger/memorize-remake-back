@@ -1,15 +1,15 @@
-import express from "express";
-import apiRouter from "./api/index.router.js";
-import ApiError from "../errors/api.error.js";
+import express from 'express'
+import apiRouter from './api/index.router.js'
+import ApiError from '../errors/api.error.js'
 
-const router = express.Router();
+const router = express.Router()
 
-router.use("/api", apiRouter);
+router.use('/api', apiRouter)
 
 router.use((_, __, next) => {
-  const error = new ApiError("Ressource not found.", { httpStatus: 404 });
-  error.name = "Not Found";
-  next(error);
-});
+  const error = new ApiError('Ressource not found.', { httpStatus: 404 })
+  error.name = 'Not Found'
+  next(error)
+})
 
-export default router;
+export default router

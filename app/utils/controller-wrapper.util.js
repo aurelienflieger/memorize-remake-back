@@ -2,9 +2,10 @@
 export default function controllerWrapper(controller) {
   return async (req, res, next) => {
     try {
-      await controller(req, res);
-    } catch (error) {
-      next(error);
+      await controller(req, res)
     }
-  };
+    catch (error) {
+      next(error)
+    }
+  }
 }

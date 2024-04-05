@@ -1,40 +1,40 @@
-import express from "express";
-import { cardController } from "../../controllers/index.controller.js";
-import controllerWrapper from "../../utils/controller-wrapper.util.js";
+import express from 'express'
+import { cardController } from '../../controllers/index.controller.js'
+import controllerWrapper from '../../utils/controller-wrapper.util.js'
 import {
   cardCreateSchema,
   cardUpdateSchema,
-} from "../../schemas/index.schema.js";
+} from '../../schemas/index.schema.js'
 import {
   validateInput,
   checkForValidAuthentification,
-} from "../../middlewares/index.middleware.js";
+} from '../../middlewares/index.middleware.js'
 
-const cardsRouter = express.Router({ mergeParams: true });
+const cardsRouter = express.Router({ mergeParams: true })
 
-cardsRouter.use(checkForValidAuthentification);
+cardsRouter.use(checkForValidAuthentification)
 
 cardsRouter
-  .route("/")
+  .route('/')
   .get(controllerWrapper(cardController.getAllCardsByDeckID))
   .post(
-    validateInput("body", cardCreateSchema),
-    controllerWrapper(cardController.createNewCard)
-  );
+    validateInput('body', cardCreateSchema),
+    controllerWrapper(cardController.createNewCard),
+  )
 
 cardsRouter
-  .route("/update-difficulties")
+  .route('/update-difficulties')
   .patch(
-    controllerWrapper(cardController.updateCardDifficulties)
-  );
-  
+    controllerWrapper(cardController.updateCardDifficulties),
+  )
+
 cardsRouter
-  .route("/:id")
+  .route('/:id')
   .get(controllerWrapper(cardController.getCardById))
   .patch(
-    validateInput("body", cardUpdateSchema),
-    controllerWrapper(cardController.updateCard)
+    validateInput('body', cardUpdateSchema),
+    controllerWrapper(cardController.updateCard),
   )
-  .delete(controllerWrapper(cardController.deleteCard));
+  .delete(controllerWrapper(cardController.deleteCard))
 
-export default cardsRouter;
+export default cardsRouter
