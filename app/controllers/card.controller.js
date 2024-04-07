@@ -43,7 +43,7 @@ export default class CardController extends CoreController {
       })
     }
 
-    logger('All cards matching the deck ID were retrieved.')
+    logger(`All cards matching the deck ID ${deckId} were retrieved.`)
 
     res.status(200).json(cardsMatchingDeckId)
   }

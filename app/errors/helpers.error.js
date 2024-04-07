@@ -36,7 +36,7 @@ function createResourceNotFoundError(
       errorCode: 'RESOURCE_NOT_FOUND',
       path: path,
       method: method,
-      details: `L'ID de ${entityName} fourni au serveur ne correspond à aucun ${targetName}. Veuillez fournir un 'id' de ${entityName} existant pour traiter votre demande.`,
+      details: `L'ID ${entityName} fourni au serveur ne correspond à aucun(e) ${targetName}. Veuillez fournir un 'id' ${entityName} existant pour traiter votre demande.`,
     },
   )
 }
@@ -111,14 +111,14 @@ function createPasswordEncryptionError({ path, method }) {
   })
 }
 
-function createAccountCreationError({ method, baseUrl }) {
+function createAccountCreationError({ method, path }) {
   return new ApiError(
     `Un nouveau compte n'a pas pu être créé avec succès.`,
     {
       httpStatus: 400,
       errorCode: 'USER_CREATION_FAILED',
       method,
-      baseUrl,
+      path,
       details: `Votre demande de création de compte n'a pas pu être traitée. Un compte identique existe-t-il déjà ?`,
     },
   )

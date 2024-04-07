@@ -7,6 +7,7 @@ const logger = debugLogger(__fileName)
 
 // The error handler automatically handles all Express errors and sends the appropriate status.
 function handleErrors(error, _, res, next) {
+  console.log(error)
   logger(`An error occured. 
   errorCode: ${error.errorCode} 
   details: ${error.details} 

@@ -1,9 +1,6 @@
 import 'dotenv/config'
 import pool from './pg.client.js'
 import { fakerFR as faker } from '@faker-js/faker'
-import debugLogger from '../utils/debugLogger.util.js'
-
-const logger = debugLogger('seedFakeData.js')
 
 async function seedFakeData() {
   for (let i = 0; i < 10; i++) {
@@ -49,10 +46,10 @@ async function seedFakeData() {
   }
 }
 
-seedFakeData()
-  .then(() => {
-    logger('The database was successfully seeded!')
-  })
-  .catch((error) => {
-    logger('There was an issue seeding the database:', error.message)
-  })
+try {
+  await seedFakeData()
+  console.log('The database was successfully seeded!')
+}
+catch (error) {
+  console.log('There was an issue seeding the database:', error.message)
+}

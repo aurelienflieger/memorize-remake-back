@@ -107,7 +107,8 @@ class UserController extends CoreController {
         password: hashedPassword,
       })
     }
-    catch {
+    catch (error) {
+      console.log(error)
       throw createAccountCreationError(req)
     }
 

@@ -61,7 +61,7 @@ export default class CoreController {
       throw new createResourceNotFoundError(req, { targetName })
     }
 
-    logger('The entity was successfully fetched from an ID.')
+    logger(`The entity was successfully fetched from ID ${id}.`)
 
     return res.status(200).json(matchingId)
   }
