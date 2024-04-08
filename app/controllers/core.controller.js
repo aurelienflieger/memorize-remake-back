@@ -17,7 +17,7 @@ export default class CoreController {
     let id
 
     try {
-      id = req.params.id
+      id = Number(req.params.id)
     }
     catch {
       throw createMissingIdError(req, { entityName })
@@ -48,7 +48,7 @@ export default class CoreController {
     let id, matchingId
 
     try {
-      id = req.params.id
+      id = Number(req.params.id)
     }
     catch {
       throw createMissingIdError(req, { entityName })

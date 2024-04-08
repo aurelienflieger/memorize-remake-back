@@ -39,7 +39,7 @@ export default class DeckController extends CoreController {
     let userId, createdDeck
 
     try {
-      userId = req.params.id
+      userId = Number(req.params.id)
     }
     catch {
       throw createMissingIdError(req, { entityName: 'user' })
@@ -63,7 +63,7 @@ export default class DeckController extends CoreController {
     let deckId, deckName, deckDescription, deckMatchingId, updatedDeck
 
     try {
-      deckId = req.params.id
+      deckId = Number(req.params.id)
     }
     catch {
       throw createMissingIdError(req, { entityName: 'deck' })

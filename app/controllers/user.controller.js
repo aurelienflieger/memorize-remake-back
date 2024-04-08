@@ -107,8 +107,7 @@ class UserController extends CoreController {
         password: hashedPassword,
       })
     }
-    catch (error) {
-      console.log(error)
+    catch {
       throw createAccountCreationError(req)
     }
 
@@ -120,7 +119,7 @@ class UserController extends CoreController {
   updateAccountInfo = async (req, res) => {
     let id, username, email, accountMatchingId, updatedAccount
     try {
-      id = req.params
+      id = Number(req.params.id)
     }
     catch {
       throw createMissingIdError(req, { entityName: 'user' })
@@ -171,15 +170,16 @@ class UserController extends CoreController {
     let id, password, newPassword, accountMatchingId, updatedHashedPassword, updatedAccount, updatedAccountWithPassword
 
     try {
-      id = req.params.id
+      id = Number(req.params.id)
+      console.log(id)
     }
     catch {
       throw createMissingIdError(req, { entityName: 'user' })
     }
 
     try {
-      password = req.body
-      newPassword = req.body
+      password = req.body.password
+      newPassword = req.body.newPassword
     }
     catch {
       throw createMissingParamsError(req, { entityName: 'user', params: ['password', 'newPassword'] })
@@ -251,7 +251,7 @@ class UserController extends CoreController {
     let id, accountMatchingId
 
     try {
-      id = req.params.id
+      id = Number(req.params.id)
     }
     catch {
       throw createMissingIdError(req, { entityName: 'user' })

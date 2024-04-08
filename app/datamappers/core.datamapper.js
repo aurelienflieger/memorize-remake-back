@@ -9,6 +9,7 @@ export default class CoreDatamapper {
       `SELECT * FROM "${this.tableName}" WHERE "id" = $1`,
       [id],
     )
+    console.log(result)
     return result.rows[0]
   }
 

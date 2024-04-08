@@ -25,7 +25,7 @@ export default class CardController extends CoreController {
   getAllCardsByDeckID = async (req, res) => {
     let deckId, cardsMatchingDeckId
     try {
-      deckId = req.params.id
+      deckId = Number(req.params.id)
     }
     catch {
       throw createMissingIdError(req, { entityName: 'deck' })
@@ -52,7 +52,7 @@ export default class CardController extends CoreController {
     let deckId, createdCard
 
     try {
-      deckId = req.params.id
+      deckId = Number(req.params.id)
     }
     catch {
       throw createMissingIdError(req, { entityName: 'deck' })
@@ -76,7 +76,7 @@ export default class CardController extends CoreController {
     let cardId, front, back, cardMatchingId, updatedCard
 
     try {
-      cardId = req.params.id
+      cardId = Number(req.params.id)
     }
     catch {
       throw createMissingIdError(req, { entityName: 'card' })
