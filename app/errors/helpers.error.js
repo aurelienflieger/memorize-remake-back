@@ -103,7 +103,7 @@ function createTokenGenerationError({ path, method }) {
 function createPasswordEncryptionError({ path, method }) {
   return new ApiError('Le mot de passe n\'a pas pu être crypté.', {
     httpStatus: 500,
-    errorCode: 'EPASSWORD_ENCRYPTION_FAILED',
+    errorCode: 'PASSWORD_ENCRYPTION_FAILED',
     path,
     method,
     details:
